@@ -92,4 +92,17 @@ class TravelerContact implements ResourceInterface
     {
         return Resource::toString(get_object_vars($this));
     }
+
+    public function __toArray(): array
+    {
+        return [
+            'addresseeName' => $this->addresseeName,
+            'address' => $this->address,
+            'language' => $this->language,
+            'purpose' => $this->purpose,
+            'phones' => $this->phones,
+            'companyName' => $this->companyName,
+            'emailAddress' => $this->emailAddress
+        ];
+    }
 }

@@ -94,9 +94,9 @@ class TravelerElement implements ResourceInterface
         return [
             'id' => $this->id,
             'gender' => $this->gender,
-            'name' => $this->name,
+            'name' => $this->name->__toArray(),
             'documents' => $this->documents,
-            'contact' => $this->contact,
+            'contact' => $this->contact->__toArray(),
             'dateOfBirth' => $this->dateOfBirth
         ];
     }
