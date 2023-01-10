@@ -83,4 +83,21 @@ class TravelerElement implements ResourceInterface
     {
         return Resource::toString(get_object_vars($this));
     }
+
+    /**
+     * Utility method that returns the object as an array.
+     *
+     * @return array
+     */
+    public function __toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'gender' => $this->gender,
+            'name' => $this->name,
+            'documents' => $this->documents,
+            'contact' => $this->contact,
+            'dateOfBirth' => $this->dateOfBirth
+        ];
+    }
 }
