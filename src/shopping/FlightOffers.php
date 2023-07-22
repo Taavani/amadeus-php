@@ -121,10 +121,20 @@ class FlightOffers
      */
     public function post(string $body): array
     {
+        // Save request file for certification purposes
+        if (strcasecmp('certification', $this->amadeus->getClient()->getConfiguration()->getLogLevel()) === 0) {
+            file_put_contents('Flight Offers RQ.json', $body);
+        }
+
         $response = $this->amadeus->getClient()->postWithStringBody(
             '/v2/shopping/flight-offers',
             $body
         );
+
+        // Save response file for certification purposes
+        if(strcasecmp('certification', $this->amadeus->getClient()->getConfiguration()->getLogLevel()) === 0){
+            file_put_contents('Flight Offers RS.json', $response->getBody());
+        }
 
         return Resource::fromArray($response, FlightOffer::class);
     }
