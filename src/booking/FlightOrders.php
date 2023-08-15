@@ -47,10 +47,20 @@ class FlightOrders
      */
     public function post(string $body): object
     {
+        // Save request file for certification purposes
+        if (strcasecmp('certification', $this->amadeus->getClient()->getConfiguration()->getLogLevel()) === 0) {
+            file_put_contents('Flight Create Order RQ.json', $body);
+        }
+
         $response = $this->amadeus->getClient()->postWithStringBody(
             '/v1/booking/flight-orders',
             $body
         );
+
+        // Save request file for certification purposes
+        if (strcasecmp('certification', $this->amadeus->getClient()->getConfiguration()->getLogLevel()) === 0) {
+            file_put_contents('Flight Create Order RS.json', $response->getBody());
+        }
 
         return Resource::fromObject($response, FlightOrder::class);
     }
