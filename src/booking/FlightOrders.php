@@ -51,11 +51,17 @@ class FlightOrders
         if (strcasecmp('certification', $this->amadeus->getClient()->getConfiguration()->getLogLevel()) === 0) {
             file_put_contents('Flight Create Order RQ.json', $body);
         }
-
-        $response = $this->amadeus->getClient()->postWithStringBody(
-            '/v1/booking/flight-orders',
-            $body
-        );
+        try {
+            $response = $this->amadeus->getClient()->postWithStringBody(
+                '/v1/booking/flight-orders',
+                $body
+            );
+        } catch (ResponseException $e) {
+            if (strcasecmp('certification', $this->amadeus->getClient()->getConfiguration()->getLogLevel()) === 0) {
+                file_put_contents('Flight Create Order Error.json', $e);
+            }
+            throw $e;
+        }
 
         // Save request file for certification purposes
         if (strcasecmp('certification', $this->amadeus->getClient()->getConfiguration()->getLogLevel()) === 0) {
