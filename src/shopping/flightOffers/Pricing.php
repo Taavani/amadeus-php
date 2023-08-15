@@ -51,11 +51,21 @@ class Pricing
      */
     public function post(string $body, ?array $params = null): object
     {
+        // Save request file for certification purposes
+        if (strcasecmp('certification', $this->amadeus->getClient()->getConfiguration()->getLogLevel()) === 0) {
+            file_put_contents('Flight Offer Price RQ.json', $body);
+        }
+
         $response = $this->amadeus->getClient()->postWithStringBody(
             '/v1/shopping/flight-offers/pricing',
             $body,
             $params
         );
+
+        // Save request file for certification purposes
+        if (strcasecmp('certification', $this->amadeus->getClient()->getConfiguration()->getLogLevel()) === 0) {
+            file_put_contents('Flight Offer Price RS.json', $response->getBody());
+        }
 
         return Resource::fromObject($response, FlightOfferPricingOutput::class);
     }

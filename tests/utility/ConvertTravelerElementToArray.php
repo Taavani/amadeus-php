@@ -58,5 +58,7 @@ class ConvertTravelerElementToArray extends TestCase
 
         $traveler = $travelersArray[0];
         $this->assertIsArray($traveler->__toArray());
+
+        var_dump(json_encode($traveler->__toArray()));
     }
 }

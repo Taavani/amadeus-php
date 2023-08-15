@@ -22,6 +22,12 @@ class Resource
         foreach ($data as $key => $value) {
             $resource->__set($key, $value);
         }
+
+        // Workaround for FlightOfferPricingOutput, because the included property is outside data.
+        if(!is_null($response->getBodyAsJsonObject()->{'included'})) {
+            $resource->__set('included', $response->getBodyAsJsonObject()->{'included'});
+        }
+
         $resource->response = $response;
         return $resource;
     }

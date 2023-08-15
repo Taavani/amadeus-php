@@ -16,6 +16,7 @@ class FlightOfferPricingOutput extends Resource implements ResourceInterface
 {
     private ?string $type = null;
     private ?array $flightOffers = null;
+    private ?object $included = null;
     private ?object $bookingRequirements = null;
 
     /**

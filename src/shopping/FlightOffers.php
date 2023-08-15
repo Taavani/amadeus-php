@@ -123,7 +123,7 @@ class FlightOffers
     {
         // Save request file for certification purposes
         if (strcasecmp('certification', $this->amadeus->getClient()->getConfiguration()->getLogLevel()) === 0) {
-            file_put_contents('Flight Offers RQ.json', $body);
+            file_put_contents('Flight Offer Search RQ.json', $body);
         }
 
         $response = $this->amadeus->getClient()->postWithStringBody(
@@ -133,7 +133,7 @@ class FlightOffers
 
         // Save response file for certification purposes
         if(strcasecmp('certification', $this->amadeus->getClient()->getConfiguration()->getLogLevel()) === 0){
-            file_put_contents('Flight Offers RS.json', $response->getBody());
+            file_put_contents('Flight Offer Search RS.json', $response->getBody());
         }
 
         return Resource::fromArray($response, FlightOffer::class);
