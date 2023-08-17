@@ -33,6 +33,41 @@ class FlightOrders
     }
 
     /**
+     * @throws ResponseException
+     */
+    public function get(string $id)
+    {
+
+        $response = $this->amadeus
+            ->getClient()
+            ->getWithOnlyPath('/v1/booking/flight-orders/' . $id);
+
+            $counter = 0;
+            while ($counter >= 0) {
+                if (!file_exists($counter . ' - Flight Get Order RQ.json')) {
+                    file_put_contents($counter . ' - Flight Get Order RQ.json', $response->getUrl());
+                    $counter = -1;
+                } else {
+                    $counter++;
+                }
+            }
+
+            $counter = 0;
+            while ($counter >= 0) {
+                if (!file_exists($counter . ' - Flight Get Order RS.json')) {
+                    file_put_contents($counter . ' - Flight Get Order RS.json', $response->getBody());
+                    $counter = -1;
+                } else {
+                    $counter++;
+                }
+            }
+
+
+        return Resource::fromObject($response, FlightOrder::class);
+    }
+
+
+    /**
      * Flight Create Orders API:
      *
      * The Flight Create Orders API allows you to perform flight booking.
