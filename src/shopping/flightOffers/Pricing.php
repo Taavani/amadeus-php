@@ -53,18 +53,50 @@ class Pricing
     {
         // Save request file for certification purposes
         if (strcasecmp('certification', $this->amadeus->getClient()->getConfiguration()->getLogLevel()) === 0) {
-            file_put_contents('Flight Offer Price RQ.json', $body);
+            $counter = 0;
+            while ($counter >= 0) {
+                if (!file_exists($counter . ' - Flight Offer Price RQ.json')) {
+                    file_put_contents($counter . ' - Flight Offer Price RQ.json', $body);
+                    $counter = -1;
+                } else {
+                    $counter++;
+                }
+            }
         }
 
-        $response = $this->amadeus->getClient()->postWithStringBody(
-            '/v1/shopping/flight-offers/pricing',
-            $body,
-            $params
-        );
+        try {
+            $response = $this->amadeus->getClient()->postWithStringBody(
+                '/v1/shopping/flight-offers/pricing',
+                $body,
+                $params
+            );
+        } catch (ResponseException $exception) {
+            if (strcasecmp('certification', $this->amadeus->getClient()->getConfiguration()->getLogLevel()) === 0) {
+                $counter = 0;
+                while ($counter >= 0) {
+                    if (!file_exists($counter . ' - Flight Offer Price Error RS.json')) {
+                        file_put_contents($counter . ' - Flight Offer Price Error RS.json', $body);
+                        $counter = -1;
+                    } else {
+                        $counter++;
+                    }
+                }
+            }
+
+            throw $exception;
+        }
 
         // Save request file for certification purposes
         if (strcasecmp('certification', $this->amadeus->getClient()->getConfiguration()->getLogLevel()) === 0) {
-            file_put_contents('Flight Offer Price RS.json', $response->getBody());
+            $counter = 0;
+            while ($counter >= 0) {
+                if (!file_exists($counter . ' - Flight Offer Price RS.json')) {
+                    file_put_contents($counter . ' - Flight Offer Price RS.json', $body);
+                    $counter = -1;
+                } else {
+                    $counter++;
+                }
+            }
         }
 
         return Resource::fromObject($response, FlightOfferPricingOutput::class);
