@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Amadeus\Booking;
 
 use Amadeus\Amadeus;
+use Amadeus\CertificationHelper;
 use Amadeus\Client\Request;
 use Amadeus\Constants;
 use Amadeus\Exceptions\ResponseException;
@@ -25,6 +26,8 @@ class FlightOrders
 {
     private Amadeus $amadeus;
 
+    private CertificationHelper $certificationHelper;
+
     /**
      * Constructor
      * @param Amadeus $amadeus
@@ -32,6 +35,8 @@ class FlightOrders
     public function __construct(Amadeus $amadeus)
     {
         $this->amadeus = $amadeus;
+        $this->certificationHelper = new CertificationHelper($amadeus);
+
     }
 
     /**
@@ -44,26 +49,11 @@ class FlightOrders
             ->getClient()
             ->getWithOnlyPath('/v1/booking/flight-orders/' . $id);
 
-        $counter = 0;
-        while ($counter >= 0) {
-            if (!file_exists($counter . ' - Flight Get Order RQ.json')) {
-                file_put_contents($counter . ' - Flight Get Order RQ.json', $response->getUrl());
-                $counter = -1;
-            } else {
-                $counter++;
-            }
-        }
+        // Save request file for certification purposes
+        $this->certificationHelper->saveRequest( 'Flight Get Order' , $response->getUrl());
 
-        $counter = 0;
-        while ($counter >= 0) {
-            if (!file_exists($counter . ' - Flight Get Order RS.json')) {
-                file_put_contents($counter . ' - Flight Get Order RS.json', $response->getBody());
-                $counter = -1;
-            } else {
-                $counter++;
-            }
-        }
-
+        // Save response file for certification purposes
+        $this->certificationHelper->saveResponse( 'Flight Get Order', $response->getBody());
 
         return Resource::fromObject($response, FlightOrder::class);
     }
@@ -74,26 +64,11 @@ class FlightOrders
             ->getClient()
             ->getWithOnlyPath('/v1/booking/flight-orders/by-reference?reference=' . $id . '&originSystemCode=GDS');
 
-        $counter = 0;
-        while ($counter >= 0) {
-            if (!file_exists($counter . ' - Flight Get Order RQ.json')) {
-                file_put_contents($counter . ' - Flight Get Order RQ.json', $response->getUrl());
-                $counter = -1;
-            } else {
-                $counter++;
-            }
-        }
+        // Save request file for certification purposes
+        $this->certificationHelper->saveRequest( 'Flight Get Order' , $response->getUrl());
 
-        $counter = 0;
-        while ($counter >= 0) {
-            if (!file_exists($counter . ' - Flight Get Order RS.json')) {
-                file_put_contents($counter . ' - Flight Get Order RS.json', $response->getBody());
-                $counter = -1;
-            } else {
-                $counter++;
-            }
-        }
-
+        // Save response file for certification purposes
+        $this->certificationHelper->saveResponse( 'Flight Get Order', $response->getBody());
 
         return Resource::fromObject($response, FlightOrder::class);
     }
@@ -160,17 +135,7 @@ class FlightOrders
     {
 
         // Save request file for certification purposes
-        if (strcasecmp('certification', $this->amadeus->getClient()->getConfiguration()->getLogLevel()) === 0) {
-            $counter = 0;
-            while ($counter >= 0) {
-                if (!file_exists($counter . ' - Flight Create Order RQ.json')) {
-                    file_put_contents($counter . ' - Flight Create Order RQ.json', $body);
-                    $counter = -1;
-                } else {
-                    $counter++;
-                }
-            }
-        }
+        $this->certificationHelper->saveRequest('Flight Create Order', $body);
 
         try {
             $response = $this->amadeus->getClient()->postWithStringBody(
@@ -178,24 +143,15 @@ class FlightOrders
                 $body
             );
         } catch (ResponseException $e) {
-            if (strcasecmp('certification', $this->amadeus->getClient()->getConfiguration()->getLogLevel()) === 0) {
-                file_put_contents('Flight Create Order Error.json', $e);
-            }
+            $this->certificationHelper->saveErrorResponse('Flight Create Order Error', $e->getMessage());
             throw $e;
         }
 
         // Save request file for certification purposes
-        if (strcasecmp('certification', $this->amadeus->getClient()->getConfiguration()->getLogLevel()) === 0) {
-            $counter = 0;
-            while ($counter >= 0) {
-                if (!file_exists($counter . ' - Flight Create Order RS.json')) {
-                    file_put_contents($counter . ' - Flight Create Order RS.json', $response->getBody());
-                    $counter = -1;
-                } else {
-                    $counter++;
-                }
-            }
-        }
+        $this->certificationHelper->saveResponse('Flight Create Order',
+            $response->getHeaders() .
+            PHP_EOL .
+            $response->getBody());
 
         return Resource::fromObject($response, FlightOrder::class);
     }
