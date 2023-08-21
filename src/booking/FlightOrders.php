@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Amadeus\Booking;
 
 use Amadeus\Amadeus;
+use Amadeus\Client\Request;
+use Amadeus\Constants;
 use Amadeus\Exceptions\ResponseException;
 use Amadeus\Resources\FlightOrder;
 use Amadeus\Resources\Resource;
@@ -42,30 +44,104 @@ class FlightOrders
             ->getClient()
             ->getWithOnlyPath('/v1/booking/flight-orders/' . $id);
 
-            $counter = 0;
-            while ($counter >= 0) {
-                if (!file_exists($counter . ' - Flight Get Order RQ.json')) {
-                    file_put_contents($counter . ' - Flight Get Order RQ.json', $response->getUrl());
-                    $counter = -1;
-                } else {
-                    $counter++;
-                }
+        $counter = 0;
+        while ($counter >= 0) {
+            if (!file_exists($counter . ' - Flight Get Order RQ.json')) {
+                file_put_contents($counter . ' - Flight Get Order RQ.json', $response->getUrl());
+                $counter = -1;
+            } else {
+                $counter++;
             }
+        }
 
-            $counter = 0;
-            while ($counter >= 0) {
-                if (!file_exists($counter . ' - Flight Get Order RS.json')) {
-                    file_put_contents($counter . ' - Flight Get Order RS.json', $response->getBody());
-                    $counter = -1;
-                } else {
-                    $counter++;
-                }
+        $counter = 0;
+        while ($counter >= 0) {
+            if (!file_exists($counter . ' - Flight Get Order RS.json')) {
+                file_put_contents($counter . ' - Flight Get Order RS.json', $response->getBody());
+                $counter = -1;
+            } else {
+                $counter++;
             }
+        }
 
 
         return Resource::fromObject($response, FlightOrder::class);
     }
 
+    public function getByPNR(string $id)
+    {
+        $response = $this->amadeus
+            ->getClient()
+            ->getWithOnlyPath('/v1/booking/flight-orders/by-reference?reference=' . $id . '&originSystemCode=GDS');
+
+        $counter = 0;
+        while ($counter >= 0) {
+            if (!file_exists($counter . ' - Flight Get Order RQ.json')) {
+                file_put_contents($counter . ' - Flight Get Order RQ.json', $response->getUrl());
+                $counter = -1;
+            } else {
+                $counter++;
+            }
+        }
+
+        $counter = 0;
+        while ($counter >= 0) {
+            if (!file_exists($counter . ' - Flight Get Order RS.json')) {
+                file_put_contents($counter . ' - Flight Get Order RS.json', $response->getBody());
+                $counter = -1;
+            } else {
+                $counter++;
+            }
+        }
+
+
+        return Resource::fromObject($response, FlightOrder::class);
+    }
+
+    public function issueById(string $id) {
+
+        $request = new Request(Constants::POST ,
+            '/v1/booking/flight-orders/' . $id . '/issuance',
+            null,
+
+            null,
+            $this->amadeus->getClient()->getAccessToken()->getBearerToken(),
+            $this->amadeus->getClient()
+        );
+
+        try {
+            $response = $this->amadeus
+                ->getClient()
+                ->execute($request);
+
+        } catch (ResponseException $exception) {
+            file_put_contents('Flight Order Issuance ERROR RS.json', $exception->getMessage());
+        }
+
+        $counter = 0;
+        while ($counter >= 0) {
+            if (!file_exists($counter . ' - Flight Order Issuance RQ.json')) {
+                file_put_contents($counter . ' - Flight Order Issuance RQ.json', $response->getUrl());
+                $counter = -1;
+            } else {
+                $counter++;
+            }
+        }
+
+
+        $counter = 0;
+        while ($counter >= 0) {
+            if (!file_exists($counter . ' - Flight Order Issuance RS.json')) {
+                file_put_contents($counter . ' - Flight Order Issuance RS.json', $response->getBody());
+                $counter = -1;
+            } else {
+                $counter++;
+            }
+        }
+
+
+        return Resource::fromObject($response, FlightOrder::class);
+    }
 
     /**
      * Flight Create Orders API:
@@ -76,7 +152,7 @@ class FlightOrders
      *
      * @link https://developers.amadeus.com/self-service/category/air/api-doc/flight-offers-search/api-reference
      *
-     * @param  string $body         the parameters to send to the API as a String
+     * @param string $body the parameters to send to the API as a String
      * @return FlightOrder          an API resource
      * @throws ResponseException    when an exception occurs
      */
@@ -133,15 +209,16 @@ class FlightOrders
      *
      * @link https://developers.amadeus.com/self-service/category/air/api-doc/flight-offers-search/api-reference
      *
-     * @param array $flightOffers   Lists of flight offers as FlightOffer[]
-     * @param array $travelers      List of travelers as TravelerElement[]
+     * @param array $flightOffers Lists of flight offers as FlightOffer[]
+     * @param array $travelers List of travelers as TravelerElement[]
      * @return FlightOrder          an API resource
      * @throws ResponseException    when an exception occurs
      */
     public function postWithFlightOffersAndTravelers(
         array $flightOffers,
         array $travelers
-    ): object {
+    ): object
+    {
         $flightOffersArray = array();
         foreach ($flightOffers as $flightOffer) {
             $flightOffersArray[] = json_decode((string)$flightOffer);

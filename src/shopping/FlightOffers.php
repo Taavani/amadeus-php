@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Amadeus\Shopping;
 
 use Amadeus\Amadeus;
+use Amadeus\CertificationHelper;
 use Amadeus\Exceptions\ResponseException;
 use Amadeus\Resources\FlightOffer;
 use Amadeus\Resources\Resource;
@@ -25,6 +26,8 @@ class FlightOffers
 {
     private Amadeus $amadeus;
 
+    private CertificationHelper $certificationHelper;
+
     /**
      * A namespaced client for the
      * "/v1/shopping/flight-offers/pricing" endpoints.
@@ -43,6 +46,7 @@ class FlightOffers
     public function __construct(Amadeus $amadeus)
     {
         $this->amadeus = $amadeus;
+        $this->certificationHelper = new CertificationHelper($amadeus);
         $this->pricing = new Pricing($amadeus);
         $this->prediction = new Prediction($amadeus);
     }
@@ -122,17 +126,7 @@ class FlightOffers
     public function post(string $body): array
     {
         // Save request file for certification purposes
-        if (strcasecmp('certification', $this->amadeus->getClient()->getConfiguration()->getLogLevel()) === 0) {
-            $counter = 0;
-            while ($counter >= 0) {
-                if (!file_exists($counter . ' - Flight Offer Search RQ.json')) {
-                    file_put_contents($counter . ' - Flight Offer Search RQ.json', $body);
-                    $counter = -1;
-                } else {
-                    $counter++;
-                }
-            }
-        }
+        $this->certificationHelper->saveRequest('Flight Offer Search', $body);
 
         try {
             $response = $this->amadeus->getClient()->postWithStringBody(
@@ -140,32 +134,17 @@ class FlightOffers
                 $body
             );
         } catch (ResponseException $exception) {
-            if (strcasecmp('certification', $this->amadeus->getClient()->getConfiguration()->getLogLevel()) === 0) {
-                $counter = 0;
-                while ($counter >= 0) {
-                    if (!file_exists($counter . ' - Flight Offer Search Error RS.json')) {
-                        file_put_contents($counter . ' - Flight Offer Search Error RS.json', $body);
-                        $counter = -1;
-                    } else {
-                        $counter++;
-                    }
-                }
-            }
+            $this->certificationHelper->saveErrorResponse('Flight Offer Search Error', $body);
             throw $exception;
         }
 
         // Save response file for certification purposes
-        if(strcasecmp('certification', $this->amadeus->getClient()->getConfiguration()->getLogLevel()) === 0){
-            $counter = 0;
-            while ($counter >= 0) {
-                if (!file_exists($counter . ' - Flight Offer Search RS.json')) {
-                    file_put_contents($counter . ' - Flight Offer Search RS.json', $body);
-                    $counter = -1;
-                } else {
-                    $counter++;
-                }
-            }
-        }
+        $this->certificationHelper->saveResponse(
+            'Flight Offer Search',
+            $response->getHeaders() .
+            PHP_EOL .
+            $response->getBody()
+        );
 
         return Resource::fromArray($response, FlightOffer::class);
     }
