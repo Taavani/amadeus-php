@@ -96,6 +96,12 @@ class AmadeusBuilder
         return $this;
     }
 
+    public function setAdditionalHeaders( array $headers = [] ): AmadeusBuilder
+    {
+        $this->configuration->setAdditionalHeaders( $headers );
+        return $this;
+    }
+
     /**
      * Return a Amadeus object.
      * @return Amadeus

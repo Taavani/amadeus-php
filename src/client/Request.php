@@ -118,7 +118,7 @@ class Request
 
         $this->determineScheme();
         $this->prepareUrl();
-        $this->prepareHeaders();
+        $this->prepareHeaders($client->getConfiguration()->getAdditionalHeaders());
     }
 
     /**
@@ -151,9 +151,10 @@ class Request
 
     /**
      * Prepares the headers to be sent in the request
+     * @param array $headers
      * @return void
      */
-    private function prepareHeaders(): void
+    private function prepareHeaders( array $headers = [] ): void
     {
         $this->headers = array();
         $this->headers[] = Constants::ACCEPT."application/json, application/vnd.amadeus+json";
@@ -167,6 +168,8 @@ class Request
                 $this->headers[] = Constants::X_HTTP_METHOD_OVERRIDE.Constants::GET;
             }
         }
+
+        $this->headers = array_merge($this->headers, $headers);
     }
 
     /**
