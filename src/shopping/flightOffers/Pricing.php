@@ -55,8 +55,6 @@ class Pricing
      */
     public function post(string $body, ?array $params = null): object
     {
-        // Save request file for certification purposes
-        $this->certificationHelper->saveRequest( 'Flight Offer Price', $body);
 
         try {
             $response = $this->amadeus->getClient()->postWithStringBody(
@@ -64,16 +62,29 @@ class Pricing
                 $body,
                 $params
             );
+
+            // Save request file for certification purposes
+            $this->certificationHelper->saveRequest(
+                'Flight Offer Price',
+                $response->getRequest()->getVerb() . ' ' . $response->getRequest()->getUri() .
+                PHP_EOL .
+                PHP_EOL .
+                implode(PHP_EOL, $response->getRequest()->getHeaders()) .
+                PHP_EOL .
+                PHP_EOL .
+                $body
+            );
+
         } catch (ResponseException $exception) {
+            $this->certificationHelper->saveRequest('Flight Offer Price', $body);
             $this->certificationHelper->saveErrorResponse('Flight Offer Price Error', $body);
             throw $exception;
         }
 
         // Save request file for certification purposes
         $this->certificationHelper->saveResponse('Flight Offer Price',
-            $response->getHeaders() .
-            PHP_EOL .
-            $response->getBody()
+           $response->getHeaders() .
+           json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT)
         );
 
         return Resource::fromObject($response, FlightOfferPricingOutput::class);
