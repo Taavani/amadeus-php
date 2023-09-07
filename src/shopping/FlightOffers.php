@@ -125,14 +125,25 @@ class FlightOffers
      */
     public function post(string $body): array
     {
-        // Save request file for certification purposes
-        $this->certificationHelper->saveRequest('Flight Offer Search', $body);
-
         try {
             $response = $this->amadeus->getClient()->postWithStringBody(
                 '/v2/shopping/flight-offers',
                 $body
             );
+
+            // Save request file for certification purposes
+            $this->certificationHelper->saveRequest(
+                'Flight Offer Search',
+                $response->getRequest()->getVerb() . ' ' . $response->getRequest()->getUri() .
+                PHP_EOL .
+                PHP_EOL .
+                implode(PHP_EOL, $response->getRequest()->getHeaders()) .
+                PHP_EOL .
+                PHP_EOL .
+                json_encode(json_decode($body), JSON_PRETTY_PRINT)
+            );
+
+
         } catch (ResponseException $exception) {
             $this->certificationHelper->saveErrorResponse('Flight Offer Search Error', $body);
             throw $exception;
@@ -142,8 +153,7 @@ class FlightOffers
         $this->certificationHelper->saveResponse(
             'Flight Offer Search',
             $response->getHeaders() .
-            PHP_EOL .
-            $response->getBody()
+            json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT)
         );
 
         return Resource::fromArray($response, FlightOffer::class);
