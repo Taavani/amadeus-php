@@ -1,7 +1,8 @@
 <?php
 /**
  * This file contains a CertificationHelper class. The purpose of this class is to help with the certification
- * scenarios, when development is moved from development to production.
+ * scenarios, when moving from development to production.
+ *
  *
  */
 
@@ -13,6 +14,8 @@ namespace Amadeus;
  * @saveRequest - This is intended to save the Requests sent to the Amadeus API.
  * @saveResponse - This is intended to save the valid Responses from the Amadeus API.
  * @saveErrorResponse - This is intended to save the Error responses from the Amadeus API.
+ *
+ * The CertificationHelper is enabled if the log level is equal to 'certification'.
  *
  */
 class CertificationHelper
@@ -35,7 +38,7 @@ class CertificationHelper
     }
 
     /**
-     *
+     * This function is intended to be used to save request messages.
      *
      * @param string $fileTitle
      * @param string $content
@@ -47,6 +50,7 @@ class CertificationHelper
     }
 
     /**
+     * This function is intended to be used to save response messages from the Amadeus API.
      *
      * @param string $fileTitle
      * @param string $content
@@ -58,6 +62,7 @@ class CertificationHelper
     }
 
     /**
+     * This function is intended to be used to save error messages from the Amadeus API.
      *
      * @param string $fileTitle
      * @param string $content
@@ -69,6 +74,7 @@ class CertificationHelper
     }
 
     /**
+     * This function is the saves the files if the log level is equal to 'certification'.
      *
      * @param string $fileTitle
      * @param $content
