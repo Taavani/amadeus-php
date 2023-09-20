@@ -134,28 +134,21 @@ class FlightOffers
             // Save request file for certification purposes
             $this->certificationHelper->saveRequest(
                 'Flight Offer Search',
-                $response->getRequest()->getVerb() . ' ' . $response->getRequest()->getUri() .
-                PHP_EOL .
-                PHP_EOL .
-                implode(PHP_EOL, $response->getRequest()->getHeaders()) .
-                PHP_EOL .
-                PHP_EOL .
+                $response,
                 json_encode(json_decode($body), JSON_PRETTY_PRINT)
             );
+            // Save response file for certification purposes
+            $this->certificationHelper->saveResponse(
+                'Flight Offer Search',
+                $response,
+                json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT)
+            );
 
+            return Resource::fromArray($response, FlightOffer::class);
 
         } catch (ResponseException $exception) {
             $this->certificationHelper->saveErrorResponse('Flight Offer Search Error', $body);
             throw $exception;
         }
-
-        // Save response file for certification purposes
-        $this->certificationHelper->saveResponse(
-            'Flight Offer Search',
-            $response->getHeaders() .
-            json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT)
-        );
-
-        return Resource::fromArray($response, FlightOffer::class);
     }
 }

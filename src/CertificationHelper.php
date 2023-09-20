@@ -8,6 +8,8 @@
 
 namespace Amadeus;
 
+use Amadeus\Client\Response;
+
 /**
  * The class CertificationHelper contains 3 public functions and a single private function.
  *
@@ -41,24 +43,41 @@ class CertificationHelper
      * This function is intended to be used to save request messages.
      *
      * @param string $fileTitle
+     * @param Response $response
      * @param string $content
      * @return void
      */
-    public function saveRequest( string $fileTitle, string $content )
+    public function saveRequest( string $fileTitle, Response $response, string $content )
     {
-        $this->saveMessage($fileTitle . ' RQ.json', $content);
+        $this->saveMessage($fileTitle . ' RQ.json',
+            $response->getRequest()->getVerb() . ' ' . $response->getRequest()->getUri() .
+            PHP_EOL .
+            PHP_EOL .
+            implode(PHP_EOL, $response->getRequest()->getHeaders()) .
+            PHP_EOL .
+            PHP_EOL .
+            $content
+        );
     }
 
     /**
      * This function is intended to be used to save response messages from the Amadeus API.
      *
      * @param string $fileTitle
+     * @param Response $response
      * @param string $content
      * @return void
      */
-    public function saveResponse( string $fileTitle, string $content )
+    public function saveResponse( string $fileTitle, Response  $response, string $content )
     {
-        $this->saveMessage($fileTitle . ' RS.json', $content);
+        $this->saveMessage(
+            $fileTitle . ' RS.json',
+            $response->getRequest()->getVerb() . ' ' . $response->getRequest()->getUri() .
+            PHP_EOL .
+            PHP_EOL .
+            $response->getHeaders() .
+            $content
+        );
     }
 
     /**
