@@ -245,6 +245,10 @@ $amadeus->getBooking()->getFlightOrders()->post($body);
 // function postWithFlightOffersAndTravelers(array $flightOffers, array $travelers);
 $amadeus->getBooking()->getFlightOrders()->postWithFlightOffersAndTravelers($flightOffers, $travelers);
 
+/* Flight Issue Order */
+// function postIssue(string $id)
+$amadeus->getBooking()->getFlightOrders()->postIssue($id);
+
 /* Flight Choice Prediction */
 // function post(string $body) :
 $amadeus->getShopping()->getFlightOffers()->getPrediction()->post($body);
