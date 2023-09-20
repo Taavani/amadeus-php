@@ -65,7 +65,7 @@ class BasicHTTPClient implements HTTPClient
             $this->getAccessToken()->getBearerToken(),
             $this
         );
-
+        
         return $this->execute($request);
     }
 

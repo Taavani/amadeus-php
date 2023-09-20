@@ -208,11 +208,20 @@ class Configuration
         return $this;
     }
 
+    /**
+     *
+     * @return array
+     */
     public function getAdditionalHeaders(): array
     {
         return $this->headers;
     }
 
+    /**
+     *
+     * @param array $headers
+     * @return $this
+     */
     public function setAdditionalHeaders( array $headers ): Configuration
     {
         $this->headers = $headers;

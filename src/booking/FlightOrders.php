@@ -36,28 +36,39 @@ class FlightOrders
     {
         $this->amadeus = $amadeus;
         $this->certificationHelper = new CertificationHelper($amadeus);
+    }
 
+    public function get(string $id)
+    {
+        try {
+            $response = $this->amadeus
+                ->getClient()
+                ->getWithOnlyPath('/v1/booking/flight-orders/' . $id);
+
+            // Save request file for certification purposes
+            $this->certificationHelper->saveRequest('Flight Get Order',
+                $response->getHeaders()
+                . PHP_EOL
+                . $response->getUrl());
+
+            // Save response file for certification purposes
+            $this->certificationHelper->saveResponse('Flight Get Order',
+                implode($response->getRequest()->getHeaders())
+                . PHP_EOL
+                . $response->getBody());
+
+            return Resource::fromObject($response, FlightOrder::class);
+
+        } catch (ResponseException $exception) {
+            $this->certificationHelper->saveErrorResponse( 'Order not found', $exception->getMessage());
+            throw $exception;
+        }
     }
 
     /**
+     *
      * @throws ResponseException
      */
-    public function get(string $id)
-    {
-
-        $response = $this->amadeus
-            ->getClient()
-            ->getWithOnlyPath('/v1/booking/flight-orders/' . $id);
-
-        // Save request file for certification purposes
-        $this->certificationHelper->saveRequest( 'Flight Get Order' , $response->getUrl());
-
-        // Save response file for certification purposes
-        $this->certificationHelper->saveResponse( 'Flight Get Order', $response->getBody());
-
-        return Resource::fromObject($response, FlightOrder::class);
-    }
-
     public function getByPNR(string $id)
     {
         $response = $this->amadeus
@@ -65,20 +76,36 @@ class FlightOrders
             ->getWithOnlyPath('/v1/booking/flight-orders/by-reference?reference=' . $id . '&originSystemCode=GDS');
 
         // Save request file for certification purposes
-        $this->certificationHelper->saveRequest( 'Flight Get Order' , $response->getUrl());
+        $this->certificationHelper->saveRequest(
+            'Flight Get Order',
+            implode(PHP_EOL, $response->getRequest()->getHeaders()) .
+            PHP_EOL .
+            PHP_EOL .
+            $response->getRequest()->getVerb() . ' ' . $response->getUrl()
+        );
 
         // Save response file for certification purposes
-        $this->certificationHelper->saveResponse( 'Flight Get Order', $response->getBody());
+        $this->certificationHelper->saveResponse('Flight Get Order',
+            $response->getHeaders() .
+            PHP_EOL .
+            json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT)
+        );
 
         return Resource::fromObject($response, FlightOrder::class);
     }
 
-    public function issueById(string $id) {
+    /**
+     *
+     * @param string $id
+     * @return mixed
+     * @throws ResponseException
+     */
+    public function issueById(string $id)
+    {
 
-        $request = new Request(Constants::POST ,
+        $request = new Request(Constants::POST,
             '/v1/booking/flight-orders/' . $id . '/issuance',
             null,
-
             null,
             $this->amadeus->getClient()->getAccessToken()->getBearerToken(),
             $this->amadeus->getClient()
@@ -89,33 +116,37 @@ class FlightOrders
                 ->getClient()
                 ->execute($request);
 
+            // Save request file for certification purposes
+            $this->certificationHelper->saveRequest(
+                'Flight Order Issuance RQ',
+                $response->getRequest()->getVerb() . ' ' . $response->getRequest()->getUri() .
+                PHP_EOL .
+                PHP_EOL .
+                implode(PHP_EOL, $response->getRequest()->getHeaders()) .
+                PHP_EOL .
+                PHP_EOL .
+                $response->getUrl());
+
+            // Save request file for certification purposes
+            $this->certificationHelper->saveResponse('Flight Order Issuance RS',
+                $response->getRequest()->getVerb() . ' ' . $response->getRequest()->getUri() .
+                PHP_EOL .
+                PHP_EOL .
+                implode(PHP_EOL, $response->getRequest()->getHeaders()) .
+                PHP_EOL .
+                PHP_EOL .
+                json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT)
+            );
+
+            return Resource::fromObject($response, FlightOrder::class);
         } catch (ResponseException $exception) {
-            file_put_contents('Flight Order Issuance ERROR RS.json', $exception->getMessage());
+            $this
+                ->certificationHelper
+                ->saveErrorResponse('Flight Order Issuance ERROR', $exception->getMessage());
+
+            throw $exception;
         }
 
-        $counter = 0;
-        while ($counter >= 0) {
-            if (!file_exists($counter . ' - Flight Order Issuance RQ.json')) {
-                file_put_contents($counter . ' - Flight Order Issuance RQ.json', $response->getUrl());
-                $counter = -1;
-            } else {
-                $counter++;
-            }
-        }
-
-
-        $counter = 0;
-        while ($counter >= 0) {
-            if (!file_exists($counter . ' - Flight Order Issuance RS.json')) {
-                file_put_contents($counter . ' - Flight Order Issuance RS.json', $response->getBody());
-                $counter = -1;
-            } else {
-                $counter++;
-            }
-        }
-
-
-        return Resource::fromObject($response, FlightOrder::class);
     }
 
     /**
@@ -131,18 +162,34 @@ class FlightOrders
      * @return FlightOrder          an API resource
      * @throws ResponseException    when an exception occurs
      */
-    public function post(string $body): object
+    public function post(string $body, ?array $params = null): object
     {
-
-        // Save request file for certification purposes
-        $this->certificationHelper->saveRequest('Flight Create Order', $body);
 
         try {
             $response = $this->amadeus->getClient()->postWithStringBody(
                 '/v1/booking/flight-orders',
-                $body
+                $body,
+                $params
             );
+
+            // Save request file for certification purposes
+            $this->certificationHelper->saveRequest(
+                'Flight Create Order',
+                $response->getRequest()->getVerb() . ' ' . $response->getRequest()->getUri() .
+                PHP_EOL .
+                PHP_EOL .
+                implode(PHP_EOL, $response->getRequest()->getHeaders()) .
+                PHP_EOL .
+                PHP_EOL .
+                json_encode(json_decode($body), JSON_PRETTY_PRINT)
+            );
+
         } catch (ResponseException $e) {
+
+            $this->certificationHelper->saveRequest('Flight Create Order',
+                implode($this->amadeus->getClient()->getConfiguration()->getAdditionalHeaders()) .
+                PHP_EOL .
+                $body);
             $this->certificationHelper->saveErrorResponse('Flight Create Order Error', $e->getMessage());
             throw $e;
         }
@@ -150,8 +197,8 @@ class FlightOrders
         // Save request file for certification purposes
         $this->certificationHelper->saveResponse('Flight Create Order',
             $response->getHeaders() .
-            PHP_EOL .
-            $response->getBody());
+            json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT)
+        );
 
         return Resource::fromObject($response, FlightOrder::class);
     }
