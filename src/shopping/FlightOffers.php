@@ -91,6 +91,7 @@ class FlightOffers
      *      );
      *
      * @link https://developers.amadeus.com/self-service/category/air/api-doc/flight-offers-search/api-reference
+     * @link https://developers.amadeus.com/functional-doc-rest/62/api-docs-and-example/15034?apiVersionId=47
      *
      * @param array $params         the parameters to send to the API
      * @return FlightOffer[]        an API resource
@@ -98,12 +99,31 @@ class FlightOffers
      */
     public function get(array $params): array
     {
-        $response = $this->amadeus->getClient()->getWithArrayParams(
-            '/v2/shopping/flight-offers',
-            $params
-        );
+        try {
+            $response = $this->amadeus->getClient()->getWithArrayParams(
+                '/v2/shopping/flight-offers',
+                $params
+            );
 
-        return Resource::fromArray($response, FlightOffer::class);
+            // Save request file for certification purposes
+            $this->certificationHelper->saveRequest(
+                'Flight Offer Search',
+                $response,
+                json_encode($params, JSON_PRETTY_PRINT)
+            );
+            // Save response file for certification purposes
+            $this->certificationHelper->saveResponse(
+                'Flight Offer Search',
+                $response,
+                json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT)
+            );
+
+            return Resource::fromArray($response, FlightOffer::class);
+        } catch (ResponseException $exception) {
+            $this->certificationHelper->saveErrorResponse('Flight Offer Search Error', json_encode($params, JSON_PRETTY_PRINT));
+            throw $exception;
+        }
+
     }
 
     /**
@@ -118,6 +138,7 @@ class FlightOffers
      *      $flightOffers = $amadeus->getShopping()->getFlightOffers()->post($body);
      *
      * @link https://developers.amadeus.com/self-service/category/air/api-doc/flight-offers-search/api-reference
+     * @link https://developers.amadeus.com/functional-doc-rest/62/api-docs-and-example/15034?apiVersionId=47
      *
      * @param string $body          the parameters to send to the API as a String
      * @return array                an API resource
