@@ -42,6 +42,12 @@
     "phpstan/phpstan": "^1.5.2",
     "friendsofphp/php-cs-fixer": "^3.8"
   },
+  "scripts": {
+    "static-analysis": "vendor/bin/phpstan analyse src tests --level 4",
+    "code-coverage": "vendor/bin/phpunit --coverage-html coverageReport",
+    "code-style": "vendor/bin/php-cs-fixer fix src & vendor/bin/php-cs-fixer fix tests",
+    "test": "vendor/bin/phpunit tests"
+  },
   "autoload-dev": {
     "psr-4": {
       "Amadeus\\Tests\\": "tests/"

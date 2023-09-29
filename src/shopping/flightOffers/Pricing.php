@@ -72,7 +72,8 @@ class Pricing
             );
 
             // Save request file for certification purposes
-            $this->certificationHelper->saveResponse('Flight Offer Price',
+            $this->certificationHelper->saveResponse(
+                'Flight Offer Price',
                 $response,
                 json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT)
             );

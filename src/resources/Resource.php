@@ -111,7 +111,7 @@ class Resource
             array_filter($array, function ($v) {
                 return !is_null($v);
             }),
-            JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES
+            JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES
         );
     }
 }

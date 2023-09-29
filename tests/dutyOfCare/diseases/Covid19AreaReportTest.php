@@ -108,7 +108,7 @@ final class Covid19AreaReportTest extends TestCase
         $this->assertNotNull($covid19AreaReport);
         $this->assertTrue($covid19AreaReport instanceof DiseaseAreaReport);
 
-        return ["data"=>$data, "covid19AreaReport"=>$covid19AreaReport];
+        return ["data" => $data, "covid19AreaReport" => $covid19AreaReport];
     }
 
     /**

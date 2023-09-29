@@ -154,7 +154,7 @@ class Request
      * @param array $headers
      * @return void
      */
-    private function prepareHeaders( array $headers = [] ): void
+    private function prepareHeaders(array $headers = []): void
     {
         $this->headers = array();
         $this->headers[] = Constants::ACCEPT."application/json, application/vnd.amadeus+json";

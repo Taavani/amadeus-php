@@ -48,9 +48,10 @@ class CertificationHelper
      * @param string $content
      * @return void
      */
-    public function saveRequest( string $fileTitle, Response $response, string $content ): void
+    public function saveRequest(string $fileTitle, Response $response, string $content): void
     {
-        $this->saveMessage($fileTitle . ' RQ.json',
+        $this->saveMessage(
+            $fileTitle . ' RQ.json',
             $response->getRequest()->getVerb() . ' ' . $response->getRequest()->getUri() .
             PHP_EOL .
             PHP_EOL .
@@ -69,7 +70,7 @@ class CertificationHelper
      * @param string $content
      * @return void
      */
-    public function saveResponse( string $fileTitle, Response  $response, string $content ): void
+    public function saveResponse(string $fileTitle, Response  $response, string $content): void
     {
         $this->saveMessage(
             $fileTitle . ' RS.json',
@@ -88,7 +89,7 @@ class CertificationHelper
      * @param string $content
      * @return void
      */
-    public function saveErrorRequest( string $fileTitle, string $content): void
+    public function saveErrorRequest(string $fileTitle, string $content): void
     {
         $this->saveMessage($fileTitle . ' RQ.json', $content);
     }
@@ -100,9 +101,10 @@ class CertificationHelper
      * @param ResponseException $content
      * @return void
      */
-    public function saveErrorResponse( string $fileTitle, ResponseException $content ): void
+    public function saveErrorResponse(string $fileTitle, ResponseException $content): void
     {
-        $this->saveMessage($fileTitle . ' RS.json',
+        $this->saveMessage(
+            $fileTitle . ' RS.json',
             $content->getUrl()
             . PHP_EOL
             . PHP_EOL
@@ -117,7 +119,7 @@ class CertificationHelper
      * @param $content
      * @return void
      */
-    private function saveMessage( string $fileTitle, $content): void
+    private function saveMessage(string $fileTitle, $content): void
     {
         if (strcasecmp('certification', $this->amadeus->getClient()->getConfiguration()->getLogLevel()) === 0) {
             $counter = 0;

@@ -75,7 +75,7 @@ final class FlightsTest extends TestCase
             ->willReturn($data);
 
         // Given
-        $params = ["carrierCode"=>"IB", "flightNumber"=>532, "scheduledDepartureDate"=>"2022-09-23"];
+        $params = ["carrierCode" => "IB", "flightNumber" => 532, "scheduledDepartureDate" => "2022-09-23"];
         /* @phpstan-ignore-next-line */
         $this->client->expects($this->any())
             ->method("getWithArrayParams")

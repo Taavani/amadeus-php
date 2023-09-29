@@ -96,9 +96,9 @@ class AmadeusBuilder
         return $this;
     }
 
-    public function setAdditionalHeaders( array $headers = [] ): AmadeusBuilder
+    public function setAdditionalHeaders(array $headers = []): AmadeusBuilder
     {
-        $this->configuration->setAdditionalHeaders( $headers );
+        $this->configuration->setAdditionalHeaders($headers);
         return $this;
     }
 

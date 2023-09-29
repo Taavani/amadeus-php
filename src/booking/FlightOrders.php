@@ -59,7 +59,8 @@ class FlightOrders
             );
 
             // Save response file for certification purposes
-            $this->certificationHelper->saveResponse('Flight Get Order',
+            $this->certificationHelper->saveResponse(
+                'Flight Get Order',
                 $response,
                 $response->getBody()
             );
@@ -67,7 +68,7 @@ class FlightOrders
             return Resource::fromObject($response, FlightOrder::class);
 
         } catch (ResponseException $exception) {
-            $this->certificationHelper->saveErrorResponse( 'Order not found', $exception->getMessage());
+            $this->certificationHelper->saveErrorResponse('Order not found', $exception->getMessage());
             throw $exception;
         }
     }
@@ -90,7 +91,8 @@ class FlightOrders
         );
 
         // Save response file for certification purposes
-        $this->certificationHelper->saveResponse('Flight Get Order',
+        $this->certificationHelper->saveResponse(
+            'Flight Get Order',
             $response,
             json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT)
         );
@@ -118,7 +120,8 @@ class FlightOrders
     public function postIssue(string $id)
     {
 
-        $request = new Request(Constants::POST,
+        $request = new Request(
+            Constants::POST,
             '/v1/booking/flight-orders/' . $id . '/issuance',
             null,
             null,
@@ -135,10 +138,12 @@ class FlightOrders
             $this->certificationHelper->saveRequest(
                 'Flight Order Issuance RQ',
                 $response,
-                $response->getUrl());
+                $response->getUrl()
+            );
 
             // Save request file for certification purposes
-            $this->certificationHelper->saveResponse('Flight Order Issuance RS',
+            $this->certificationHelper->saveResponse(
+                'Flight Order Issuance RS',
                 $response,
                 json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT)
             );
@@ -184,7 +189,8 @@ class FlightOrders
             );
 
             // Save request file for certification purposes
-            $this->certificationHelper->saveResponse('Flight Create Order',
+            $this->certificationHelper->saveResponse(
+                'Flight Create Order',
                 $response,
                 json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT)
             );
@@ -223,8 +229,7 @@ class FlightOrders
     public function postWithFlightOffersAndTravelers(
         array $flightOffers,
         array $travelers
-    ): object
-    {
+    ): object {
         $flightOffersArray = array();
         foreach ($flightOffers as $flightOffer) {
             $flightOffersArray[] = json_decode((string)$flightOffer);

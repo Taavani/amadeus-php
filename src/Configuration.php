@@ -222,7 +222,7 @@ class Configuration
      * @param array $headers
      * @return $this
      */
-    public function setAdditionalHeaders( array $headers ): Configuration
+    public function setAdditionalHeaders(array $headers): Configuration
     {
         $this->headers = $headers;
         return $this;
