@@ -9,6 +9,7 @@
 namespace Amadeus;
 
 use Amadeus\Client\Response;
+use Amadeus\Exceptions\ResponseException;
 
 /**
  * The class CertificationHelper contains 3 public functions and a single private function.
@@ -47,7 +48,7 @@ class CertificationHelper
      * @param string $content
      * @return void
      */
-    public function saveRequest( string $fileTitle, Response $response, string $content )
+    public function saveRequest( string $fileTitle, Response $response, string $content ): void
     {
         $this->saveMessage($fileTitle . ' RQ.json',
             $response->getRequest()->getVerb() . ' ' . $response->getRequest()->getUri() .
@@ -68,7 +69,7 @@ class CertificationHelper
      * @param string $content
      * @return void
      */
-    public function saveResponse( string $fileTitle, Response  $response, string $content )
+    public function saveResponse( string $fileTitle, Response  $response, string $content ): void
     {
         $this->saveMessage(
             $fileTitle . ' RS.json',
@@ -81,15 +82,32 @@ class CertificationHelper
     }
 
     /**
-     * This function is intended to be used to save error messages from the Amadeus API.
+     * This function is intended to be used to save error messages sent to the Amadeus API.
      *
      * @param string $fileTitle
      * @param string $content
      * @return void
      */
-    public function saveErrorResponse( string $fileTitle, string $content )
+    public function saveErrorRequest( string $fileTitle, string $content): void
     {
-        $this->saveMessage($fileTitle . ' RS.json', $content);
+        $this->saveMessage($fileTitle . ' RQ.json', $content);
+    }
+
+    /**
+     * This function is intended to be used to save error messages from the Amadeus API.
+     *
+     * @param string $fileTitle
+     * @param ResponseException $content
+     * @return void
+     */
+    public function saveErrorResponse( string $fileTitle, ResponseException $content ): void
+    {
+        $this->saveMessage($fileTitle . ' RS.json',
+            $content->getUrl()
+            . PHP_EOL
+            . PHP_EOL
+            . $content->getMessage()
+        );
     }
 
     /**
@@ -99,7 +117,7 @@ class CertificationHelper
      * @param $content
      * @return void
      */
-    private function saveMessage( string $fileTitle, $content)
+    private function saveMessage( string $fileTitle, $content): void
     {
         if (strcasecmp('certification', $this->amadeus->getClient()->getConfiguration()->getLogLevel()) === 0) {
             $counter = 0;

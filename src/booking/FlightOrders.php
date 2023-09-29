@@ -190,9 +190,19 @@ class FlightOrders
             );
 
             return Resource::fromObject($response, FlightOrder::class);
-        } catch (ResponseException $e) {
-            $this->certificationHelper->saveErrorResponse('Flight Create Order Error', $e->getMessage());
-            throw $e;
+        } catch (ResponseException $exception) {
+            $this->certificationHelper->saveErrorRequest(
+                'Flight Create Order Error',
+                json_encode(json_decode($body), JSON_PRETTY_PRINT)
+            );
+
+            $this->certificationHelper
+                ->saveErrorResponse(
+                    'Flight Create Order Error',
+                    $exception
+                );
+
+            throw $exception;
         }
     }
 
