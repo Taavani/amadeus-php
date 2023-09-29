@@ -2,9 +2,9 @@
 /**
  * This file contains a CertificationHelper class. The purpose of this class is to help with the certification
  * scenarios, when moving from development to production.
- *
- *
  */
+
+declare(strict_types=1);
 
 namespace Amadeus;
 
