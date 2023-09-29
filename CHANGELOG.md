@@ -7,6 +7,10 @@
 - CertificationHelper: Utility to be used for the production validation process.
 - Added get, getByPNR and postIssue to the FlightOrders class.
 
+### Changed
+
+- Changed the minimum PHP version to 8.0.0.
+
 ### Removed
 
 - Removed ```/v1/shopping/flight-offers/pricing``` from the Constrants class.

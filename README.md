@@ -28,7 +28,7 @@ Jump To:
 
 ## Installation
 
-This library requires PHP 7.4+. You can install the SDK via [Composer](https://getcomposer.org/)
+This library requires PHP 8.0+. You can install the SDK via [Composer](https://getcomposer.org/)
 
 ``` 
 composer require amadeus4dev/amadeus-php
