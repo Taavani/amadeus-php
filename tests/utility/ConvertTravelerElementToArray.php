@@ -17,7 +17,6 @@ use PHPUnit\Framework\TestCase;
  */
 class ConvertTravelerElementToArray extends TestCase
 {
-
     public function setUp(): void
     {
         // Mock an Amadeus with HTTPClient
@@ -58,5 +57,7 @@ class ConvertTravelerElementToArray extends TestCase
 
         $traveler = $travelersArray[0];
         $this->assertIsArray($traveler->__toArray());
+
+        var_dump(json_encode($traveler->__toArray()));
     }
 }

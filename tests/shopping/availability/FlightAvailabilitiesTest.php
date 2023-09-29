@@ -89,7 +89,7 @@ final class FlightAvailabilitiesTest extends TestCase
         $this->assertNotNull($flightAvailabilities);
         $this->assertEquals(4, sizeof($flightAvailabilities));
 
-        return ["data"=>$data, "flightAvailabilities"=>$flightAvailabilities];
+        return ["data" => $data, "flightAvailabilities" => $flightAvailabilities];
     }
 
     /**

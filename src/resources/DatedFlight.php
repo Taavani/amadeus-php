@@ -15,7 +15,7 @@ class DatedFlight extends Resource implements ResourceInterface
 {
     private ?string $type = null;
     private ?string $scheduledDepartureDate = null;
-    private ?object $flightDesignator= null;
+    private ?object $flightDesignator = null;
     private ?array $flightPoints = null;
     private ?array $segments = null;
     private ?array $legs = null;

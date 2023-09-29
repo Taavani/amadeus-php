@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Amadeus\Shopping\FlightOffers;
 
 use Amadeus\Amadeus;
+use Amadeus\CertificationHelper;
 use Amadeus\Exceptions\ResponseException;
 use Amadeus\Resources\FlightOfferPricingOutput;
 use Amadeus\Resources\Resource;
@@ -23,6 +24,8 @@ class Pricing
 {
     private Amadeus $amadeus;
 
+    private CertificationHelper $certificationHelper;
+
     /**
      * Constructor
      * @param Amadeus $amadeus
@@ -30,6 +33,7 @@ class Pricing
     public function __construct(Amadeus $amadeus)
     {
         $this->amadeus = $amadeus;
+        $this->certificationHelper = new CertificationHelper($amadeus);
     }
 
     /**
@@ -43,6 +47,7 @@ class Pricing
      *      $amadeus->getShopping()->getFlightOffers()->getPricing()->post($body, $params); //$params is optional
      *
      * @link https://developers.amadeus.com/self-service/category/air/api-doc/flight-offers-price/api-reference
+     * @link https://developers.amadeus.com/functional-doc-rest/49/api-docs-and-example/138985?apiVersionId=413
      *
      * @param string $body                  JSON body of flight offers as String to price
      * @param array|null $params            (optional)URL parameters such as include or forceClass
@@ -51,13 +56,41 @@ class Pricing
      */
     public function post(string $body, ?array $params = null): object
     {
-        $response = $this->amadeus->getClient()->postWithStringBody(
-            '/v1/shopping/flight-offers/pricing',
-            $body,
-            $params
-        );
 
-        return Resource::fromObject($response, FlightOfferPricingOutput::class);
+        try {
+            $response = $this->amadeus->getClient()->postWithStringBody(
+                '/v1/shopping/flight-offers/pricing',
+                $body,
+                $params
+            );
+
+            // Save request file for certification purposes
+            $this->certificationHelper->saveRequest(
+                'Flight Offer Price',
+                $response,
+                json_encode(json_decode($body), JSON_PRETTY_PRINT)
+            );
+
+            // Save request file for certification purposes
+            $this->certificationHelper->saveResponse(
+                'Flight Offer Price',
+                $response,
+                json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT)
+            );
+
+            return Resource::fromObject($response, FlightOfferPricingOutput::class);
+
+        } catch (ResponseException $exception) {
+            $this->certificationHelper->saveErrorRequest(
+                'Flight Offer Price Error',
+                json_encode(json_decode($body), JSON_PRETTY_PRINT)
+            );
+            $this->certificationHelper->saveErrorResponse(
+                'Flight Offer Price Error',
+                $exception
+            );
+            throw $exception;
+        }
     }
 
 
@@ -73,6 +106,7 @@ class Pricing
      *      $amadeus->getShopping()->getFlightOffers()->getPricing()->post($flightOffers, $payments, $travelers $params);
      *
      * @link https://developers.amadeus.com/self-service/category/air/api-doc/flight-offers-price/api-reference
+     * @link https://developers.amadeus.com/functional-doc-rest/49/api-docs-and-example/138985?apiVersionId=413
      *
      * @param array $flightOffers           Lists of flight offers as FlightOffer[]
      * @param array|null $payments          (optional) Lists of payments as FlightPayment[]

@@ -57,7 +57,7 @@ final class AirportsTest extends TestCase
             ->willReturn($data);
 
         // Given
-        $params = ["latitude"=>51.57285, "longitude"=>-0.44161, "radius"=>500];
+        $params = ["latitude" => 51.57285, "longitude" => -0.44161, "radius" => 500];
         /* @phpstan-ignore-next-line */
         $this->client->expects($this->any())
             ->method("getWithArrayParams")

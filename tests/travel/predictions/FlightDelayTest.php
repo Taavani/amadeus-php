@@ -56,11 +56,11 @@ final class FlightDelayTest extends TestCase
             ->willReturn($data);
 
         // Given
-        $params = ["originLocationCode"=>"NCE", "destinationLocationCode"=>"IST",
-            "departureDate"=>"2020-08-01", "departureTime"=>"18:20:00",
-            "arrivalDate"=>"2020-08-01", "arrivalTime"=>"22:15:00",
-            "aircraftCode"=>"321", "carrierCode"=>"TK",
-            "flightNumber"=>"1816", "duration"=>"PT31H10M"];
+        $params = ["originLocationCode" => "NCE", "destinationLocationCode" => "IST",
+            "departureDate" => "2020-08-01", "departureTime" => "18:20:00",
+            "arrivalDate" => "2020-08-01", "arrivalTime" => "22:15:00",
+            "aircraftCode" => "321", "carrierCode" => "TK",
+            "flightNumber" => "1816", "duration" => "PT31H10M"];
         /* @phpstan-ignore-next-line */
         $this->client->expects($this->any())
             ->method("getWithArrayParams")

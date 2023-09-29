@@ -45,7 +45,7 @@ class PHPUnitUtil
     {
         return json_encode(
             $object,
-            JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES
+            JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES
         );
     }
 

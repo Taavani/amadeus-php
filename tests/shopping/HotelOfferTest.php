@@ -110,7 +110,7 @@ final class HotelOfferTest extends TestCase
         // Then
         $this->assertNotNull($hotelOffers);
 
-        return ["offerId"=>$params, "data"=>$data, "hotelOffers"=>$hotelOffers];
+        return ["offerId" => $params, "data" => $data, "hotelOffers" => $hotelOffers];
     }
 
     /**

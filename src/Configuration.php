@@ -51,6 +51,8 @@ class Configuration
      */
     private string $logLevel = "off";
 
+    private array $headers = [];
+
     /**
      * @param string $clientId
      * @param string $clientSecret
@@ -203,6 +205,26 @@ class Configuration
     public function setLogLevel(string $logLevel): Configuration
     {
         $this->logLevel = $logLevel;
+        return $this;
+    }
+
+    /**
+     *
+     * @return array
+     */
+    public function getAdditionalHeaders(): array
+    {
+        return $this->headers;
+    }
+
+    /**
+     *
+     * @param array $headers
+     * @return $this
+     */
+    public function setAdditionalHeaders(array $headers): Configuration
+    {
+        $this->headers = $headers;
         return $this;
     }
 }
