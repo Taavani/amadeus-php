@@ -1,4 +1,16 @@
 # Changelog
+
+## 0.3.1 - 2023-10-29
+
+### Added
+
+- CertificationHelper: Utility to be used for the production validation process.
+- Added get, getByPNR and postIssue to the FlightOrders class.
+
+### Removed
+
+- Removed ```/v1/shopping/flight-offers/pricing``` from the Constrants class.
+
 ## 0.3.0 - 2022-08-05
 
 Add support for the [Travel Recommendations API](https://developers.amadeus.com/self-service/category/trip/api-doc/travel-recommendations/api-reference)
