@@ -5,12 +5,13 @@
 [![Packagist](https://img.shields.io/packagist/dt/amadeus4dev/amadeus-php.svg)](https://packagist.org/packages/amadeus4dev/amadeus-php)
 [![Discord](https://img.shields.io/discord/696822960023011329?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/cVrFBqx)
 
-Amadeus provides a rich set of APIs for the travel industry. For more details, check out the [Amadeus for Developers Portal](https://developers.amadeus.com).
+Amadeus provides a rich set of APIs for the travel industry. For more details, check out the 
+[Amadeus for Developers Portal](https://developers.amadeus.com).
 
 ## :warning: Important message :warning:
 
-:heavy_exclamation_mark: This SDK is maintained **by the developer community only**. The Amadeus for Developers team doesn't support or maintain it. :heavy_exclamation_mark:
-
+:heavy_exclamation_mark: This SDK is maintained **by the developer community only**. The Amadeus for Developers team 
+doesn't support or maintain it. :heavy_exclamation_mark:
 
 Jump To:
 * [Installation](#Installation)
@@ -100,7 +101,9 @@ $amadeus = Amadeus
     ->build();
 ```
 
-Alternatively, it can be initialized without any parameters if the environment variables ``AMADEUS_CLIENT_ID`` and ``AMADEUS_CLIENT_SECRET`` are present.
+Alternatively, it can be initialized without any parameters if the environment variables ``AMADEUS_CLIENT_ID`` and 
+``AMADEUS_CLIENT_SECRET`` are present.
+
 ```PHP
 $amadeus = Amadeus
     ::builder()
@@ -109,7 +112,8 @@ $amadeus = Amadeus
 
 Your credentials can be found on the [Amadeus dashboard](https://developers.amadeus.com/my-apps).
 
-By default, the SDK is set to `test` environment. To switch to a `production` (pay-as-you-go) environment, please switch the hostname as follows:
+By default, the SDK is set to `test` environment. To switch to a `production` (pay-as-you-go) environment, please switch 
+the hostname as follows:
 
 ```PHP
 //Initialize using parameters
@@ -120,11 +124,14 @@ $amadeus = Amadeus
 ```
 
 ## Using SSL Certificate
-This library is using PHP core extension cURL for making Http Request but disabling the options for SSL certificate verification. 
-Thus it is highly suggested using a certificate with PHP’s cURL functions.
+This library is using PHP core extension cURL for making Http Request but disabling the options for SSL certificate 
+verification. 
+
+Thus, it is highly suggested using a certificate with PHP’s cURL functions.
 
 You can download the ```cacert.pem``` certificate bundle from the [official cURL website](https://curl.se/docs/caextract.html). 
-Once you have downloaded the ```cacert.pem``` file, you should move it to whatever directory makes the most sense for you and your setup.
+Once you have downloaded the ```cacert.pem``` file, you should move it to whatever directory makes the most sense for 
+you and your setup.
 
 ```PHP
 // Set your certificate path for opening SSL verification
@@ -133,7 +140,8 @@ $amadeus->getClient()->setSslCertificate($REPLACE_BY_YOUR_SSL_CERT_PATH);
 
 ## Documentation
 
-Amadeus has a large set of APIs, and our documentation is here to get you started. Head over to our [reference documentation](https://amadeus4dev-examples.github.io/amadeus-php/) for in-depth information about every SDK method, its arguments and return types.
+Amadeus has a large set of APIs, and our documentation is here to get you started. Head over to our 
+[reference documentation](https://amadeus4dev-examples.github.io/amadeus-php/) for in-depth information about every SDK method, its arguments and return types.
 
 ## Making API Calls
 
@@ -170,7 +178,8 @@ Keep in mind, this returns a raw `Resource`.
 
 
 ## Response
-Every successful API call returns a ```Resource``` object. The ```Resource``` object has the raw response body (in string format) available:
+Every successful API call returns a ```Resource``` object. The ```Resource``` object has the raw response body 
+(in string format) available:
 
 ```PHP
 $locations = $amadeus->getReferenceData()->getLocations()->get(
@@ -198,13 +207,21 @@ $locations[0]->getResponse()->getDictionary();
 ```
 
 ## Logging and Debugging
-You can enable debugging in the default HTTP client via a parameter during initialization, or using the ```AMADEUS_LOG_LEVEL``` environment variable.
+You can enable debugging in the default HTTP client via a parameter during initialization, or using the 
+```AMADEUS_LOG_LEVEL``` environment variable.
 
 ```PHP
 $amadeus = Amadeus::builder()
     ->setLogLevel("debug")
     ->build();
 ```
+
+### Certification
+This package contains a special feature, that can be used for Amadeus validation. One aspect of moving from the test
+environment to production is the exchange of request/response message files. By setting the ```AMADEUS_LOG_LEVEL``` 
+variable to ```certification```, the package will save all the message files to the root folder of your project. 
+
+These files can then be shared with Amadeus.
 
 ## List of Supported Endpoints
 ```PHP
