@@ -44,6 +44,11 @@ class FlightOrders
         $this->certificationHelper = new CertificationHelper($amadeus);
     }
 
+    /**
+     * This function returns an order object, based on the flightOffer ID.
+     *
+     * @throws ResponseException
+     */
     public function get(string $id)
     {
         try {
@@ -68,12 +73,23 @@ class FlightOrders
             return Resource::fromObject($response, FlightOrder::class);
 
         } catch (ResponseException $exception) {
-            $this->certificationHelper->saveErrorResponse('Order not found', $exception->getMessage());
+            $this->certificationHelper
+                ->saveErrorRequest(
+                    'Order not found',
+                    $id
+                );
+
+            $this->certificationHelper
+                ->saveErrorResponse(
+                    'Order not found',
+                    $exception
+                );
             throw $exception;
         }
     }
 
     /**
+     * This function returns an order object, based on the PNR
      *
      * @throws ResponseException
      */
@@ -117,7 +133,7 @@ class FlightOrders
      * @return mixed
      * @throws ResponseException
      */
-    public function postIssue(string $id)
+    public function postIssue(string $id): mixed
     {
 
         $request = new Request(
@@ -150,9 +166,16 @@ class FlightOrders
 
             return Resource::fromObject($response, FlightOrder::class);
         } catch (ResponseException $exception) {
+            $this->certificationHelper->saveErrorRequest(
+                'Flight Create Order Error',
+                $id
+            );
+
             $this
                 ->certificationHelper
-                ->saveErrorResponse('Flight Order Issuance ERROR', $exception->getMessage());
+                ->saveErrorResponse('Flight Order Issuance ERROR',
+                    $exception
+                );
 
             throw $exception;
         }
