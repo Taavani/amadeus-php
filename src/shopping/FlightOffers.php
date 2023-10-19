@@ -11,6 +11,7 @@ use Amadeus\Resources\FlightOffer;
 use Amadeus\Resources\Resource;
 use Amadeus\Shopping\FlightOffers\Prediction;
 use Amadeus\Shopping\FlightOffers\Pricing;
+use Amadeus\Shopping\FlightOffers\Upsell;
 
 /**
  * A namespaced client for the
@@ -40,6 +41,8 @@ class FlightOffers
      */
     private Prediction $prediction;
 
+    private Upsell $upsell;
+
     /**
      * @param Amadeus $amadeus
      */
@@ -49,6 +52,7 @@ class FlightOffers
         $this->certificationHelper = new CertificationHelper($amadeus);
         $this->pricing = new Pricing($amadeus);
         $this->prediction = new Prediction($amadeus);
+        $this->upsell = new Upsell($amadeus);
     }
 
     /**
@@ -69,6 +73,16 @@ class FlightOffers
     public function getPrediction(): Prediction
     {
         return $this->prediction;
+    }
+
+    /**
+     *  Get a namespaced client for the
+     *  "/v2/shopping/flight-offers/upsell" endpoints.
+     * @return Upsell
+     */
+    public function getUpsell():  Upsell
+    {
+        return $this->upsell;
     }
 
     /**
