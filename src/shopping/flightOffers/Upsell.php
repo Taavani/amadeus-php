@@ -7,6 +7,7 @@ namespace Amadeus\Shopping\FlightOffers;
 use Amadeus\Amadeus;
 use Amadeus\CertificationHelper;
 use Amadeus\Exceptions\ResponseException;
+use Amadeus\Resources\FlightOffer;
 use Amadeus\Resources\FlightOfferPricingOutput;
 use Amadeus\Resources\Resource;
 
@@ -44,12 +45,12 @@ class Upsell {
      * options and features, such as refundability and miles accrual, or a pre-reserved seat, baggage, and meal.
      * It is usually used after the Flight Offers Search service.
      *
-     * @param string $body                  The required request body.
-     * @param array|null $params            Optional parameters
-     * @return FlightOfferPricingOutput
+     * @param string $body The required request body.
+     * @param array|null $params Optional parameters
+     * @return FlightOffer[]
      * @throws ResponseException
      */
-    public function post(string $body, ?array $params = null): object
+    public function post(string $body, ?array $params = null): array
     {
 
         try {
@@ -73,7 +74,7 @@ class Upsell {
                 json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT)
             );
 
-            return Resource::fromObject($response, FlightOfferPricingOutput::class);
+            return Resource::fromArray($response, FlightOffer::class);
 
         } catch (ResponseException $exception) {
             $this->certificationHelper->saveErrorRequest(
