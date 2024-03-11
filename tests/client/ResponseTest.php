@@ -6,11 +6,11 @@ namespace Amadeus\Tests\Client;
 
 use Amadeus\Client\Request;
 use Amadeus\Client\Response;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Amadeus\Client\Response
- */
+#[CoversClass(Response::class)]
 final class ResponseTest extends TestCase
 {
     private Request $request;
@@ -19,9 +19,7 @@ final class ResponseTest extends TestCase
     private string $responseBody;
     private string $responseResult;
 
-    /**
-     * @Before
-     */
+    #[Before]
     public function setUp(): void
     {
         $info = array(

@@ -22,12 +22,14 @@ use PHPUnit\Framework\TestCase;
  *
  * @link https://developers.amadeus.com/self-service/category/air/api-doc/airport-routes/api-reference
  */
-#[CoversClass(DirectDestinations::class)]
-#[CoversClass(Resource::class)]
-#[CoversClass(Destination::class)]
-#[CoversClass(Response::class)]
-#[CoversClass(ResponseException::class)]
-#[CoversClass(ClientException::class)]
+#[
+    CoversClass(DirectDestinations::class),
+    CoversClass(Resource::class),
+    CoversClass(Destination::class),
+    CoversClass(Response::class),
+    CoversClass(ResponseException::class),
+    CoversClass(ClientException::class)
+]
 final class DirectDestinationsTest extends TestCase
 {
     private Amadeus $amadeus;

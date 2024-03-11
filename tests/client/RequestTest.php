@@ -5,28 +5,29 @@ declare(strict_types=1);
 namespace Amadeus\Tests\Client;
 
 use Amadeus\Amadeus;
+use Amadeus\Client\AccessToken;
 use Amadeus\Client\BasicHTTPClient;
 use Amadeus\Client\HTTPClient;
 use Amadeus\Client\Request;
 use Amadeus\Configuration;
 use Amadeus\Constants;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Amadeus\Configuration
- * @covers \Amadeus\Client\BasicHTTPClient
- * @covers \Amadeus\Client\AccessToken
- * @covers \Amadeus\Client\Request
- */
+#[
+    CoversClass(Request::class),
+    CoversClass(BasicHTTPClient::class),
+    CoversClass(Configuration::class),
+    CoversClass(AccessToken::class)
+]
 final class RequestTest extends TestCase
 {
     private HTTPClient $client;
     private string $path;
     private array $params;
 
-    /**
-     * @Before
-     */
+    #[Before]
     public function setUp(): void
     {
         $this->client = new BasicHTTPClient(new Configuration("id", "secret"));

@@ -16,22 +16,25 @@ use Amadeus\Exceptions\NotFoundException;
 use Amadeus\Exceptions\ResponseException;
 use Amadeus\Exceptions\ServerException;
 use Amadeus\Tests\PHPUnitUtil;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
 
-/**
- * @covers \Amadeus\Client\BasicHTTPClient
- * @covers \Amadeus\Client\AccessToken
- * @covers \Amadeus\Configuration
- * @covers \Amadeus\Client\Request
- * @covers \Amadeus\Client\Response
- * @covers \Amadeus\Exceptions\ResponseException
- * @covers \Amadeus\Exceptions\ServerException
- * @covers \Amadeus\Exceptions\NotFoundException
- * @covers \Amadeus\Exceptions\AuthenticationException
- * @covers \Amadeus\Exceptions\ClientException
- * @covers \Amadeus\Exceptions\NetworkException
- */
+#[
+    CoversClass(BasicHTTPClient::class),
+    CoversClass(AccessToken::class),
+    CoversClass(Configuration::class),
+    CoversClass(Request::class),
+    CoversClass(Response::class),
+    CoversClass(ResponseException::class),
+    CoversClass(ServerException::class),
+    CoversClass(NotFoundException::class),
+    CoversClass(AuthenticationException::class),
+    CoversClass(ClientException::class),
+    CoversClass(NetworkException::class)
+]
 final class HTTPClientTest extends TestCase
 {
     private BasicHTTPClient $client;
@@ -43,9 +46,7 @@ final class HTTPClientTest extends TestCase
     private string $result;
     private AccessToken $accessToken;
 
-    /**
-     * @Before
-     */
+    #[Before]
     protected function setUp(): void
     {
         $this->path = "/foo";
@@ -59,14 +60,13 @@ final class HTTPClientTest extends TestCase
         );
         $this->result =
             "HTTP/1.1 200 OK"
-            ."HeadersKey: HeadersValue"
-            ." "
-            ."{"
-            ."\"data\" : [ {"
-            ." \"access_token\" : \"my_token\""
-            ." } ]"
-            ."}"
-        ;
+            . "HeadersKey: HeadersValue"
+            . " "
+            . "{"
+            . "\"data\" : [ {"
+            . " \"access_token\" : \"my_token\""
+            . " } ]"
+            . "}";
 
         $this->configuration = new Configuration("client_id", "client_secret");
 
@@ -74,7 +74,7 @@ final class HTTPClientTest extends TestCase
             ->setConstructorArgs(array($this->configuration))
             ->getMock();
 
-        $this->accessToken = new AccessToken($this->client, __DIR__."/cached_token_test.json");
+        $this->accessToken = new AccessToken($this->client, __DIR__ . "/cached_token_test.json");
 
         $this->client->expects($this->any())
             ->method("getAccessToken")
@@ -195,7 +195,7 @@ final class HTTPClientTest extends TestCase
     }
 
     /**
-     * @throws ReflectionException
+     * @throws ReflectionException|Exception
      */
     public function testDetectResponseException(): void
     {
@@ -207,7 +207,7 @@ final class HTTPClientTest extends TestCase
     }
 
     /**
-     * @throws ReflectionException
+     * @throws ReflectionException|Exception
      */
     public function testDetectServerException(): void
     {
@@ -219,7 +219,7 @@ final class HTTPClientTest extends TestCase
     }
 
     /**
-     * @throws ReflectionException
+     * @throws ReflectionException|Exception
      */
     public function testDetectNotFoundException(): void
     {
@@ -231,7 +231,7 @@ final class HTTPClientTest extends TestCase
     }
 
     /**
-     * @throws ReflectionException
+     * @throws ReflectionException|Exception
      */
     public function testDetectAuthenticationException(): void
     {
@@ -243,7 +243,7 @@ final class HTTPClientTest extends TestCase
     }
 
     /**
-     * @throws ReflectionException
+     * @throws ReflectionException|Exception
      */
     public function testDetectClientException(): void
     {
@@ -255,7 +255,7 @@ final class HTTPClientTest extends TestCase
     }
 
     /**
-     * @throws ReflectionException
+     * @throws ReflectionException|Exception
      */
     public function testDetectNetworkException(): void
     {
@@ -267,7 +267,7 @@ final class HTTPClientTest extends TestCase
     }
 
     /**
-     * @throws ReflectionException
+     * @throws ReflectionException|Exception
      */
     public function testDetectCode204NoException(): void
     {
@@ -278,7 +278,7 @@ final class HTTPClientTest extends TestCase
     }
 
     /**
-     * @throws ReflectionException
+     * @throws ReflectionException|Exception
      */
     public function testDetectCode201NoException(): void
     {
@@ -289,7 +289,7 @@ final class HTTPClientTest extends TestCase
     }
 
     /**
-     * @throws ReflectionException
+     * @throws ReflectionException|Exception
      */
     public function testSetCurlOptionsWithDefault(): void
     {
@@ -306,7 +306,7 @@ final class HTTPClientTest extends TestCase
     }
 
     /**
-     * @throws ReflectionException
+     * @throws ReflectionException|Exception
      */
     public function testSetCurlOptionsWithSsl(): void
     {
@@ -324,7 +324,7 @@ final class HTTPClientTest extends TestCase
     }
 
     /**
-     * @throws ReflectionException
+     * @throws ReflectionException|Exception
      */
     public function testSetCurlOptionsWithPostWithBody(): void
     {
@@ -346,7 +346,7 @@ final class HTTPClientTest extends TestCase
     }
 
     /**
-     * @throws ReflectionException
+     * @throws ReflectionException|Exception
      */
     public function testSetCurlOptionsWithPostWithParams(): void
     {

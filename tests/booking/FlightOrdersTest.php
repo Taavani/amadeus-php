@@ -19,32 +19,34 @@ use Amadeus\Resources\TravelerElement;
 use Amadeus\Resources\TravelerName;
 use Amadeus\Resources\TravelerPhone;
 use Amadeus\Tests\PHPUnitUtil;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * This test covers the endpoint and its related returned resources.
- * @covers \Amadeus\Booking\FlightOrders
- *
- * @covers \Amadeus\Resources\Resource
- * @covers \Amadeus\Resources\FlightOrder
- * @covers \Amadeus\Resources\FlightOrderAssociatedRecord
- * @covers \Amadeus\Resources\FlightOffer
- * @covers \Amadeus\Resources\TravelerElement
- * @covers \Amadeus\Resources\TravelerName
- * @covers \Amadeus\Resources\TravelerContact
- * @covers \Amadeus\Resources\TravelerPhone
- * @covers \Amadeus\Resources\TravelerDocuments
  *
  * @link https://developers.amadeus.com/self-service/category/air/api-doc/flight-create-orders/api-reference
  */
+#[
+    CoversClass(FlightOrders::class),
+    CoversClass(Resource::class),
+    CoversClass(FlightOrder::class),
+    CoversClass(FlightOrderAssociatedRecord::class),
+    CoversClass(FlightOffer::class),
+    CoversClass(TravelerElement::class),
+    CoversClass(TravelerName::class),
+    CoversClass(TravelerContact::class),
+    CoversClass(TravelerPhone::class),
+    CoversClass(TravelerDocuments::class)
+]
 final class FlightOrdersTest extends TestCase
 {
     private Amadeus $amadeus;
     private HTTPClient $client;
 
-    /**
-     * @Before
-     */
+    #[Before]
     public function setUp(): void
     {
         // Mock an Amadeus with HTTPClient
@@ -56,7 +58,7 @@ final class FlightOrdersTest extends TestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws ResponseException|Exception
      */
     public function test_given_client_when_call_flight_orders_then_ok(): void
     {

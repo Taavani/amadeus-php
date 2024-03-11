@@ -12,26 +12,28 @@ use Amadeus\Exceptions\ResponseException;
 use Amadeus\Resources\HotelBookingAssociatedRecord;
 use Amadeus\Resources\HotelBookingLight;
 use Amadeus\Tests\PHPUnitUtil;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
  * This test covers the endpoint and its related returned resources.
- * @covers \Amadeus\Booking\HotelBookings
- *
- * @covers \Amadeus\Resources\Resource
- * @covers \Amadeus\Resources\HotelBookingLight
- * @covers \Amadeus\Resources\HotelBookingAssociatedRecord
  *
  * @link https://developers.amadeus.com/self-service/category/hotel/api-doc/hotel-booking/api-reference
  */
+#[
+    CoversClass(HotelBookings::class),
+    CoversClass(HotelBookingLight::class),
+    CoversClass(HotelBookingAssociatedRecord::class),
+    CoversClass(Response::class),
+]
 final class HotelBookingsTest extends TestCase
 {
     private Amadeus $amadeus;
     private HTTPClient $client;
 
-    /**
-     * @Before
-     */
+    #[Before]
     public function setUp(): void
     {
         // Mock an Amadeus with HTTPClient
@@ -43,7 +45,7 @@ final class HotelBookingsTest extends TestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws ResponseException|Exception
      */
     public function test_given_client_when_call_hotel_bookings_then_ok(): void
     {

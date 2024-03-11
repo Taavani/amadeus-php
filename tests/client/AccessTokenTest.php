@@ -7,23 +7,21 @@ namespace Amadeus\Tests\Client;
 use Amadeus\Client\AccessToken;
 use Amadeus\Configuration;
 use Amadeus\Client\BasicHTTPClient;
-use Amadeus\Tests\PHPUnitUtil;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use ReflectionException;
 
-/**
- * @covers \Amadeus\Amadeus
- * @covers \Amadeus\Configuration
- * @covers \Amadeus\Client\AccessToken
- * @covers \Amadeus\Client\BasicHTTPClient
- */
+#[
+    CoversClass(AccessToken::class),
+    CoversClass(BasicHTTPClient::class),
+    CoversClass(Configuration::class),
+    CoversClass(\Amadeus\Amadeus::class)
+]
 final class AccessTokenTest extends TestCase
 {
     private BasicHTTPClient $client;
 
-    /**
-     * @Before
-     */
+    #[Before]
     protected function setUp(): void
     {
         $configuration = new Configuration("client_id", "client_secret");
