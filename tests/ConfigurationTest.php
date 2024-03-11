@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace Amadeus\Tests;
 
 use Amadeus\Configuration;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Amadeus\Configuration
+ * Class AmadeusBuilderTest
+ * @package Amadeus\Tests
  */
+#[CoversClass(Configuration::class)]
 final class ConfigurationTest extends TestCase
 {
     public function testInitialize(): void

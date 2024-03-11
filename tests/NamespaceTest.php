@@ -4,58 +4,101 @@ declare(strict_types=1);
 
 namespace Amadeus\Tests;
 
+use Amadeus\Airport;
 use Amadeus\Amadeus;
+use Amadeus\AmadeusBuilder;
+use Amadeus\Booking;
+use Amadeus\Client\AccessToken;
+use Amadeus\Client\BasicHTTPClient;
+use Amadeus\Configuration;
+use Amadeus\DutyOfCare;
+use Amadeus\DutyOfCare\Diseases;
+use Amadeus\EReputation;
+use Amadeus\ReferenceData;
+use Amadeus\ReferenceData\Airlines;
+use Amadeus\ReferenceData\Location;
+use Amadeus\ReferenceData\Locations;
+use Amadeus\ReferenceData\Locations\Airports;
+use Amadeus\ReferenceData\Locations\Hotel;
+use Amadeus\ReferenceData\Locations\Hotels;
+use Amadeus\ReferenceData\Locations\Hotels\ByCity;
+use Amadeus\ReferenceData\Locations\Hotels\ByGeocode;
+use Amadeus\ReferenceData\Locations\Hotels\ByHotels;
+use Amadeus\ReferenceData\RecommendedLocations;
+use Amadeus\Resources\Resource;
+use Amadeus\Schedule;
+use Amadeus\Schedule\Flights;
+use Amadeus\Shopping;
+use Amadeus\Shopping\Activities;
+use Amadeus\Shopping\Activities\BySquare;
+use Amadeus\Shopping\Activity;
+use Amadeus\Shopping\Availability;
+use Amadeus\Shopping\Availability\FlightAvailabilities;
+use Amadeus\Shopping\FlightDates;
+use Amadeus\Shopping\FlightDestinations;
+use Amadeus\Shopping\FlightOffers;
+use Amadeus\Shopping\FlightOffers\Prediction;
+use Amadeus\Shopping\FlightOffers\Pricing;
+use Amadeus\Shopping\HotelOffer;
+use Amadeus\Shopping\HotelOffers;
+use Amadeus\Travel;
+use Amadeus\Travel\Predictions;
+use Amadeus\Travel\Predictions\FlightDelay;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Amadeus\Configuration
- * @covers \Amadeus\Amadeus
- * @covers \Amadeus\AmadeusBuilder
- * @covers \Amadeus\Client\BasicHTTPClient
- * @covers \Amadeus\Client\AccessToken
- * @covers \Amadeus\Resources\Resource
- * @covers \Amadeus\Airport
- * @covers \Amadeus\Airport\Predictions
- * @covers \Amadeus\Airport\Predictions\OnTime
- * @covers \Amadeus\Airport\DirectDestinations
- * @covers \Amadeus\Booking
- * @covers \Amadeus\Booking\FlightOrders
- * @covers \Amadeus\Booking\HotelBookings
- * @covers \Amadeus\DutyOfCare
- * @covers \Amadeus\DutyOfCare\Diseases
- * @covers \Amadeus\DutyOfCare\Diseases\Covid19AreaReport
- * @covers \Amadeus\EReputation
- * @covers \Amadeus\EReputation\HotelSentiments
- * @covers \Amadeus\ReferenceData
- * @covers \Amadeus\ReferenceData\Airlines
- * @covers \Amadeus\ReferenceData\Location
- * @covers \Amadeus\ReferenceData\Locations
- * @covers \Amadeus\ReferenceData\Locations\Airports
- * @covers \Amadeus\ReferenceData\Locations\Hotel
- * @covers \Amadeus\ReferenceData\Locations\Hotels
- * @covers \Amadeus\ReferenceData\Locations\Hotels\ByCity
- * @covers \Amadeus\ReferenceData\Locations\Hotels\ByGeocode
- * @covers \Amadeus\ReferenceData\Locations\Hotels\ByHotels
- * @covers \Amadeus\ReferenceData\RecommendedLocations
- * @covers \Amadeus\Schedule
- * @covers \Amadeus\Schedule\Flights
- * @covers \Amadeus\Shopping
- * @covers \Amadeus\Shopping\Activities
- * @covers \Amadeus\Shopping\Activities\BySquare
- * @covers \Amadeus\Shopping\Activity
- * @covers \Amadeus\Shopping\Availability
- * @covers \Amadeus\Shopping\Availability\FlightAvailabilities
- * @covers \Amadeus\Shopping\FlightDates
- * @covers \Amadeus\Shopping\FlightDestinations
- * @covers \Amadeus\Shopping\FlightOffers
- * @covers \Amadeus\Shopping\FlightOffers\Pricing
- * @covers \Amadeus\Shopping\FlightOffers\Prediction
- * @covers \Amadeus\Shopping\HotelOffer
- * @covers \Amadeus\Shopping\HotelOffers
- * @covers \Amadeus\Travel
- * @covers \Amadeus\Travel\Predictions
- * @covers \Amadeus\Travel\Predictions\FlightDelay
+ * Class NamespaceTest
+ * @package Amadeus\Tests
  */
+#[CoversClass(AccessToken::class)]
+#[CoversClass(Activities::class)]
+#[CoversClass(Activity::class)]
+#[CoversClass(Airlines::class)]
+#[CoversClass(Airport::class)]
+#[CoversClass(Airport\DirectDestinations::class)]
+#[CoversClass(Airport\Predictions::class)]
+#[CoversClass(Airport\Predictions\OnTime::class)]
+#[CoversClass(Airports::class)]
+#[CoversClass(Amadeus::class)]
+#[CoversClass(AmadeusBuilder::class)]
+#[CoversClass(Availability::class)]
+#[CoversClass(BasicHTTPClient::class)]
+#[CoversClass(Booking::class)]
+#[CoversClass(Booking\FlightOrders::class)]
+#[CoversClass(Booking\HotelBookings::class)]
+#[CoversClass(ByCity::class)]
+#[CoversClass(ByGeocode::class)]
+#[CoversClass(ByHotels::class)]
+#[CoversClass(BySquare::class)]
+#[CoversClass(Configuration::class)]
+#[CoversClass(Diseases::class)]
+#[CoversClass(Diseases\Covid19AreaReport::class)]
+#[CoversClass(DutyOfCare::class)]
+#[CoversClass(EReputation::class)]
+#[CoversClass(FlightAvailabilities::class)]
+#[CoversClass(FlightDates::class)]
+#[CoversClass(FlightDelay::class)]
+#[CoversClass(FlightDestinations::class)]
+#[CoversClass(FlightOffers::class)]
+#[CoversClass(Flights::class)]
+#[CoversClass(Hotel::class)]
+#[CoversClass(HotelOffer::class)]
+#[CoversClass(HotelOffers::class)]
+#[CoversClass(EReputation\HotelSentiments::class)]
+#[CoversClass(Booking\HotelBookings::class)]
+#[CoversClass(Hotels::class)]
+#[CoversClass(Location::class)]
+#[CoversClass(Locations::class)]
+#[CoversClass(Prediction::class)]
+#[CoversClass(Predictions::class)]
+#[CoversClass(Pricing::class)]
+#[CoversClass(RecommendedLocations::class)]
+#[CoversClass(ReferenceData::class)]
+#[CoversClass(Resource::class)]
+#[CoversClass(Schedule::class)]
+#[CoversClass(Shopping::class)]
+#[CoversClass(Travel::class)]
 final class NamespaceTest extends TestCase
 {
     public function testAllNamespacesExist(): void

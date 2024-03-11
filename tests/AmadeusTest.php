@@ -6,15 +6,19 @@ namespace Amadeus\Tests;
 
 use Amadeus\Amadeus;
 use Amadeus\AmadeusBuilder;
+use Amadeus\Client\AccessToken;
 use Amadeus\Configuration;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use TypeError;
 
 /**
- * @covers \Amadeus\Amadeus
- * @covers \Amadeus\AmadeusBuilder
- * @covers \Amadeus\Configuration
+ * Class AmadeusTest
+ * @package Amadeus\Tests
  */
+#[CoversClass(AmadeusBuilder::class)]
+#[CoversClass(AccessToken::class)]
+#[CoversClass(Configuration::class)]
 final class AmadeusTest extends TestCase
 {
     public function testBuilder(): void

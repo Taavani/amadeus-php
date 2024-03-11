@@ -5,24 +5,28 @@ declare(strict_types=1);
 namespace Amadeus\Tests;
 
 use Amadeus\AmadeusBuilder;
+use Amadeus\Client\AccessToken;
 use Amadeus\Client\BasicHTTPClient;
 use Amadeus\Configuration;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Amadeus\AmadeusBuilder
- * @covers \Amadeus\Client\AccessToken
- * @covers \Amadeus\Client\BasicHTTPClient
- * @covers \Amadeus\Configuration
+ * Class AmadeusBuilderTest
+ * @package Amadeus\Tests
  */
+#[CoversClass(AmadeusBuilder::class)]
+#[CoversClass(AccessToken::class)]
+#[CoversClass(BasicHTTPClient::class)]
+#[CoversClass(Configuration::class)]
 final class AmadeusBuilderTest extends TestCase
 {
     private AmadeusBuilder $amadeusBuilder;
     private BasicHTTPClient $httpClient;
 
-    /**
-     * @Before
-     */
+    #[Before]
     public function setUp(): void
     {
         $configuration = new Configuration('id', 'secret');
@@ -37,7 +41,8 @@ final class AmadeusBuilderTest extends TestCase
             ->setTimeout(20);
     }
 
-    public function testInitialize(): void
+    #[Test]
+    public function initialize(): void
     {
         $configuration = $this->amadeusBuilder->getConfiguration();
         $this->assertTrue($configuration->isSsl());
@@ -47,7 +52,8 @@ final class AmadeusBuilderTest extends TestCase
         $this->assertEquals(20, $this->amadeusBuilder->getConfiguration()->getTimeout());
     }
 
-    public function testBuildWithProductionEnvironment(): void
+    #[Test]
+    public function buildWithProductionEnvironment(): void
     {
         $this->amadeusBuilder->setProductionEnvironment();
         $configuration = $this->amadeusBuilder->getConfiguration();
