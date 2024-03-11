@@ -6,12 +6,7 @@
 [![Discord](https://img.shields.io/discord/696822960023011329?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/cVrFBqx)
 
 Amadeus provides a rich set of APIs for the travel industry. For more details, check out the 
-[Amadeus for Developers Portal](https://developers.amadeus.com).
-
-## :warning: Important message :warning:
-
-:heavy_exclamation_mark: This SDK is maintained **by the developer community only**. The Amadeus for Developers team 
-doesn't support or maintain it. :heavy_exclamation_mark:
+[Amadeus for Developers Portal](https://developers.amadeus.com). This package is not officially supported by Amadeus.
 
 Jump To:
 * [Installation](#Installation)
