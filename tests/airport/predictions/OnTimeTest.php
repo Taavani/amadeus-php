@@ -7,35 +7,36 @@ namespace Amadeus\Tests\Airport;
 use Amadeus\Airport\Predictions\OnTime;
 use Amadeus\Amadeus;
 use Amadeus\Client\HTTPClient;
-use Amadeus\Client\Request;
 use Amadeus\Client\Response;
 use Amadeus\Exceptions\ClientException;
 use Amadeus\Exceptions\ResponseException;
 use Amadeus\Resources\OnTimePrediction;
+use Amadeus\Resources\Resource;
 use Amadeus\Tests\PHPUnitUtil;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
  * This test covers the endpoint and its related returned resources.
- * @covers \Amadeus\Airport\Predictions\OnTime
- *
- * @covers \Amadeus\Resources\Resource
- * @covers \Amadeus\Resources\OnTimePrediction
- *
- * @covers \Amadeus\Client\Response
- * @covers \Amadeus\Exceptions\ResponseException
- * @covers \Amadeus\Exceptions\ClientException
  *
  * @link https://developers.amadeus.com/self-service/category/air/api-doc/airport-on-time-performance/api-reference
  */
+#[
+    CoversClass(OnTime::class),
+    CoversClass(Resource::class),
+    CoversClass(OnTimePrediction::class),
+    CoversClass(Response::class),
+    CoversClass(ResponseException::class),
+    CoversClass(ClientException::class)
+]
 final class OnTimeTest extends TestCase
 {
     private Amadeus $amadeus;
     private HTTPClient $client;
 
-    /**
-     * @Before
-     */
+    #[Before]
     public function setUp(): void
     {
         // Mock an Amadeus with HTTPClient
@@ -47,7 +48,7 @@ final class OnTimeTest extends TestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws ResponseException|Exception
      */
     public function test_given_client_when_call_on_time_then_ok(): void
     {

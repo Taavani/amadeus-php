@@ -7,27 +7,27 @@ namespace Amadeus\Tests\Airport;
 use Amadeus\Airport\DirectDestinations;
 use Amadeus\Amadeus;
 use Amadeus\Client\HTTPClient;
-use Amadeus\Client\Request;
 use Amadeus\Client\Response;
 use Amadeus\Exceptions\ClientException;
 use Amadeus\Exceptions\ResponseException;
 use Amadeus\Resources\Destination;
+use Amadeus\Resources\Resource;
 use Amadeus\Tests\PHPUnitUtil;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
  * This test covers the endpoint and its related returned resources.
- * @covers \Amadeus\Airport\DirectDestinations
- *
- * @covers \Amadeus\Resources\Resource
- * @covers \Amadeus\Resources\Destination
- *
- * @covers \Amadeus\Client\Response
- * @covers \Amadeus\Exceptions\ResponseException
- * @covers \Amadeus\Exceptions\ClientException
  *
  * @link https://developers.amadeus.com/self-service/category/air/api-doc/airport-routes/api-reference
  */
+#[CoversClass(DirectDestinations::class)]
+#[CoversClass(Resource::class)]
+#[CoversClass(Destination::class)]
+#[CoversClass(Response::class)]
+#[CoversClass(ResponseException::class)]
+#[CoversClass(ClientException::class)]
 final class DirectDestinationsTest extends TestCase
 {
     private Amadeus $amadeus;
@@ -47,7 +47,7 @@ final class DirectDestinationsTest extends TestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws ResponseException|Exception
      */
     public function test_given_client_when_call_direct_destinations_then_ok(): void
     {
