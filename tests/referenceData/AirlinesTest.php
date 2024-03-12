@@ -11,6 +11,9 @@ use Amadeus\Exceptions\ResponseException;
 use Amadeus\ReferenceData\Airlines;
 use Amadeus\Resources\Airline;
 use Amadeus\Tests\PHPUnitUtil;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -22,6 +25,11 @@ use PHPUnit\Framework\TestCase;
  *
  * @link https://developers.amadeus.com/self-service/category/air/api-doc/airline-code-lookup/api-reference
  */
+#[
+    CoversClass(Airlines::class),
+    CoversClass(Airline::class),
+    CoversClass(Response::class),
+]
 final class AirlinesTest extends TestCase
 {
     private Amadeus $amadeus;
@@ -30,6 +38,7 @@ final class AirlinesTest extends TestCase
     /**
      * @Before
      */
+    #[Before]
     public function setUp(): void
     {
         // Mock an Amadeus with HTTPClient
@@ -41,7 +50,7 @@ final class AirlinesTest extends TestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws ResponseException|Exception
      */
     public function test_given_client_when_call_airlines_then_ok(): void
     {

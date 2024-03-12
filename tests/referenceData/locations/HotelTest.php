@@ -11,7 +11,12 @@ use Amadeus\Exceptions\ResponseException;
 use Amadeus\ReferenceData\Locations\Hotel;
 use Amadeus\Resources\GeoCode;
 use Amadeus\Resources\HotelAddress;
+use Amadeus\Resources\HotelNameAutocomplete;
+use Amadeus\Resources\Resource;
 use Amadeus\Tests\PHPUnitUtil;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -25,6 +30,14 @@ use PHPUnit\Framework\TestCase;
  *
  * @link https://developers.amadeus.com/self-service/category/hotel/api-doc/hotel-name-autocomplete/api-reference
  */
+#[
+    CoversClass(Hotel::class),
+    CoversClass(HotelAddress::class),
+    CoversClass(GeoCode::class),
+    CoversClass(HotelNameAutocomplete::class),
+    CoversClass(Resource::class)
+]
+
 final class HotelTest extends TestCase
 {
     private Amadeus $amadeus;
@@ -33,6 +46,7 @@ final class HotelTest extends TestCase
     /**
      * @Before
      */
+    #[Before]
     public function setUp(): void
     {
         // Mock an Amadeus with HTTPClient
@@ -44,7 +58,7 @@ final class HotelTest extends TestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws ResponseException|Exception
      */
     public function test_given_client_when_call_hotel_then_ok(): void
     {

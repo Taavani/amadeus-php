@@ -8,9 +8,13 @@ use Amadeus\Amadeus;
 use Amadeus\Client\HTTPClient;
 use Amadeus\Client\Response;
 use Amadeus\Exceptions\ResponseException;
+use Amadeus\ReferenceData\Location;
 use Amadeus\ReferenceData\Locations\Airports;
 use Amadeus\Resources\LocationDistance;
 use Amadeus\Tests\PHPUnitUtil;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -23,6 +27,12 @@ use PHPUnit\Framework\TestCase;
  *
  * @link https://developers.amadeus.com/self-service/category/air/api-doc/airport-nearest-relevant/api-reference
  */
+#[
+    CoversClass(Airports::class),
+    CoversClass(LocationDistance::class),
+    CoversClass(Response::class),
+    CoversClass(Location::class)
+]
 final class AirportsTest extends TestCase
 {
     private Amadeus $amadeus;
@@ -31,6 +41,7 @@ final class AirportsTest extends TestCase
     /**
      * @Before
      */
+    #[Before]
     public function setUp(): void
     {
         // Mock an Amadeus with HTTPClient
@@ -42,7 +53,7 @@ final class AirportsTest extends TestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws ResponseException|Exception
      */
     public function test_given_client_when_call_airports_then_ok(): void
     {

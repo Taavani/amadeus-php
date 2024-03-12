@@ -30,44 +30,48 @@ use Amadeus\Resources\Link;
 use Amadeus\Resources\MaskRestriction;
 use Amadeus\Resources\Transportation;
 use Amadeus\Tests\PHPUnitUtil;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
  * This test covers the endpoint and its related returned resources.
- * @covers \Amadeus\DutyOfCare\Diseases\Covid19AreaReport
- *
- * @covers \Amadeus\Resources\Area
- * @covers \Amadeus\Resources\AreaAccessRestriction
- * @covers \Amadeus\Resources\AreaPolicy
- * @covers \Amadeus\Resources\AreaRestriction
- * @covers \Amadeus\Resources\AreaVaccinated
- * @covers \Amadeus\Resources\Border
- * @covers \Amadeus\Resources\DatedQuarantineRestriction
- * @covers \Amadeus\Resources\DatedTracingApplicationRestriction
- * @covers \Amadeus\Resources\DeclarationDocuments
- * @covers \Amadeus\Resources\DiseaseAreaReport
- * @covers \Amadeus\Resources\DiseaseCase
- * @covers \Amadeus\Resources\DiseaseDataSources
- * @covers \Amadeus\Resources\DiseaseInfection
- * @covers \Amadeus\Resources\DiseaseTestingRestriction
- * @covers \Amadeus\Resources\DiseaseVaccination
- * @covers \Amadeus\Resources\EntryRestriction
- * @covers \Amadeus\Resources\ExitRestriction
- * @covers \Amadeus\Resources\Link
- * @covers \Amadeus\Resources\MaskRestriction
- * @covers \Amadeus\Resources\Resource
- * @covers \Amadeus\Resources\Transportation
  *
  * @link https://developers.amadeus.com/self-service/category/covid-19-and-travel-safety/api-doc/travel-restrictions/api-reference
  */
+#[
+    CoversClass(Covid19AreaReport::class),
+    CoversClass(Area::class),
+    CoversClass(AreaAccessRestriction::class),
+    CoversClass(AreaPolicy::class),
+    CoversClass(AreaRestriction::class),
+    CoversClass(AreaVaccinated::class),
+    CoversClass(Border::class),
+    CoversClass(DatedQuarantineRestriction::class),
+    CoversClass(DatedTracingApplicationRestriction::class),
+    CoversClass(DeclarationDocuments::class),
+    CoversClass(DiseaseAreaReport::class),
+    CoversClass(DiseaseCase::class),
+    CoversClass(DiseaseDataSources::class),
+    CoversClass(DiseaseInfection::class),
+    CoversClass(DiseaseTestingRestriction::class),
+    CoversClass(DiseaseVaccination::class),
+    CoversClass(EntryRestriction::class),
+    CoversClass(ExitRestriction::class),
+    CoversClass(Link::class),
+    CoversClass(MaskRestriction::class),
+    CoversClass(Transportation::class),
+    CoversClass(Response::class),
+    CoversClass(ResponseException::class)
+]
 final class Covid19AreaReportTest extends TestCase
 {
     private Amadeus $amadeus;
     private HTTPClient $client;
 
-    /**
-     * @Before
-     */
+    #[Before]
     public function setUp(): void
     {
         // Mock an Amadeus with HTTPClient
@@ -79,7 +83,7 @@ final class Covid19AreaReportTest extends TestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws ResponseException|Exception
      */
     public function test_given_client_when_call_covid_19_area_report_then_ok(): array
     {
@@ -115,6 +119,7 @@ final class Covid19AreaReportTest extends TestCase
      * @param array $fixtures
      * @depends test_given_client_when_call_covid_19_area_report_then_ok
      */
+    #[Depends("test_given_client_when_call_covid_19_area_report_then_ok")]
     public function test_returned_resource_given_client_when_call_covid_19_area_report_then_ok(array $fixtures): void
     {
         $data = $fixtures['data'];
@@ -226,8 +231,8 @@ final class Covid19AreaReportTest extends TestCase
 
     /**
      * @param array $fixtures
-     * @depends test_given_client_when_call_covid_19_area_report_then_ok
      */
+    #[Depends("test_given_client_when_call_covid_19_area_report_then_ok")]
     public function test_returned_resource2_given_client_when_call_covid_19_area_report_then_ok(array $fixtures): void
     {
         $data = $fixtures['data'];

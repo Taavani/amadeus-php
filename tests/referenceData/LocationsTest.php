@@ -16,6 +16,9 @@ use Amadeus\Resources\Links;
 use Amadeus\Resources\Location;
 use Amadeus\Resources\LocationAnalyticsTravelers;
 use Amadeus\Tests\PHPUnitUtil;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -38,6 +41,15 @@ use PHPUnit\Framework\TestCase;
  *
  * @link https://developers.amadeus.com/self-service/category/air/api-doc/airport-and-city-search/api-reference
  */
+#[
+    CoversClass(Locations::class),
+    CoversClass(Locations\Hotel::class),
+    CoversClass(Locations\Hotels::class),
+    CoversClass(Locations\Hotels\ByCity::class),
+    CoversClass(Locations\Hotels\ByGeocode::class),
+    CoversClass(Locations\Hotels\ByHotels::class),
+    CoversClass(Locations\Airports::class)
+]
 final class LocationsTest extends TestCase
 {
     private Amadeus $amadeus;
@@ -46,6 +58,7 @@ final class LocationsTest extends TestCase
     /**
      * @Before
      */
+    #[Before]
     public function setUp(): void
     {
         // Mock an Amadeus with HTTPClient
@@ -57,7 +70,7 @@ final class LocationsTest extends TestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws ResponseException|Exception
      */
     public function test_given_client_when_call_locations_then_ok(): void
     {

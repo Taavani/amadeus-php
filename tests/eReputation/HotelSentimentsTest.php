@@ -12,6 +12,9 @@ use Amadeus\Exceptions\ResponseException;
 use Amadeus\Resources\HotelSentiment;
 use Amadeus\Resources\HotelSentimentDetails;
 use Amadeus\Tests\PHPUnitUtil;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -23,6 +26,12 @@ use PHPUnit\Framework\TestCase;
  * @covers \Amadeus\Resources\HotelSentimentDetails
  * @link https://developers.amadeus.com/self-service/category/hotel/api-doc/hotel-ratings/api-reference
  */
+#[
+    CoversClass(HotelSentiments::class),
+    CoversClass(HotelSentiment::class),
+    CoversClass(HotelSentimentDetails::class),
+    CoversClass(Response::class),
+]
 final class HotelSentimentsTest extends TestCase
 {
     private Amadeus $amadeus;
@@ -31,6 +40,7 @@ final class HotelSentimentsTest extends TestCase
     /**
      * @Before
      */
+    #[Before]
     public function setUp(): void
     {
         // Mock an Amadeus with HTTPClient
@@ -42,7 +52,7 @@ final class HotelSentimentsTest extends TestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws ResponseException|Exception
      */
     public function test_given_client_when_call_hotel_sentiments_then_ok(): void
     {

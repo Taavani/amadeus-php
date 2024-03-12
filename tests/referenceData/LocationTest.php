@@ -10,6 +10,9 @@ use Amadeus\Client\Response;
 use Amadeus\Exceptions\ResponseException;
 use Amadeus\ReferenceData\Location;
 use Amadeus\Tests\PHPUnitUtil;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -19,6 +22,11 @@ use PHPUnit\Framework\TestCase;
  * @covers \Amadeus\Resources\Location
  * @covers \Amadeus\Resources\Resource
  */
+#[
+    CoversClass(Location::class),
+    CoversClass(Location::class),
+    CoversClass(Response::class),
+]
 final class LocationTest extends TestCase
 {
     private Amadeus $amadeus;
@@ -27,6 +35,7 @@ final class LocationTest extends TestCase
     /**
      * @Before
      */
+    #[Before]
     public function setUp(): void
     {
         // Mock an Amadeus with HTTPClient
@@ -38,7 +47,7 @@ final class LocationTest extends TestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws ResponseException|Exception
      */
     public function test_given_client_when_call_location_then_ok(): void
     {

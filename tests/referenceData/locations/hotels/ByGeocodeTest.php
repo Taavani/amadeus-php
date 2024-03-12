@@ -9,7 +9,15 @@ use Amadeus\Client\HTTPClient;
 use Amadeus\Client\Response;
 use Amadeus\Exceptions\ResponseException;
 use Amadeus\ReferenceData\Locations\Hotels\ByGeocode;
+use Amadeus\Resources\GeoCode;
+use Amadeus\Resources\Hotel;
+use Amadeus\Resources\HotelAddress;
+use Amadeus\Resources\HotelDistance;
+use Amadeus\Resources\Resource;
 use Amadeus\Tests\PHPUnitUtil;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -24,6 +32,14 @@ use PHPUnit\Framework\TestCase;
  *
  * @link https://developers.amadeus.com/self-service/category/hotel/api-doc/hotel-list/api-reference
  */
+#[
+    CoversClass(ByGeocode::class),
+    CoversClass(Resource::class),
+    CoversClass(Hotel::class),
+    CoversClass(GeoCode::class),
+    CoversClass(HotelAddress::class),
+    CoversClass(HotelDistance::class)
+]
 final class ByGeocodeTest extends TestCase
 {
     private Amadeus $amadeus;
@@ -32,6 +48,7 @@ final class ByGeocodeTest extends TestCase
     /**
      * @Before
      */
+    #[Before]
     public function setUp(): void
     {
         // Mock an Amadeus with HTTPClient
@@ -43,7 +60,7 @@ final class ByGeocodeTest extends TestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws ResponseException|Exception
      */
     public function test_given_client_when_call_hotels_by_geocode_then_ok(): void
     {

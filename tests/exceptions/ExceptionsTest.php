@@ -11,6 +11,7 @@ use Amadeus\Exceptions\NotFoundException;
 use Amadeus\Exceptions\ResponseException;
 use Amadeus\Exceptions\ServerException;
 use Amadeus\Client\Response;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -22,6 +23,15 @@ use PHPUnit\Framework\TestCase;
  * @covers \Amadeus\Exceptions\ServerException
  * @covers \Amadeus\Exceptions\NetworkException
  */
+#[
+    CoversClass(Response::class),
+    CoversClass(ResponseException::class),
+    CoversClass(AuthenticationException::class),
+    CoversClass(ClientException::class),
+    CoversClass(NotFoundException::class),
+    CoversClass(ServerException::class),
+    CoversClass(NetworkException::class)
+]
 final class ExceptionsTest extends TestCase
 {
     private string $dateFormat = "F j, Y, g:i a";
