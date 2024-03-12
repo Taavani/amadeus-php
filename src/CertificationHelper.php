@@ -40,6 +40,29 @@ class CertificationHelper
         $this->amadeus = $amadeus;
     }
 
+    public function saveSuccess( Response $response, string $title, \stdClass $params ): void
+    {
+        if ($response->getRequest()) {
+            // Save request file for certification purposes
+            $this->saveRequest(
+                $title,
+                $response,
+                json_encode($params, JSON_PRETTY_PRINT)
+            );
+            // Save response file for certification purposes
+            $this->saveResponse(
+                $title,
+                $response,
+                json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT)
+            );
+        }
+    }
+
+    public function saveError(ResponseException $responseException, string $title, array $params): void
+    {
+        $this->saveErrorResponse($title, json_encode($params, JSON_PRETTY_PRINT));
+    }
+
     /**
      * This function is intended to be used to save request messages.
      *
@@ -50,16 +73,18 @@ class CertificationHelper
      */
     public function saveRequest(string $fileTitle, Response $response, string $content): void
     {
-        $this->saveMessage(
-            $fileTitle . ' RQ.json',
-            $response->getRequest()->getVerb() . ' ' . $response->getRequest()->getUri() .
-            PHP_EOL .
-            PHP_EOL .
-            implode(PHP_EOL, $response->getRequest()->getHeaders()) .
-            PHP_EOL .
-            PHP_EOL .
-            $content
-        );
+        if ($response->getRequest()) {
+            $this->saveMessage(
+                $fileTitle . ' RQ.json',
+                $response->getRequest()->getVerb() . ' ' . $response->getRequest()->getUri() .
+                PHP_EOL .
+                PHP_EOL .
+                implode(PHP_EOL, $response->getRequest()->getHeaders()) .
+                PHP_EOL .
+                PHP_EOL .
+                $content
+            );
+        }
     }
 
     /**
@@ -70,16 +95,18 @@ class CertificationHelper
      * @param string $content
      * @return void
      */
-    public function saveResponse(string $fileTitle, Response  $response, string $content): void
+    public function saveResponse(string $fileTitle, Response $response, string $content): void
     {
-        $this->saveMessage(
-            $fileTitle . ' RS.json',
-            $response->getRequest()->getVerb() . ' ' . $response->getRequest()->getUri() .
-            PHP_EOL .
-            PHP_EOL .
-            $response->getHeaders() .
-            $content
-        );
+        if ($response->getRequest()) {
+            $this->saveMessage(
+                $fileTitle . ' RS.json',
+                $response->getRequest()->getVerb() . ' ' . $response->getRequest()->getUri() .
+                PHP_EOL .
+                PHP_EOL .
+                $response->getHeaders() .
+                $content
+            );
+        }
     }
 
     /**

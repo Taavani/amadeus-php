@@ -173,7 +173,8 @@ class FlightOrders
 
             $this
                 ->certificationHelper
-                ->saveErrorResponse('Flight Order Issuance ERROR',
+                ->saveErrorResponse(
+                    'Flight Order Issuance ERROR',
                     $exception
                 );
 
@@ -204,32 +205,19 @@ class FlightOrders
                 $params
             );
 
-            // Save request file for certification purposes
-            $this->certificationHelper->saveRequest(
-                'Flight Create Order',
+            $this->certificationHelper->saveSuccess(
                 $response,
-                json_encode(json_decode($body), JSON_PRETTY_PRINT)
-            );
-
-            // Save request file for certification purposes
-            $this->certificationHelper->saveResponse(
                 'Flight Create Order',
-                $response,
-                json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT)
+                json_decode($body)
             );
 
             return Resource::fromObject($response, FlightOrder::class);
         } catch (ResponseException $exception) {
-            $this->certificationHelper->saveErrorRequest(
+            $this->certificationHelper->saveError(
+                $exception,
                 'Flight Create Order Error',
-                json_encode(json_decode($body), JSON_PRETTY_PRINT)
+                json_decode($body)
             );
-
-            $this->certificationHelper
-                ->saveErrorResponse(
-                    'Flight Create Order Error',
-                    $exception
-                );
 
             throw $exception;
         }

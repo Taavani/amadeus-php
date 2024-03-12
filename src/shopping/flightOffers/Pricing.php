@@ -63,32 +63,12 @@ class Pricing
                 $body,
                 $params
             );
-
-            // Save request file for certification purposes
-            $this->certificationHelper->saveRequest(
-                'Flight Offer Price',
-                $response,
-                json_encode(json_decode($body), JSON_PRETTY_PRINT)
-            );
-
-            // Save request file for certification purposes
-            $this->certificationHelper->saveResponse(
-                'Flight Offer Price',
-                $response,
-                json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT)
-            );
+            $this->certificationHelper->saveSuccess($response, 'Flight Offer Price', json_decode($body));
 
             return Resource::fromObject($response, FlightOfferPricingOutput::class);
 
         } catch (ResponseException $exception) {
-            $this->certificationHelper->saveErrorRequest(
-                'Flight Offer Price Error',
-                json_encode(json_decode($body), JSON_PRETTY_PRINT)
-            );
-            $this->certificationHelper->saveErrorResponse(
-                'Flight Offer Price Error',
-                $exception
-            );
+            $this->certificationHelper->saveError($exception, 'Flight Offer Price Error', json_decode($body));
             throw $exception;
         }
     }

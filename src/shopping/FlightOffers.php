@@ -80,7 +80,7 @@ class FlightOffers
      *  "/v2/shopping/flight-offers/upsell" endpoints.
      * @return Upsell
      */
-    public function getUpsell():  Upsell
+    public function getUpsell(): Upsell
     {
         return $this->upsell;
     }
@@ -119,22 +119,11 @@ class FlightOffers
                 $params
             );
 
-            // Save request file for certification purposes
-            $this->certificationHelper->saveRequest(
-                'Flight Offer Search',
-                $response,
-                json_encode($params, JSON_PRETTY_PRINT)
-            );
-            // Save response file for certification purposes
-            $this->certificationHelper->saveResponse(
-                'Flight Offer Search',
-                $response,
-                json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT)
-            );
+            $this->certificationHelper->saveSuccess($response, 'Flight Offer Search', (object) $params);
 
             return Resource::fromArray($response, FlightOffer::class);
         } catch (ResponseException $exception) {
-            $this->certificationHelper->saveErrorResponse('Flight Offer Search Error', json_encode($params, JSON_PRETTY_PRINT));
+            $this->certificationHelper->saveError($exception, 'Flight Offer Search Error', $params);
             throw $exception;
         }
 
@@ -166,23 +155,12 @@ class FlightOffers
                 $body
             );
 
-            // Save request file for certification purposes
-            $this->certificationHelper->saveRequest(
-                'Flight Offer Search',
-                $response,
-                json_encode(json_decode($body), JSON_PRETTY_PRINT)
-            );
-            // Save response file for certification purposes
-            $this->certificationHelper->saveResponse(
-                'Flight Offer Search',
-                $response,
-                json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT)
-            );
+            $this->certificationHelper->saveSuccess($response, 'Flight Offer Search', (object) json_decode($body));
 
             return Resource::fromArray($response, FlightOffer::class);
 
         } catch (ResponseException $exception) {
-            $this->certificationHelper->saveErrorResponse('Flight Offer Search Error', $exception);
+            $this->certificationHelper->saveError($exception,'Flight Offer Search Error', json_decode($body));
             throw $exception;
         }
     }

@@ -21,8 +21,8 @@ use Amadeus\Resources\Resource;
  *      $amadeus->getShopping()->getFlightOffers()->getUpsell();
  *
  */
-class Upsell {
-
+class Upsell
+{
     private Amadeus $amadeus;
 
     private CertificationHelper $certificationHelper;
