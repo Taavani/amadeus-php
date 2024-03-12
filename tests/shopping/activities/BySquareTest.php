@@ -10,6 +10,9 @@ use Amadeus\Client\Response;
 use Amadeus\Exceptions\ResponseException;
 use Amadeus\Shopping\Activities\BySquare;
 use Amadeus\Tests\PHPUnitUtil;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,6 +23,11 @@ use PHPUnit\Framework\TestCase;
  * @covers \Amadeus\Resources\Resource
  * @link https://developers.amadeus.com/self-service/category/destination-content/api-doc/tours-and-activities/api-reference
  */
+#[
+    CoversClass(BySquare::class),
+    CoversClass(\Amadeus\Resources\Activity::class),
+    CoversClass(\Amadeus\Resources\Resource::class)
+]
 final class BySquareTest extends TestCase
 {
     private Amadeus $amadeus;
@@ -28,6 +36,7 @@ final class BySquareTest extends TestCase
     /**
      * @Before
      */
+    #[Before]
     public function setUp(): void
     {
         // Mock an Amadeus with HTTPClient
@@ -39,7 +48,7 @@ final class BySquareTest extends TestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws ResponseException|Exception
      */
     public function test_given_client_when_call_activities_by_square_then_ok(): void
     {

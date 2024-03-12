@@ -11,8 +11,12 @@ use Amadeus\Exceptions\ResponseException;
 use Amadeus\Resources\FlightDestination;
 use Amadeus\Resources\FlightDestinationLinks;
 use Amadeus\Resources\FlightPrice;
+use Amadeus\Resources\Resource;
 use Amadeus\Shopping\FlightDestinations;
 use Amadeus\Tests\PHPUnitUtil;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -25,6 +29,13 @@ use PHPUnit\Framework\TestCase;
  * @covers \Amadeus\Resources\Resource
  * @link https://developers.amadeus.com/self-service/category/air/api-doc/flight-inspiration-search/api-reference
  */
+#[
+    CoversClass(FlightDestinations::class),
+    CoversClass(FlightDestination::class),
+    CoversClass(FlightPrice::class),
+    CoversClass(FlightDestinationLinks::class),
+    CoversClass(Resource::class)
+]
 final class FlightDestinationsTest extends TestCase
 {
     private Amadeus $amadeus;
@@ -33,6 +44,7 @@ final class FlightDestinationsTest extends TestCase
     /**
      * @Before
      */
+    #[Before]
     public function setUp(): void
     {
         // Mock an Amadeus with HTTPClient
@@ -44,7 +56,7 @@ final class FlightDestinationsTest extends TestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws ResponseException|Exception
      */
     public function test_given_client_when_call_flight_destinations_then_ok(): void
     {

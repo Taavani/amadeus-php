@@ -29,8 +29,13 @@ use Amadeus\Resources\HotelProductRateFamily;
 use Amadeus\Resources\HotelProductRoomDetails;
 use Amadeus\Resources\Markup;
 use Amadeus\Resources\QualifiedFreeText;
+use Amadeus\Resources\Resource;
 use Amadeus\Shopping\HotelOffer;
 use Amadeus\Tests\PHPUnitUtil;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -63,6 +68,31 @@ use PHPUnit\Framework\TestCase;
  *
  * @link https://developers.amadeus.com/self-service/category/hotel/api-doc/hotel-search/api-reference
  */
+#[
+    CoversClass(HotelOffer::class),
+    CoversClass(Resource::class),
+    CoversClass(HotelOffers::class),
+    CoversClass(HotelContent::class),
+    CoversClass(HotelOfferAveragePrice::class),
+    CoversClass(HotelOfferTax::class),
+    CoversClass(HotelProductCancellationPolicy::class),
+    CoversClass(HotelProductCheckInOutPolicy::class),
+    CoversClass(HotelProductCommission::class),
+    CoversClass(HotelProductDepositPolicy::class),
+    CoversClass(HotelProductEstimatedRoomType::class),
+    CoversClass(HotelProductGuaranteePolicy::class),
+    CoversClass(HotelProductGuests::class),
+    CoversClass(HotelProductHoldPolicy::class),
+    CoversClass(HotelProductHotelPrice::class),
+    CoversClass(HotelProductPaymentPolicy::class),
+    CoversClass(HotelProductPolicyDetails::class),
+    CoversClass(HotelProductPriceVariation::class),
+    CoversClass(HotelProductPriceVariations::class),
+    CoversClass(HotelProductRateFamily::class),
+    CoversClass(HotelProductRoomDetails::class),
+    CoversClass(Markup::class),
+    CoversClass(QualifiedFreeText::class)
+]
 final class HotelOfferTest extends TestCase
 {
     private Amadeus $amadeus;
@@ -71,6 +101,7 @@ final class HotelOfferTest extends TestCase
     /**
      * @Before
      */
+    #[Before]
     public function setUp(): void
     {
         // Mock an Amadeus with HTTPClient
@@ -82,7 +113,7 @@ final class HotelOfferTest extends TestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws ResponseException|Exception
      */
     public function test_given_client_when_call_hotel_offer_then_ok(): array
     {
@@ -117,6 +148,7 @@ final class HotelOfferTest extends TestCase
      * @param array $fixtures
      * @depends test_given_client_when_call_hotel_offer_then_ok
      */
+    #[depends("test_given_client_when_call_hotel_offer_then_ok")]
     public function test_returned_resource_given_client_when_call_hotel_offer_then_ok(array $fixtures): void
     {
         $data = $fixtures['data'];
@@ -304,6 +336,7 @@ final class HotelOfferTest extends TestCase
      * @param array $fixtures
      * @depends test_given_client_when_call_hotel_offer_then_ok
      */
+    #[depends("test_given_client_when_call_hotel_offer_then_ok")]
     public function test_returned_resource2_given_client_when_call_hotel_offer_then_ok(array $fixtures): void
     {
         $data = $fixtures['data'];

@@ -11,8 +11,12 @@ use Amadeus\Exceptions\ResponseException;
 use Amadeus\Resources\FlightDate;
 use Amadeus\Resources\FlightDateLinks;
 use Amadeus\Resources\FlightPrice;
+use Amadeus\Resources\Resource;
 use Amadeus\Shopping\FlightDates;
 use Amadeus\Tests\PHPUnitUtil;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -26,6 +30,13 @@ use PHPUnit\Framework\TestCase;
  *
  * @link https://developers.amadeus.com/self-service/category/air/api-doc/flight-cheapest-date-search/api-reference
  */
+#[
+    CoversClass(FlightDates::class),
+    CoversClass(FlightDate::class),
+    CoversClass(FlightPrice::class),
+    CoversClass(FlightDateLinks::class),
+    CoversClass(Resource::class)
+]
 final class FlightDatesTest extends TestCase
 {
     private Amadeus $amadeus;
@@ -34,6 +45,7 @@ final class FlightDatesTest extends TestCase
     /**
      * @Before
      */
+    #[Before]
     public function setUp(): void
     {
         // Mock an Amadeus with HTTPClient
@@ -45,7 +57,7 @@ final class FlightDatesTest extends TestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws ResponseException|Exception
      */
     public function test_given_client_when_call_flight_dates_then_ok(): void
     {

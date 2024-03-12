@@ -15,6 +15,9 @@ use Amadeus\Resources\Resource;
 use Amadeus\Resources\TravelerElement;
 use Amadeus\Shopping\FlightOffers\Pricing;
 use Amadeus\Tests\PHPUnitUtil;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -29,6 +32,14 @@ use PHPUnit\Framework\TestCase;
  *
  * @link https://developers.amadeus.com/self-service/category/air/api-doc/flight-offers-price/api-reference
  */
+#[
+    CoversClass(Pricing::class),
+    CoversClass(FlightOfferPricingOutput::class),
+    CoversClass(FlightOffer::class),
+    CoversClass(FlightPayment::class),
+    CoversClass(TravelerElement::class),
+    CoversClass(Resource::class)
+]
 final class PricingTest extends TestCase
 {
     private Amadeus $amadeus;
@@ -37,6 +48,7 @@ final class PricingTest extends TestCase
     /**
      * @Before
      */
+    #[Before]
     public function setUp(): void
     {
         // Mock an Amadeus with HTTPClient
@@ -48,7 +60,7 @@ final class PricingTest extends TestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws ResponseException|Exception
      */
     public function test_given_client_when_call_flight_pricing_then_ok(): void
     {
@@ -108,7 +120,7 @@ final class PricingTest extends TestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws ResponseException|Exception
      */
     public function test_given_client_when_call_flight_pricing_with_optional_params_then_ok(): void
     {

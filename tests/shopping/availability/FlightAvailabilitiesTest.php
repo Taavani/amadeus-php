@@ -19,6 +19,10 @@ use Amadeus\Resources\OperatingFlight;
 use Amadeus\Resources\FlightTourAllotment;
 use Amadeus\Shopping\Availability\FlightAvailabilities;
 use Amadeus\Tests\PHPUnitUtil;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -38,6 +42,19 @@ use PHPUnit\Framework\TestCase;
  *
  * @link https://developers.amadeus.com/self-service/category/air/api-doc/flight-availabilities-search/api-reference
  */
+#[
+    CoversClass(FlightAvailabilities::class),
+    CoversClass(FlightAvailability::class),
+    CoversClass(FlightExtendedSegment::class),
+    CoversClass(FlightAvailabilityClass::class),
+    CoversClass(FlightTourAllotment::class),
+    CoversClass(Co2Emission::class),
+    CoversClass(FlightEndpoint::class),
+    CoversClass(AircraftEquipment::class),
+    CoversClass(OperatingFlight::class),
+    CoversClass(FlightStop::class),
+    CoversClass(Resource::class)
+]
 final class FlightAvailabilitiesTest extends TestCase
 {
     private Amadeus $amadeus;
@@ -46,6 +63,7 @@ final class FlightAvailabilitiesTest extends TestCase
     /**
      * @Before
      */
+    #[Before]
     public function setUp(): void
     {
         // Mock an Amadeus with HTTPClient
@@ -57,7 +75,7 @@ final class FlightAvailabilitiesTest extends TestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws ResponseException|Exception
      */
     public function test_given_client_when_call_flight_availabilities_then_ok(): array
     {
@@ -96,6 +114,7 @@ final class FlightAvailabilitiesTest extends TestCase
      * @param array $fixtures
      * @depends test_given_client_when_call_flight_availabilities_then_ok
      */
+    #[depends("test_given_client_when_call_flight_availabilities_then_ok")]
     public function test_returned_resource_given_client_when_call_flight_availabilities_then_ok(array $fixtures): void
     {
         $data = $fixtures['data'];

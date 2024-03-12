@@ -9,8 +9,12 @@ use Amadeus\Exceptions\ResponseException;
 use Amadeus\Resources\SeatMap;
 use Amadeus\Shopping\SeatMaps;
 use Amadeus\Tests\PHPUnitUtil;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
+#[coversClass(\Amadeus\Shopping\SeatMaps::class)]
 class SeatMapTest extends TestCase
 {
     private $amadeus;
@@ -20,6 +24,7 @@ class SeatMapTest extends TestCase
     /**
      * @before
      */
+    #[Before]
     public function setUp(): void
     {
         // Mock an Amadeus with HTTPClient
@@ -31,10 +36,9 @@ class SeatMapTest extends TestCase
     }
 
     /**
-     * @covers \Amadeus\Shopping\SeatMaps
      *
      * @return void
-     * @throws ResponseException
+     * @throws ResponseException|Exception
      */
     public function test_get_seatmap_success()
     {
@@ -68,10 +72,9 @@ class SeatMapTest extends TestCase
     }
 
     /**
-     * @covers \Amadeus\Shopping\SeatMaps
      *
      * @return void
-     * @throws ResponseException
+     * @throws ResponseException|Exception
      */
     public function test_post_seatmap_success()
     {

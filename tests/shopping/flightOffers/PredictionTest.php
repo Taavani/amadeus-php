@@ -13,6 +13,9 @@ use Amadeus\Resources\FlightOffer;
 use Amadeus\Resources\Resource;
 use Amadeus\Shopping\FlightOffers\Prediction;
 use Amadeus\Tests\PHPUnitUtil;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -23,6 +26,11 @@ use PHPUnit\Framework\TestCase;
  * @covers \Amadeus\Resources\FlightOffer
  * @link https://developers.amadeus.com/self-service/category/air/api-doc/flight-choice-prediction/api-reference
  */
+#[
+    CoversClass(Prediction::class),
+    CoversClass(FlightOffer::class),
+    CoversClass(Resource::class)
+]
 final class PredictionTest extends TestCase
 {
     private Amadeus $amadeus;
@@ -31,6 +39,7 @@ final class PredictionTest extends TestCase
     /**
      * @Before
      */
+    #[Before]
     public function setUp(): void
     {
         // Mock an Amadeus with HTTPClient
@@ -42,7 +51,7 @@ final class PredictionTest extends TestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws ResponseException|Exception
      */
     public function test_given_client_when_call_flight_choice_prediction_then_ok(): void
     {

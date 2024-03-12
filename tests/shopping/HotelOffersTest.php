@@ -10,8 +10,12 @@ use Amadeus\Client\Response;
 use Amadeus\Exceptions\ResponseException;
 use Amadeus\Resources\HotelContent;
 use Amadeus\Resources\HotelOffer;
+use Amadeus\Resources\Resource;
 use Amadeus\Shopping\HotelOffers;
 use Amadeus\Tests\PHPUnitUtil;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -25,6 +29,12 @@ use PHPUnit\Framework\TestCase;
  *
  * @link https://developers.amadeus.com/self-service/category/hotel/api-doc/hotel-search/api-reference
  */
+#[
+    CoversClass(HotelOffers::class),
+    CoversClass(HotelContent::class),
+    CoversClass(HotelOffer::class),
+    CoversClass(Resource::class)
+]
 final class HotelOffersTest extends TestCase
 {
     private Amadeus $amadeus;
@@ -33,6 +43,7 @@ final class HotelOffersTest extends TestCase
     /**
      * @Before
      */
+    #[Before]
     public function setUp(): void
     {
         // Mock an Amadeus with HTTPClient
@@ -44,7 +55,7 @@ final class HotelOffersTest extends TestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws ResponseException|Exception
      */
     public function test_given_client_when_call_hotel_offers_then_ok(): void
     {

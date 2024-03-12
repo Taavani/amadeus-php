@@ -9,6 +9,7 @@ use Amadeus\Client\HTTPClient;
 use Amadeus\Client\Response;
 use Amadeus\Exceptions\ResponseException;
 use Amadeus\Resources\FlightBaggageAllowance;
+use Amadeus\Resources\FlightExtendedSegment;
 use Amadeus\Resources\FlightFareDetailsBySegment;
 use Amadeus\Resources\FlightFee;
 use Amadeus\Resources\FlightOffer;
@@ -17,7 +18,12 @@ use Amadeus\Resources\FlightPrice;
 use Amadeus\Resources\FlightPricingOptions;
 use Amadeus\Resources\TravelerPricing;
 use Amadeus\Shopping\FlightOffers;
+use Amadeus\Shopping\FlightOffers\Prediction;
+use Amadeus\Shopping\FlightOffers\Pricing;
 use Amadeus\Tests\PHPUnitUtil;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -39,6 +45,20 @@ use PHPUnit\Framework\TestCase;
  *
  * @link https://developers.amadeus.com/self-service/category/air/api-doc/flight-offers-search/api-reference
  */
+#[
+    CoversClass(FlightOffers::class),
+    CoversClass(Pricing::class),
+    CoversClass(Prediction::class),
+    CoversClass(FlightOffer::class),
+    CoversClass(FlightItineraries::class),
+    CoversClass(FlightPrice::class),
+    CoversClass(FlightFee::class),
+    CoversClass(FlightPricingOptions::class),
+    CoversClass(TravelerPricing::class),
+    CoversClass(FlightFareDetailsBySegment::class),
+    CoversClass(FlightBaggageAllowance::class),
+    CoversClass(FlightExtendedSegment::class)
+]
 final class FlightOffersTest extends TestCase
 {
     private Amadeus $amadeus;
@@ -47,6 +67,7 @@ final class FlightOffersTest extends TestCase
     /**
      * @Before
      */
+    #[Before]
     public function setUp(): void
     {
         // Mock an Amadeus with HTTPClient
@@ -58,7 +79,7 @@ final class FlightOffersTest extends TestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws ResponseException|Exception
      */
     public function test_given_client_when_call_flight_offers_then_ok(): void
     {
