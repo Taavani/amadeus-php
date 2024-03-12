@@ -18,8 +18,12 @@ use Amadeus\Resources\FlightPoint;
 use Amadeus\Resources\FlightPointArrival;
 use Amadeus\Resources\FlightPointDeparture;
 use Amadeus\Resources\FlightPointTiming;
+use Amadeus\Resources\Resource;
 use Amadeus\Schedule\Flights;
 use Amadeus\Tests\PHPUnitUtil;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -37,10 +41,23 @@ use PHPUnit\Framework\TestCase;
  * @covers \Amadeus\Resources\FlightPointArrival
  * @covers \Amadeus\Resources\FlightPointDeparture
  * @covers \Amadeus\Resources\FlightPointTiming
- * @covers \Amadeus\Schedule\Flights
  *
  * @link https://developers.amadeus.com/self-service/category/air/api-doc/on-demand-flight-status/api-reference
  */
+#[
+    CoversClass(Flights::class),
+    CoversClass(Resource::class),
+    CoversClass(AircraftEquipment::class),
+    CoversClass(DatedFlight::class),
+    CoversClass(DatedFlightLeg::class),
+    CoversClass(DatedFlightSegment::class),
+    CoversClass(DatedFlightSegmentPartnership::class),
+    CoversClass(FlightDesignator::class),
+    CoversClass(FlightPoint::class),
+    CoversClass(FlightPointArrival::class),
+    CoversClass(FlightPointDeparture::class),
+    CoversClass(FlightPointTiming::class)
+]
 final class FlightsTest extends TestCase
 {
     private Amadeus $amadeus;
@@ -49,6 +66,7 @@ final class FlightsTest extends TestCase
     /**
      * @Before
      */
+    #[Before]
     public function setUp(): void
     {
         // Mock an Amadeus with HTTPClient
@@ -60,7 +78,7 @@ final class FlightsTest extends TestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws ResponseException|Exception
      */
     public function test_given_client_when_call_flights_then_ok(): void
     {

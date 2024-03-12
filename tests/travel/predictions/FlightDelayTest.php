@@ -9,8 +9,12 @@ use Amadeus\Client\HTTPClient;
 use Amadeus\Client\Response;
 use Amadeus\Exceptions\ResponseException;
 use Amadeus\Resources\DelayPrediction;
+use Amadeus\Resources\Resource;
 use Amadeus\Tests\PHPUnitUtil;
 use Amadeus\Travel\Predictions\FlightDelay;
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -22,6 +26,11 @@ use PHPUnit\Framework\TestCase;
  *
  * @link https://developers.amadeus.com/self-service/category/air/api-doc/flight-delay-prediction/api-reference
  */
+#[
+    CoversClass(FlightDelay::class),
+    CoversClass(Resource::class),
+    CoversClass(DelayPrediction::class)
+]
 final class FlightDelayTest extends TestCase
 {
     private Amadeus $amadeus;
@@ -30,6 +39,7 @@ final class FlightDelayTest extends TestCase
     /**
      * @Before
      */
+    #[Before]
     public function setUp(): void
     {
         // Mock an Amadeus with HTTPClient
@@ -41,7 +51,7 @@ final class FlightDelayTest extends TestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws ResponseException|Exception
      */
     public function test_given_client_when_call_flight_delay_then_ok(): void
     {

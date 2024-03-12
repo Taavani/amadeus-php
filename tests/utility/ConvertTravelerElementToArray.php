@@ -8,6 +8,8 @@ use Amadeus\Client\Response;
 use Amadeus\Resources\Resource;
 use Amadeus\Resources\TravelerElement;
 use Amadeus\Tests\PHPUnitUtil;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -15,6 +17,9 @@ use PHPUnit\Framework\TestCase;
  *
  * @covers \Amadeus\Resources\TravelerElement::__toArray()
  */
+#[
+    CoversClass(TravelerElement::class)
+]
 class ConvertTravelerElementToArray extends TestCase
 {
     public function setUp(): void
@@ -30,9 +35,8 @@ class ConvertTravelerElementToArray extends TestCase
     /**
      * This test covers the utility function toArray on the class TravelerElement.
      *
-     * @covers \Amadeus\Resources\TravelerElement::__toArray()
-     *
      * @return void
+     * @throws Exception
      */
     public function test_convert_traveler_element_to_array()
     {
