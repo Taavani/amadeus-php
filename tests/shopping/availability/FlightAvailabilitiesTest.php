@@ -17,6 +17,7 @@ use Amadeus\Resources\FlightEndpoint;
 use Amadeus\Resources\FlightStop;
 use Amadeus\Resources\OperatingFlight;
 use Amadeus\Resources\FlightTourAllotment;
+use Amadeus\Resources\Resource;
 use Amadeus\Shopping\Availability\FlightAvailabilities;
 use Amadeus\Tests\PHPUnitUtil;
 use PHPUnit\Framework\Attributes\Before;

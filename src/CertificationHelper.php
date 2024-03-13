@@ -40,7 +40,7 @@ class CertificationHelper
         $this->amadeus = $amadeus;
     }
 
-    public function saveSuccess( Response $response, string $title, \stdClass $params ): void
+    public function saveSuccess(Response $response, string $title, \stdClass $params): void
     {
         if ($response->getRequest()) {
             // Save request file for certification purposes

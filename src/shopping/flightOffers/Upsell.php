@@ -60,27 +60,12 @@ class Upsell
                 $params
             );
 
-            // Save request file for certification purposes
-            $this->certificationHelper->saveRequest(
-                'Flight Offer Upsell',
-                $response,
-                json_encode(json_decode($body), JSON_PRETTY_PRINT)
-            );
-
-            // Save request file for certification purposes
-            $this->certificationHelper->saveResponse(
-                'Flight Offer Upsell',
-                $response,
-                json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT)
-            );
+            $this->certificationHelper->saveSuccess($response,'Flight Offer Upsell', json_decode($body));
 
             return Resource::fromArray($response, FlightOffer::class);
 
         } catch (ResponseException $exception) {
-            $this->certificationHelper->saveErrorRequest(
-                'Flight Offer Upsell Error',
-                json_encode(json_decode($body), JSON_PRETTY_PRINT)
-            );
+            $this->certificationHelper->saveError($exception, 'Flight Offer Upsell Error', json_decode($body));
 
             $this->certificationHelper->saveErrorResponse(
                 'Flight Offer Upsell Error',
