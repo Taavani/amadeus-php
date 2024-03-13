@@ -15,8 +15,7 @@ class Constants
         '/v2/shopping/flight-offers',
         '/v1/shopping/seatmaps',
         '/v1/shopping/availability/flight-availabilities',
-        '/v2/shopping/flight-offers/prediction',
-        '/v1/shopping/flight-offers/upselling'
+        '/v2/shopping/flight-offers/prediction'
     );
 
     public const HTTPS = "https";

@@ -65,6 +65,7 @@ class Upsell
             return Resource::fromArray($response, FlightOffer::class);
 
         } catch (ResponseException $exception) {
+
             $this->certificationHelper->saveError($exception, 'Flight Offer Upsell Error', json_decode($body));
 
             $this->certificationHelper->saveErrorResponse(
