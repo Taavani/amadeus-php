@@ -21,6 +21,7 @@ class Resource
         $resource = new $class();
         foreach ($data as $key => $value) {
             $resource->__set($key, $value);
+            $resource->dictionary = $response->getDictionary();
         }
 
         $resource->response = $response;
