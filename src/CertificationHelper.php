@@ -60,7 +60,7 @@ class CertificationHelper
 
     public function saveError(ResponseException $responseException, string $title, array $params): void
     {
-        $this->saveErrorResponse($title, json_encode($params, JSON_PRETTY_PRINT));
+        $this->saveErrorResponse($title, $responseException, json_encode($params, JSON_PRETTY_PRINT));
     }
 
     /**
@@ -128,7 +128,7 @@ class CertificationHelper
      * @param ResponseException $content
      * @return void
      */
-    public function saveErrorResponse(string $fileTitle, ResponseException $content): void
+    public function saveErrorResponse(string $fileTitle, ResponseException $content, string $body): void
     {
         $this->saveMessage(
             $fileTitle . ' RS.json',
@@ -136,6 +136,9 @@ class CertificationHelper
             . PHP_EOL
             . PHP_EOL
             . $content->getMessage()
+            . PHP_EOL
+            . PHP_EOL
+            . $body
         );
     }
 

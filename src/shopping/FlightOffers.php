@@ -160,7 +160,7 @@ class FlightOffers
             return Resource::fromArray($response, FlightOffer::class);
 
         } catch (ResponseException $exception) {
-            $this->certificationHelper->saveError($exception, 'Flight Offer Search Error', json_decode($body));
+            $this->certificationHelper->saveError($exception, 'Flight Offer Search Error',(array) json_decode($body));
             throw $exception;
         }
     }
