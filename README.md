@@ -5,7 +5,7 @@
 [![Packagist](https://img.shields.io/packagist/dt/amadeus4dev/amadeus-php.svg)](https://packagist.org/packages/amadeus4dev/amadeus-php)
 [![Discord](https://img.shields.io/discord/696822960023011329?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/cVrFBqx)
 
-Amadeus provides a rich set of APIs for the travel industry. For more details, check out the 
+Amadeus provides a rich set of APIs for the travel industry. For more details, check out the <br />
 [Amadeus for Developers Portal](https://developers.amadeus.com). This package is not officially supported by Amadeus.
 
 Jump To:
@@ -31,9 +31,8 @@ composer require amadeus4dev/amadeus-php
 
 ## Getting Started
 
-To make your first API call you will need to [register for an Amadeus
-Developer Account](https://developers.amadeus.com/create-account) and set up
-your first application.
+To make your first API call you will need to [register for an Amadeus Developer Account](https://developers.amadeus.com/create-account) <br /> 
+and set up your first application.
 
 ```PHP 
 <?php declare(strict_types=1);
@@ -219,6 +218,61 @@ variable to ```certification```, the package will save all the message files to 
 These files can then be shared with Amadeus.
 
 ## List of Supported Endpoints
+The table below shows the list of supported endpoints and the methods that can be used to interact with them. This list <br />
+is up-to-date by the 10.04.2024. The ✔ symbol indicates that the method is supported, while the - symbol indicates <br /> that
+the method is not supported. The ✘ symbol indicates that the method is not implemented for the endpoint.
+
+| Endpoint                                                                                                                                                                        | GET | PATCH | POST | DELETE |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----|-------|-----|--------|
+| [/airline/destinations](https://developers.amadeus.com/self-service/category/flights/api-doc/airline-routes/api-reference)                                                      | ✘   | -     | -   | -      |
+| [/airport/direct-destinations](https://developers.amadeus.com/self-service/category/flights/api-doc/airport-routes/api-reference)                                               | ✔   | -     | -   | -      |
+| [/airport/predictions/on-time](https://developers.amadeus.com/self-service/category/flights/api-doc/airport-on-time-performance/api-reference)                                  | ✔   | -     | -   | -      |
+| [/analytics/itinerary-price-metrics](https://developers.amadeus.com/self-service/category/flights/api-doc/flight-price-analysis/api-reference)                                  | ✘   | -     | -   | -      |
+| [/booking/flight-orders](https://developers.amadeus.com/self-service/category/flights/api-doc/flight-create-orders/api-reference)                                               | -   | -     | ✔   | -      |
+| [/booking/flight-orders/{flight-orderId}](https://developers.amadeus.com/self-service/category/flights/api-doc/flight-order-management/api-reference)                           | ✔   | -     | -   | ✔      |
+| [/booking/hotel-bookings](https://developers.amadeus.com/self-service/category/hotels/api-doc/hotel-booking/api-reference)                                                      | -   | -     | ✔   | -      |
+| [/e-reputation/hotel-sentiments](https://developers.amadeus.com/self-service/category/hotels/api-doc/hotel-ratings/api-reference)                                               | ✔   | -     | -   | -      |
+| [/location/analytics/category-rated-areas](https://developers.amadeus.com/self-service/category/market-insights/api-doc/location-score/api-reference)                           | ✘   | -     | -   | -      |
+| [/location/analytics/category-rated-areas/by-square](https://developers.amadeus.com/self-service/category/market-insights/api-doc/location-score/api-reference)                 | ✘   | -     | -   | -      |
+| [/ordering/transfer-orders](https://developers.amadeus.com/self-service/category/cars-and-transfers/api-doc/transfer-booking/api-reference)                                     | -   | -     | ✘   | -      |
+| [/ordering/transfer-orders/{orderId}/transfers/cancellation](https://developers.amadeus.com/self-service/category/cars-and-transfers/api-doc/transfer-management/api-reference) | -   | -     | ✘   | -      |
+| [/reference-data/airlines](https://developers.amadeus.com/self-service/category/flights/api-doc/airline-code-lookup/api-reference)                                              | ✔   | -     | -   | -      |
+| [/reference-data/locations](https://developers.amadeus.com/self-service/category/flights/api-doc/airport-and-city-search/api-reference)                                         | ✔   | -     | -   | -      |
+| [/reference-data/locations/{locationId}](https://developers.amadeus.com/self-service/category/flights/api-doc/airport-and-city-search/api-reference)                            | ✔   | -     | -   | -      |
+| [/reference-data/locations/airports](https://developers.amadeus.com/self-service/category/flights/api-doc/airport-nearest-relevant/api-reference)                               | ✔   | -     | -   | -      |
+| [/reference-data/locations/cities](https://developers.amadeus.com/self-service/category/destination-experiences/api-doc/city-search/api-reference)                              | ✘   | -     | -   | -      |
+| [/reference-data/locations/hotels/by-hotels](https://developers.amadeus.com/self-service/category/hotels/api-doc/hotel-list/api-reference)                                      | ✔   | -     | -   | -      |
+| [/reference-data/locations/hotels/by-city](https://developers.amadeus.com/self-service/category/hotels/api-doc/hotel-list/api-reference)                                        | ✔   | -     | -   | -      |
+| [/reference-data/locations/hotels/by-geocode](https://developers.amadeus.com/self-service/category/hotels/api-doc/hotel-list/api-reference)                                     | ✔   | -     | -   | -      |
+| [/reference-data/locations/hotel](https://developers.amadeus.com/self-service/category/hotels/api-doc/hotel-name-autocomplete/api-reference)                                    | ✔   | -     | -   | -      |
+| [/reference-data/locations/pois](https://developers.amadeus.com/self-service/category/destination-experiences/api-doc/points-of-interest/api-reference)                         | ✔   | -     | -   | -      |
+| [/reference-data/locations/pois/{poisId}](https://developers.amadeus.com/self-service/category/destination-experiences/api-doc/points-of-interest/api-reference)                | ✔   | -     | -   | -      |
+| [/reference-data/locations/pois/by-square](https://developers.amadeus.com/self-service/category/destination-experiences/api-doc/points-of-interest/api-reference)               | ✔   | -     | -   | -      |
+| [/reference-data/recommended-locations](https://developers.amadeus.com/self-service/category/flights/api-doc/travel-recommendations/api-reference)                              | ✔   | -     | -   | -      |
+| [/reference-data/urls/checkin-links](https://developers.amadeus.com/self-service/category/flights/api-doc/flight-check-in-links/api-reference)                                  | ✘   | -     | -   | -      |
+| [/schedule/flights](https://developers.amadeus.com/self-service/category/flights/api-doc/on-demand-flight-status/api-reference)                                                 | ✔   | -     | -   | -      |
+| [/shopping/activities](https://developers.amadeus.com/self-service/category/destination-experiences/api-doc/tours-and-activities/api-reference)                                 | ✔   | -     | -   | -      |
+| [/shopping/activities/by-square](https://developers.amadeus.com/self-service/category/destination-experiences/api-doc/tours-and-activities/api-reference)                       | ✔   | -     | -   | -      |
+| [/shopping/activities/{activityId}](https://developers.amadeus.com/self-service/category/destination-experiences/api-doc/tours-and-activities/api-reference)                    | ✔   | -     | -   | -      |
+| [/shopping/availability/flight-availabilities](https://developers.amadeus.com/self-service/category/flights/api-doc/flight-availabilities-search/api-reference)                 | -   | -     | ✔   | -      |
+| [/shopping/flight-dates](https://developers.amadeus.com/self-service/category/flights/api-doc/flight-cheapest-date-search/api-reference)                                        | ✔   | -     | -   | -      |
+| [/shopping/flight-destinations](https://developers.amadeus.com/self-service/category/flights/api-doc/flight-inspiration-search/api-reference)                                   | ✔   | -     | -   | -      |
+| [/shopping/flight-offers](https://developers.amadeus.com/self-service/category/flights/api-doc/flight-offers-search/api-reference)                                              | ✔   | -     | ✔   | -      |
+| [/shopping/flight-offers/pricing](https://developers.amadeus.com/self-service/category/flights/api-doc/flight-offers-price/api-reference)                                       | -   | -     | ✔   | -      |
+| [/shopping/flight-offers/upselling](https://developers.amadeus.com/self-service/category/flights/api-doc/branded-fares-upsell/api-reference)                                    | -   | -     | ✔   | -      |
+| [/shopping/flight-offers/prediction](https://developers.amadeus.com/self-service/category/flights/api-doc/flight-choice-prediction/api-reference)                               | -   | -     | ✔   | -      |
+| [/shopping/hotel-offers](https://developers.amadeus.com/self-service/category/hotels/api-doc/hotel-search/api-reference)                                                        | ✔   | -     | -   | -      |
+| [/shopping/hotel-offers/{offerId}](https://developers.amadeus.com/self-service/category/hotels/api-doc/hotel-search/api-reference)                                              | ✔   | -     | -   | -      |
+| [/shopping/seatmaps](https://developers.amadeus.com/self-service/category/flights/api-doc/seatmap-display/api-reference)                                                        | ✔   | -     | ✔   | -      |
+| [/shopping/transfer-offers](https://developers.amadeus.com/self-service/category/cars-and-transfers/api-doc/transfer-search/api-reference)                                      | -   | -     | ✘   | -      |
+| [/travel/analytics/air-traffic/traveled](https://developers.amadeus.com/self-service/category/market-insights/api-doc/flight-most-traveled-destinations/api-reference)          | ✘   | -     | -   | -      |
+| [/travel/analytics/air-traffic/booked](https://developers.amadeus.com/self-service/category/market-insights/api-doc/flight-most-booked-destinations/api-reference)              | ✘   | -     | -   | -      |
+| [/travel/analytics/air-traffic/busiest-period](https://developers.amadeus.com/self-service/category/market-insights/api-doc/flight-busiest-traveling-period/api-reference)      | ✘   | -     | -   | -      |
+| [/travel/predictions/flight-delay](https://developers.amadeus.com/self-service/category/flights/api-doc/flight-delay-prediction/api-reference)                                  | ✔   | -     | -   | -      |
+| [/travel/trip-parser](https://developers.amadeus.com/self-service/category/itinerary-management/api-doc/trip-parser/api-reference)                                              | -   | -     | ✘    | -      |
+
+Below are code examples of how the endpoints are called.
+
 ```PHP
 /* Flight Offers Search GET */
 // function get(array $params) :

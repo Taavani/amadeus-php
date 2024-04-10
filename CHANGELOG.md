@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0
+
+### Added
+
+- Updated the README file, with a complete overview of the URLs and the methods available in the SDK.
+
 ## 0.3.1 - 2023-10-29
 
 ### Added
