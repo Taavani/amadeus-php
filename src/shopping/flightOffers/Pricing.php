@@ -68,7 +68,7 @@ class Pricing
             return Resource::fromObject($response, FlightOfferPricingOutput::class);
 
         } catch (ResponseException $exception) {
-            $this->certificationHelper->saveError($exception, 'Flight Offer Price Error', json_decode($body));
+            $this->certificationHelper->saveError($exception, 'Flight Offer Price Error', [ json_decode($body) ]);
             throw $exception;
         }
     }
