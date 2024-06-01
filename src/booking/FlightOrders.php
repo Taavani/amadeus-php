@@ -213,11 +213,11 @@ class FlightOrders
 
             return Resource::fromObject($response, FlightOrder::class);
         } catch (ResponseException $exception) {
-            $this->certificationHelper->saveError(
-                $exception,
-                'Flight Create Order Error',
-                json_decode($body)
-            );
+            //$this->certificationHelper->saveError(
+            //    $exception,
+            //    'Flight Create Order Error',
+            //    json_decode($body)
+            //);
 
             throw $exception;
         }
