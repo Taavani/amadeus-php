@@ -166,17 +166,15 @@ class FlightOrders
 
             return Resource::fromObject($response, FlightOrder::class);
         } catch (ResponseException $exception) {
-            $this->certificationHelper->saveErrorRequest(
-                'Flight Create Order Error',
-                $id
-            );
+            //$this->certificationHelper->saveErrorRequest(
+            //    'Flight Create Order Error',
+            //    $id
+            //);
 
-            $this
-                ->certificationHelper
-                ->saveErrorResponse(
-                    'Flight Order Issuance ERROR',
-                    $exception
-                );
+            //$this->certificationHelper->saveErrorResponse(
+            //'Flight Order Issuance ERROR',
+            //      $exception
+            //  );
 
             throw $exception;
         }
@@ -213,11 +211,7 @@ class FlightOrders
 
             return Resource::fromObject($response, FlightOrder::class);
         } catch (ResponseException $exception) {
-            $this->certificationHelper->saveError(
-                $exception,
-                'Flight Create Order Error',
-                json_decode($body)
-            );
+            //$this->certificationHelper->saveError($exception, 'Flight Create Order Error', json_decode($body));
 
             throw $exception;
         }

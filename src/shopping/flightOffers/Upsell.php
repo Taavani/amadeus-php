@@ -66,12 +66,9 @@ class Upsell
 
         } catch (ResponseException $exception) {
 
-            $this->certificationHelper->saveError($exception, 'Flight Offer Upsell Error', json_decode($body));
+            //$this->certificationHelper->saveError($exception, 'Flight Offer Upsell Error', json_decode($body));
 
-            $this->certificationHelper->saveErrorResponse(
-                'Flight Offer Upsell Error',
-                $exception
-            );
+            //$this->certificationHelper->saveErrorResponse('Flight Offer Upsell Error', $exception);
             throw $exception;
         }
     }
