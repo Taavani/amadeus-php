@@ -132,6 +132,10 @@ class FlightOffer extends Resource implements ResourceInterface
      */
     public function getPrice(): ?object
     {
+        if ($this->price === null) {
+            return null;
+        }
+
         return Resource::toResourceObject(
             $this->price,
             FlightPrice::class
