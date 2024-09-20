@@ -28,6 +28,7 @@
       "Amadeus\\ReferenceData\\Locations\\": "src/referenceData/locations/",
       "Amadeus\\ReferenceData\\Locations\\Hotels\\": "src/referenceData/locations/hotels/",
       "Amadeus\\Resources\\": "src/resources/",
+      "Amadeus\\Resources\\Client\\": "src/resources/client/",
       "Amadeus\\Schedule\\": "src/schedule/",
       "Amadeus\\Shopping\\": "src/shopping/",
       "Amadeus\\Shopping\\Activities\\": "src/shopping/activities/",

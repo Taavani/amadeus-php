@@ -13,6 +13,7 @@ class TravelerPhone implements ResourceInterface
     private ?string $deviceType = null;
     private ?string $countryCallingCode = null;
     private ?string $number = null;
+	private ?string $purpose = null;
 
     /**
      * @return string|null

@@ -153,6 +153,13 @@ final class FlightOrdersTest extends TestCase
         $flightOffers = $flightOrderOutput->getFlightOffers();
         $this->assertNotNull($flightOffers);
 
+		//var_dump(PHPUnitUtil::toString($data));
+		//var_dump($flightOrderOutput->__toString());
+		//var_dump($this->assertEquals(
+	    //	PHPUnitUtil::toString($data),
+	    //		$flightOrderOutput->__toString()
+	    //));
+		//die();
         // __toString()
         $this->assertEquals(
             PHPUnitUtil::toString($data),

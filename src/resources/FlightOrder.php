@@ -17,9 +17,13 @@ class FlightOrder extends Resource implements ResourceInterface
     private ?string $type = null;
     private ?string $id = null;
     private ?string $queuingOfficeId = null;
+	private ?string $ownerOfficeId = null;
     private ?array $associatedRecords = null;
-    private ?array $travelers = null;
+	private ?array $travelers = null;
     private ?array $flightOffers = null;
+	private ?object $ticketingAgreement = null;
+
+	private ?array $contacts = null;
 
     /**
      * @return string|null

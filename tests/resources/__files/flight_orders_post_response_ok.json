@@ -536,7 +536,7 @@
         ]
       }
     ],
-    "ticketingAggreement": {
+    "ticketingAgreement": {
       "option": "DELAY_TO_CANCEL",
       "dateTime": "2018-08-21T10:15:00.000"
     },

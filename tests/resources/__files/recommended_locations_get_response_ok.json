@@ -1,7 +1,7 @@
 {
     "data": [
       {
-        "subtype": "CITY",
+        "subType": "CITY",
         "name": "Algiers",
         "iataCode": "ALG",
         "geoCode": {
@@ -12,7 +12,7 @@
         "relevance": 0.97968028
       },
       {
-        "subtype": "CITY",
+        "subType": "CITY",
         "name": "Marseille",
         "iataCode": "MRS",
         "geoCode": {
@@ -23,7 +23,7 @@
         "relevance": 0.9627265
       },
       {
-        "subtype": "CITY",
+        "subType": "CITY",
         "name": "Tunis",
         "iataCode": "TUN",
         "geoCode": {
@@ -34,7 +34,7 @@
         "relevance": 0.95988677
       },
       {
-        "subtype": "CITY",
+        "subType": "CITY",
         "name": "Barcelona",
         "iataCode": "BCN",
         "geoCode": {
@@ -45,7 +45,7 @@
         "relevance": 0.94314606
       },
       {
-        "subtype": "CITY",
+        "subType": "CITY",
         "name": "Lisbon",
         "iataCode": "LIS",
         "geoCode": {

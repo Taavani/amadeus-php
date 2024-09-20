@@ -21,7 +21,9 @@ class Resource
         $resource = new $class();
         foreach ($data as $key => $value) {
             $resource->__set($key, $value);
-            $resource->dictionary = $response->getDictionary();
+	        if ($response->getDictionary() !== null) {
+		        $resource->dictionary = $response->getDictionary();
+	        }
         }
 
         $resource->response = $response;
@@ -42,7 +44,9 @@ class Resource
             foreach ($object as $key => $value) {
                 $resource->__set($key, $value);
             }
-            $resource->dictionary = $response->getDictionary();
+	        if ($response->getDictionary() !== null) {
+		        $resource->dictionary = $response->getDictionary();
+	        }
             $resource->response = $response; // plan A
             $resources[] = $resource;
         }
