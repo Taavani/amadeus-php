@@ -260,7 +260,7 @@ class FlightOrderQuery
         }
 
         if ($this->ticketingAgreement) {
-            $data['ticketingAgreement'] = $this->ticketingAgreement;
+            $data['ticketingAgreement'] = $this->ticketingAgreement->__toArray();
         }
 
         if (count($this->automatedProcess) > 0) {
