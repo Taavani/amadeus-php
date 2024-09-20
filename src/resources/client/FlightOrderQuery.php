@@ -264,7 +264,9 @@ class FlightOrderQuery
         }
 
         if (count($this->automatedProcess) > 0) {
-            $data['automatedProcess'] = $this->automatedProcess;
+            $data['automatedProcess'] = array_map(function ($process) {
+				return $process->__toArray();
+            }, $this->automatedProcess);
         }
 
         return [
