@@ -4,6 +4,7 @@ namespace Amadeus\Resources\client;
 
 use Amadeus\Resources\FlightOffer;
 use Amadeus\Resources\Resource;
+use Amadeus\Resources\TravelerContact;
 use Amadeus\Resources\TravelerElement;
 
 /**
@@ -183,20 +184,20 @@ class FlightOrderQuery
     }
 
     /**
-     * @param Contact $contact
+     * @param TravelerContact $contact
      * @return $this
      */
-    public function addContact(Contact $contact): static
+    public function addContact(TravelerContact $contact): static
     {
         $this->contacts[] = $contact;
         return $this;
     }
 
     /**
-     * @param Contact $contact
+     * @param TravelerContact $contact
      * @return $this
      */
-    public function removeContact(Contact $contact): static
+    public function removeContact(TravelerContact $contact): static
     {
         $this->contacts = array_diff($this->contacts, [$contact]);
         return $this;
@@ -268,6 +269,13 @@ class FlightOrderQuery
 				return $process->__toArray();
             }, $this->automatedProcess);
         }
+
+		if (count($this->contacts) > 0) {
+			$data['contacts'] = array_map(function ($contact) {
+				return $contact->__toArray();
+			}, $this->contacts);
+		}
+
 
         return [
             'data' => $data

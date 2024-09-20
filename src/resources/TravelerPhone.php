@@ -43,6 +43,11 @@ class TravelerPhone implements ResourceInterface
         $this->$name = $value;
     }
 
+	public function __toArray(): array
+	{
+		return get_object_vars($this);
+	}
+
     public function __toString(): string
     {
         return Resource::toString(get_object_vars($this));
