@@ -276,6 +276,12 @@ class FlightOrderQuery
 			}, $this->contacts);
 		}
 
+		if (count($this->formOfIdentifications) > 0) {
+			$data['formOfIdentifications'] = array_map(function ($formOfIdentification) {
+				return $formOfIdentification->__toArray();
+			}, $this->formOfIdentifications);
+		}
+
 
         return [
             'data' => $data
