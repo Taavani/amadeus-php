@@ -26,7 +26,7 @@ class FlightOrderQuery
 
     private ?Remarks $remarks;
 
-	private FormOfPayment $formOfPayment;
+	private ?FormOfPayment $formOfPayment;
 
     private ?TicketingAgreement $ticketingAgreement;
 
@@ -46,6 +46,7 @@ class FlightOrderQuery
         $this->flightOffers = [];
         $this->travelers = [];
         $this->remarks = null;
+		$this->formOfPayment = null;
         $this->ticketingAgreement = null;
         $this->automatedProcess = [];
         $this->contacts = [];
@@ -267,9 +268,14 @@ class FlightOrderQuery
 	            $this->travelers
             );
         }
-        if ($this->remarks) {
+
+		if ($this->remarks) {
             $data['remarks'] = $this->remarks->__toArray();
         }
+
+		if ($this->formOfPayment) {
+			$data['formOfPayment'] = $this->formOfPayment->__toArray();
+		}
 
         if ($this->ticketingAgreement) {
             $data['ticketingAgreement'] = $this->ticketingAgreement->__toArray();
