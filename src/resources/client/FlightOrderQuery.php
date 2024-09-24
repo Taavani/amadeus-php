@@ -3,7 +3,6 @@
 namespace Amadeus\Resources\client;
 
 use Amadeus\Resources\FlightOffer;
-use Amadeus\Resources\Resource;
 use Amadeus\Resources\TravelerContact;
 use Amadeus\Resources\TravelerElement;
 
@@ -26,6 +25,8 @@ class FlightOrderQuery
     private array $travelers;
 
     private ?Remarks $remarks;
+
+	private FormOfPayment $formOfPayment;
 
     private ?TicketingAgreement $ticketingAgreement;
 
@@ -152,6 +153,16 @@ class FlightOrderQuery
         $this->remarks = $remarks;
         return $this;
     }
+
+	/**
+	 * @param FormOfPayment $formOfPayment
+	 * @return $this
+	 */
+	public function setFormOfPayment(FormOfPayment $formOfPayment): static
+	{
+		$this->formOfPayment = $formOfPayment;
+		return $this;
+	}
 
     /**
      * @param TicketingAgreement $ticketingAgreement

@@ -8,6 +8,7 @@ use Amadeus\Resources\client\FlightOrderQuery;
 use Amadeus\Resources\Client\FormOfIdentification;
 use Amadeus\Resources\Client\GeneralRemark;
 use Amadeus\Resources\Client\Queue;
+use Amadeus\Resources\Client\RegularCreditCard;
 use Amadeus\Resources\Client\Remarks;
 use Amadeus\Resources\Client\TicketingAgreement;
 use Amadeus\Resources\FlightOffer;
@@ -136,6 +137,15 @@ class FlightOrderQueryTest extends TestCase
 		$formOfIdentification->addTravelerId('1');
 		$formOfIdentification->addFlightOfferId('1');
 		$flightOrderQuery->addFormOfIdentification($formOfIdentification);
+
+		$creditCard = new RegularCreditCard();
+		$creditCard->setAsVisa();
+		$creditCard->setNumber('1234567890');
+		$creditCard->setHolder('John Doe');
+		$creditCard->setExpiryDate('2023-12');
+		$creditCard->setSecurityCode('123');
+		$creditCard->addFlightOfferIds('1');
+		$flightOrderQuery->setFormOfPayment($creditCard);
 
 		$this->assertEquals($flightOrderQuery->getType(), 'flight-order');
     }
