@@ -22,7 +22,7 @@ class AutomatedProcess
 	// Identifies the queue onto which PNR must be automatically placed upon process execution.
 	private ?Queue $queue;
 	private string $text;
-	private string $delay;
+	private ?string $delay;
 	private string $officeId;
 	private string $dateTime;
 
@@ -93,10 +93,10 @@ class AutomatedProcess
 	/**
 	 * Set the delay.
 	 *
-	 * @param string $delay
+	 * @param ?string $delay
 	 * @return AutomatedProcess
 	 */
-	public function setDelay(string $delay): AutomatedProcess {
+	public function setDelay(?string $delay): AutomatedProcess {
 		$this->delay = $delay;
 		return $this;
 	}
