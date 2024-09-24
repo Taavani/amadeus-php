@@ -129,13 +129,29 @@ class AutomatedProcess
 	 * @return array
 	 */
 	public function __toArray(): array {
-		return [
-			'code' => $this->code,
-			'queue' => $this->queue?->__toArray(),
-			'text' => $this->text,
-			'delay' => $this->delay,
-			'officeId' => $this->officeId,
-			'dateTime' => $this->dateTime,
-		];
+		$data = [];
+
+		$data['code'] = $this->code;
+		if ($this->queue) {
+			$data['queue'] = $this->queue->__toArray();
+		}
+
+		if ($this->text) {
+			$data['text'] = $this->text;
+		}
+
+		if ($this->delay) {
+			$data['delay'] = $this->delay;
+		}
+
+		if ($this->officeId) {
+			$data['officeId'] = $this->officeId;
+		}
+
+		if ($this->dateTime) {
+			$data['dateTime'] = $this->dateTime;
+		}
+
+		return $data;
 	}
 }
