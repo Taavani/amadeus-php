@@ -196,13 +196,26 @@ class GeneralRemark {
 	 * @return string
 	 */
 	public function __toString(): string {
-		return json_encode([
-			'subType' => $this->subType,
-			'category' => $this->category,
-			'text' => $this->text,
-			'travelerIds' => $this->travelerIds,
-			'flightOfferIds' => $this->flightOfferIds
-		]);
+		$data = [];
+		$data['subType'] = $this->subType;
+
+		if ($this->category) {
+			$data['category'] = $this->category;
+		}
+
+		if ($this->text) {
+			$data['text'] = $this->text;
+		}
+
+		if (count($this->travelerIds) > 0) {
+			$data['travelerIds'] = $this->travelerIds;
+		}
+
+		if (count($this->flightOfferIds) > 0) {
+			$data['flightOfferIds'] = $this->flightOfferIds;
+		}
+
+		return json_encode($data);
 	}
 
 }
