@@ -39,6 +39,25 @@ class RegularCreditCard extends FormOfPayment {
 	}
 
 	/**
+	 * This function can be used to determine the brand of the credit card. The valid brands are:
+	 *
+	 * VISA, VISA_ELECTRON, VISA_DEBIT, MASTERCARD, MASTERCARD_DEBIT, AMERICAN_EXPRESS, DINERS, MAESTRO, EASYPAY.
+	 *
+	 * @param string $brand
+	 *
+	 * @return $this
+	 */
+	public function determineBrand(string $brand): RegularCreditCard
+	{
+		if (!in_array($brand, [VISA, VISA_ELECTRON, VISA_DEBIT, MASTERCARD, MASTERCARD_DEBIT, AMERICAN_EXPRESS, DINERS, MAESTRO, EASYPAY])) {
+			throw new \InvalidArgumentException('Invalid credit card brand.');
+		}
+
+		$this->brand = $brand;
+		return $this;
+	}
+
+	/**
 	 * Set the brand of the credit card to VISA.
 	 *
 	 * @return RegularCreditCard
