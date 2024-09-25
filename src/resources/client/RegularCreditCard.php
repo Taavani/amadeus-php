@@ -36,6 +36,10 @@ class RegularCreditCard extends FormOfPayment {
 	{
 		$this->brand = VISA;
 		$this->holder = '';
+		$this->number = '';
+		$this->expiryDate = '';
+		$this->securityCode = '';
+		$this->flightOfferIds = [];
 	}
 
 	/**
