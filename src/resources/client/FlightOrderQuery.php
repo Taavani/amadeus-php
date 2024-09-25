@@ -274,7 +274,7 @@ class FlightOrderQuery
         }
 
 		if ($this->formOfPayment) {
-			$data['formOfPayments'] = $this->formOfPayment->__toArray();
+			$data['formOfPayments'][] = $this->formOfPayment->__toArray();
 		}
 
         if ($this->ticketingAgreement) {

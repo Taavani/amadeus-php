@@ -255,15 +255,24 @@ class RegularCreditCard extends FormOfPayment {
 	 */
 	public function __toArray(): array
 	{
+		$data = [];
+		$data['brand'] = $this->brand;
+
+		if ($this->holder) {
+			$data['holder'] = $this->holder;
+		}
+
+		$data['number'] = $this->number;
+		$data['expiryDate'] = $this->expiryDate;
+
+		if ($this->securityCode) {
+			$data['securityCode'] = $this->securityCode;
+		}
+
+		$data['flightOfferIds'] = $this->flightOfferIds;
+
 		return [
-			'creditCard' => [
-				'brand' => $this->brand,
-				'holder' => $this->holder,
-				'number' => $this->number,
-				'expiryDate' => $this->expiryDate,
-				'securityCode' => $this->securityCode,
-				'flightOfferIds' => $this->flightOfferIds
-			]
+			'creditCard' => $data
 		];
 	}
 }
