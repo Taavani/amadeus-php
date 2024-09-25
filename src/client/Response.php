@@ -177,6 +177,11 @@ class Response
         return $this->getBodyAsJsonObject()->{'meta'};
     }
 
+	public function getIncluded(): ?object
+	{
+		return $this->getBodyAsJsonObject()->{'included'};
+	}
+
     /**
      * @return object|null
      */

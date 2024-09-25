@@ -21,9 +21,14 @@ class Resource
         $resource = new $class();
         foreach ($data as $key => $value) {
             $resource->__set($key, $value);
-	        if ($response->getDictionary() !== null) {
+
+			if ($response->getDictionary() !== null) {
 		        $resource->dictionary = $response->getDictionary();
 	        }
+
+			if ($response->getIncluded() !== null) {
+				$resource->included = $response->getIncluded();
+			}
         }
 
         $resource->response = $response;
