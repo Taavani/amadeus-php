@@ -49,6 +49,15 @@ class FlightOfferPricingOutput extends Resource implements ResourceInterface
         );
     }
 
+	/**
+	 * Returns the included object
+	 *
+	 * @return object|null
+	 */
+	public function getIncluded(): ?object {
+		return $this->included;
+	}
+
     public function __set($name, $value): void
     {
         $this->$name = $value;
