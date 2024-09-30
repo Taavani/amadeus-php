@@ -179,7 +179,10 @@ class Response
 
 	public function getIncluded(): ?object
 	{
-		return $this->getBodyAsJsonObject()->{'included'};
+		if (property_exists($this->getBodyAsJsonObject(), 'included') && $this->getBodyAsJsonObject()->{'included'} !== null) {
+			return $this->getBodyAsJsonObject()->{'included'};
+		}
+		return null;
 	}
 
     /**

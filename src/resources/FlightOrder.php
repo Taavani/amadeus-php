@@ -22,7 +22,7 @@ class FlightOrder extends Resource implements ResourceInterface
 	private ?array $travelers = null;
     private ?array $flightOffers = null;
 	private ?object $ticketingAgreement = null;
-
+	private ?object $included = null;
 	private ?array $contacts = null;
 
     /**

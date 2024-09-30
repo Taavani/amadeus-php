@@ -96,7 +96,7 @@ class TravelerContact implements ResourceInterface
     public function __toArray(): array
     {
 		$data = [];
-		$data['addresseeName'] = $this->addresseeName?->__toArray();
+		$data['addresseeName'] = $this->getAddresseeName()?->__toArray();
 		$data['companyName'] = $this->companyName;
 	    $data['purpose'] = $this->purpose;
 		$data['phones'] = array_map(function ($phone) {
