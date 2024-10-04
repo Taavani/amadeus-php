@@ -152,11 +152,17 @@ class BasicHTTPClient implements HTTPClient
         $curlHandle = curl_init();
         $this->setCurlOptions($curlHandle, $request);
         $result = curl_exec($curlHandle);
-        if (!$result) {
-            $result = null;
-        }
         $info = curl_getinfo($curlHandle);
+	    $curlError = curl_errno($curlHandle);
         curl_close($curlHandle);
+
+	    if ($curlError === CURLE_OPERATION_TIMEDOUT) {
+		    throw new NetworkException(new Response($request, $info, 'Network timeout'));
+	    }
+
+	    if (!$result) {
+		    $result = null;
+	    }
 
         $response = new Response($request, $info, $result);
         $this->log("Response: "."\n". $response->__toString());
