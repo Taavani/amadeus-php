@@ -113,7 +113,7 @@ class FlightOrders
             json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT)
         );
 
-        return Resource::fromArray($response, FlightOrder::class);
+        return Resource::fromArray($response, FlightOrder::class)[0];
     }
 
     /**
