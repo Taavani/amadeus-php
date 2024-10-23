@@ -153,16 +153,16 @@ class BasicHTTPClient implements HTTPClient
         $this->setCurlOptions($curlHandle, $request);
         $result = curl_exec($curlHandle);
         $info = curl_getinfo($curlHandle);
-	    $curlError = curl_errno($curlHandle);
+        $curlError = curl_errno($curlHandle);
         curl_close($curlHandle);
 
-	    if ($curlError === CURLE_OPERATION_TIMEDOUT) {
-		    throw new NetworkException(new Response($request, $info, 'Network timeout'));
-	    }
+        if ($curlError === CURLE_OPERATION_TIMEDOUT) {
+            throw new NetworkException(new Response($request, $info, 'Network timeout'));
+        }
 
-	    if (!$result) {
-		    $result = null;
-	    }
+        if (!$result) {
+            $result = null;
+        }
 
         $response = new Response($request, $info, $result);
         $this->log("Response: "."\n". $response->__toString());
@@ -214,7 +214,7 @@ class BasicHTTPClient implements HTTPClient
      * @param Request $request
      * @return void
      */
-    private function setCurlOptions( mixed $curlHandle, Request $request): void
+    private function setCurlOptions(mixed $curlHandle, Request $request): void
     {
         // Url
         curl_setopt($curlHandle, CURLOPT_URL, $request->getUri());

@@ -13,7 +13,7 @@ class TravelerPhone implements ResourceInterface
     private ?string $deviceType = null;
     private ?string $countryCallingCode = null;
     private ?string $number = null;
-	private ?string $purpose = null;
+    private ?string $purpose = null;
 
     /**
      * @return string|null
@@ -44,10 +44,10 @@ class TravelerPhone implements ResourceInterface
         $this->$name = $value;
     }
 
-	public function __toArray(): array
-	{
-		return get_object_vars($this);
-	}
+    public function __toArray(): array
+    {
+        return get_object_vars($this);
+    }
 
     public function __toString(): string
     {

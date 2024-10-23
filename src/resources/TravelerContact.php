@@ -95,16 +95,16 @@ class TravelerContact implements ResourceInterface
 
     public function __toArray(): array
     {
-		$data = [];
-		$data['addresseeName'] = !empty($this->addresseeName) ? $this->addresseeName->__toArray() : null;
-		$data['companyName'] = $this->companyName;
-	    $data['purpose'] = $this->purpose;
-		$data['phones'] = array_map(function ($phone) {
-			return $phone->__toArray();
-		}, $this->phones);
-		$data['emailAddress'] = $this->emailAddress;
-		$data['address'] = $this->address?->__toArray();
-		$data['language'] = $this->language;
+        $data = [];
+        $data['addresseeName'] = !empty($this->addresseeName) ? $this->addresseeName->__toArray() : null;
+        $data['companyName'] = $this->companyName;
+        $data['purpose'] = $this->purpose;
+        $data['phones'] = array_map(function ($phone) {
+            return $phone->__toArray();
+        }, $this->phones);
+        $data['emailAddress'] = $this->emailAddress;
+        $data['address'] = $this->address?->__toArray();
+        $data['language'] = $this->language;
 
         return $data;
     }

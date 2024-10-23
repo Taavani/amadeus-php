@@ -26,7 +26,7 @@ class FlightOrderQuery
 
     private ?Remarks $remarks;
 
-	private ?FormOfPayment $formOfPayment;
+    private ?FormOfPayment $formOfPayment;
 
     private ?TicketingAgreement $ticketingAgreement;
 
@@ -46,7 +46,7 @@ class FlightOrderQuery
         $this->flightOffers = [];
         $this->travelers = [];
         $this->remarks = null;
-		$this->formOfPayment = null;
+        $this->formOfPayment = null;
         $this->ticketingAgreement = null;
         $this->automatedProcess = [];
         $this->contacts = [];
@@ -61,37 +61,37 @@ class FlightOrderQuery
         return $this->type;
     }
 
-	/**
-	 * The office ID where to queue the order
-	 *
-	 * @return string|null
-	 */
-	public function getQueuingOfficeId(): ?string
-	{
-		return $this->queuingOfficeId;
-	}
+    /**
+     * The office ID where to queue the order
+     *
+     * @return string|null
+     */
+    public function getQueuingOfficeId(): ?string
+    {
+        return $this->queuingOfficeId;
+    }
 
-	/**
-	 * Office ID where to queue the order
-	 *
-	 * @param string $queuingOfficeId
-	 * @return $this
-	 */
+    /**
+     * Office ID where to queue the order
+     *
+     * @param string $queuingOfficeId
+     * @return $this
+     */
     public function setQueuingOfficeId(string $queuingOfficeId): static
     {
         $this->queuingOfficeId = $queuingOfficeId;
         return $this;
     }
 
-	/**
-	 * The office ID where to transfer the ownership of the order
-	 *
-	 * @return string|null
-	 */
-	public function getOwnerOfficeId(): ?string
-	{
-		return $this->ownerOfficeId;
-	}
+    /**
+     * The office ID where to transfer the ownership of the order
+     *
+     * @return string|null
+     */
+    public function getOwnerOfficeId(): ?string
+    {
+        return $this->ownerOfficeId;
+    }
 
     /**
      * Office ID where will be transferred the ownership of the order
@@ -155,15 +155,15 @@ class FlightOrderQuery
         return $this;
     }
 
-	/**
-	 * @param FormOfPayment $formOfPayment
-	 * @return $this
-	 */
-	public function setFormOfPayment(FormOfPayment $formOfPayment): static
-	{
-		$this->formOfPayment = $formOfPayment;
-		return $this;
-	}
+    /**
+     * @param FormOfPayment $formOfPayment
+     * @return $this
+     */
+    public function setFormOfPayment(FormOfPayment $formOfPayment): static
+    {
+        $this->formOfPayment = $formOfPayment;
+        return $this;
+    }
 
     /**
      * @param TicketingAgreement $ticketingAgreement
@@ -253,29 +253,29 @@ class FlightOrderQuery
 
         if (count($this->flightOffers) > 0) {
             $data['flightOffers'] = array_map(
-				function (FlightOffer $flightOffer) {
-					return json_decode($flightOffer->__toString());
-				},
-	            $this->flightOffers
+                function (FlightOffer $flightOffer) {
+                    return json_decode($flightOffer->__toString());
+                },
+                $this->flightOffers
             );
         }
 
         if (count($this->travelers) > 0) {
             $data['travelers'] = array_map(
-				function (TravelerElement $traveler) {
-	                return json_decode($traveler->__toString());
+                function (TravelerElement $traveler) {
+                    return json_decode($traveler->__toString());
                 },
-	            $this->travelers
+                $this->travelers
             );
         }
 
-		if ($this->remarks) {
+        if ($this->remarks) {
             $data['remarks'] = $this->remarks->__toArray();
         }
 
-		if ($this->formOfPayment) {
-			$data['formOfPayments'][] = $this->formOfPayment->__toArray();
-		}
+        if ($this->formOfPayment) {
+            $data['formOfPayments'][] = $this->formOfPayment->__toArray();
+        }
 
         if ($this->ticketingAgreement) {
             $data['ticketingAgreement'] = $this->ticketingAgreement->__toArray();
@@ -283,21 +283,21 @@ class FlightOrderQuery
 
         if (count($this->automatedProcess) > 0) {
             $data['automatedProcess'] = array_map(function ($process) {
-				return $process->__toArray();
+                return $process->__toArray();
             }, $this->automatedProcess);
         }
 
-		if (count($this->contacts) > 0) {
-			$data['contacts'] = array_map(function ($contact) {
-				return $contact->__toArray();
-			}, $this->contacts);
-		}
+        if (count($this->contacts) > 0) {
+            $data['contacts'] = array_map(function ($contact) {
+                return $contact->__toArray();
+            }, $this->contacts);
+        }
 
-		if (count($this->formOfIdentifications) > 0) {
-			$data['formOfIdentifications'] = array_map(function ($formOfIdentification) {
-				return $formOfIdentification->__toArray();
-			}, $this->formOfIdentifications);
-		}
+        if (count($this->formOfIdentifications) > 0) {
+            $data['formOfIdentifications'] = array_map(function ($formOfIdentification) {
+                return $formOfIdentification->__toArray();
+            }, $this->formOfIdentifications);
+        }
 
 
         return [

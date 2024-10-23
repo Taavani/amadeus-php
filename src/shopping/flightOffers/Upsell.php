@@ -60,7 +60,7 @@ class Upsell
                 $params
             );
 
-            $this->certificationHelper->saveSuccess($response,'Flight Offer Upsell', json_decode($body));
+            $this->certificationHelper->saveSuccess($response, 'Flight Offer Upsell', json_decode($body));
 
             return Resource::fromArray($response, FlightOffer::class);
 

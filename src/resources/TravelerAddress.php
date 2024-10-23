@@ -70,16 +70,17 @@ class TravelerAddress implements ResourceInterface
         $this->$name = $value;
     }
 
-	public function __toArray(): array {
-		return [
-			'lines' => $this->lines,
-			'postalCode' => $this->postalCode,
-			'countryCode' => $this->countryCode,
-			'cityName' => $this->cityName,
-			'stateName' => $this->stateName,
-			'postalBox' => $this->postalBox
-		];
-	}
+    public function __toArray(): array
+    {
+        return [
+            'lines' => $this->lines,
+            'postalCode' => $this->postalCode,
+            'countryCode' => $this->countryCode,
+            'cityName' => $this->cityName,
+            'stateName' => $this->stateName,
+            'postalBox' => $this->postalBox
+        ];
+    }
 
     public function __toString(): string
     {

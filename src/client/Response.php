@@ -177,13 +177,13 @@ class Response
         return $this->getBodyAsJsonObject()->{'meta'};
     }
 
-	public function getIncluded(): ?object
-	{
-		if (property_exists($this->getBodyAsJsonObject(), 'included') && $this->getBodyAsJsonObject()->{'included'} !== null) {
-			return $this->getBodyAsJsonObject()->{'included'};
-		}
-		return null;
-	}
+    public function getIncluded(): ?object
+    {
+        if (property_exists($this->getBodyAsJsonObject(), 'included') && $this->getBodyAsJsonObject()->{'included'} !== null) {
+            return $this->getBodyAsJsonObject()->{'included'};
+        }
+        return null;
+    }
 
     /**
      * @return object|null

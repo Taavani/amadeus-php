@@ -22,13 +22,13 @@ class Resource
         foreach ($data as $key => $value) {
             $resource->__set($key, $value);
 
-			if ($response->getDictionary() !== null) {
-		        $resource->dictionary = $response->getDictionary();
-	        }
+            if ($response->getDictionary() !== null) {
+                $resource->dictionary = $response->getDictionary();
+            }
 
-			if ($response->getIncluded() !== null) {
-				$resource->included = $response->getIncluded();
-			}
+            if ($response->getIncluded() !== null) {
+                $resource->included = $response->getIncluded();
+            }
         }
 
         $resource->response = $response;
@@ -49,9 +49,9 @@ class Resource
             foreach ($object as $key => $value) {
                 $resource->__set($key, $value);
             }
-	        if ($response->getDictionary() !== null) {
-		        $resource->dictionary = $response->getDictionary();
-	        }
+            if ($response->getDictionary() !== null) {
+                $resource->dictionary = $response->getDictionary();
+            }
             $resource->response = $response; // plan A
             $resources[] = $resource;
         }
