@@ -1,6 +1,6 @@
 <?php
 
-namespace Amadeus\Resources\client;
+namespace Amadeus\Resources\Client;
 
 use Amadeus\Resources\FlightOffer;
 use Amadeus\Resources\TravelerContact;
@@ -10,7 +10,7 @@ use Amadeus\Resources\TravelerElement;
  * This class is modeled after the FlightOrderQuery in the Amadeus API.
  *
  * Class FlightOrderQuery
- * @package Amadeus\Resources\client
+ * @package Amadeus\Resources\Client
  */
 class FlightOrderQuery
 {
@@ -71,12 +71,12 @@ class FlightOrderQuery
 		return $this->queuingOfficeId;
 	}
 
-    /**
-     * Office ID where to queue the order
-     *
-     * @param string $queuingOfficeId
-     * @return FlightOrderQuery
-     */
+	/**
+	 * Office ID where to queue the order
+	 *
+	 * @param string $queuingOfficeId
+	 * @return $this
+	 */
     public function setQueuingOfficeId(string $queuingOfficeId): static
     {
         $this->queuingOfficeId = $queuingOfficeId;

@@ -4,7 +4,7 @@ namespace Amadeus\Tests\resources\client;
 
 use Amadeus\Resources\Client\AirlineRemark;
 use Amadeus\Resources\Client\AutomatedProcess;
-use Amadeus\Resources\client\FlightOrderQuery;
+use Amadeus\Resources\Client\FlightOrderQuery;
 use Amadeus\Resources\Client\FormOfIdentification;
 use Amadeus\Resources\Client\GeneralRemark;
 use Amadeus\Resources\Client\Queue;

@@ -214,7 +214,7 @@ class BasicHTTPClient implements HTTPClient
      * @param Request $request
      * @return void
      */
-    private function setCurlOptions($curlHandle, Request $request): void
+    private function setCurlOptions( mixed $curlHandle, Request $request): void
     {
         // Url
         curl_setopt($curlHandle, CURLOPT_URL, $request->getUri());
