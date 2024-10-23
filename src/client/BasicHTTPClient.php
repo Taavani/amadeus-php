@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Amadeus\Client;
 
+use Amadeus\CertificationHelper;
 use Amadeus\Configuration;
 use Amadeus\Constants;
 use Amadeus\Exceptions\AuthenticationException;
@@ -32,12 +33,18 @@ class BasicHTTPClient implements HTTPClient
     private ?string $sslCertificate = null;
 
     /**
+     * @var CertificationHelper $certificationHelper
+     */
+    private CertificationHelper $certificationHelper;
+
+    /**
      * @param Configuration $configuration
      */
     public function __construct(Configuration $configuration)
     {
         $this->configuration = $configuration;
         $this->accessToken = new AccessToken($this);
+        $this->certificationHelper = new CertificationHelper($configuration->getLogLevel());
     }
 
     /**
@@ -168,6 +175,8 @@ class BasicHTTPClient implements HTTPClient
         $this->log("Response: "."\n". $response->__toString());
         $this->detectError($response);
 
+        $this->certificationHelper->saveSuccess($response, $this->stringifyPath($request->getPath()), (object) $request->getParams());
+
         return $response;
     }
 
@@ -203,6 +212,7 @@ class BasicHTTPClient implements HTTPClient
 
         if ($exception != null) {
             $this->log("Exception: "."\n".$exception->__toString());
+            $this->certificationHelper->saveError($exception, $this->stringifyPath($exception->getUrl()), (array) $response->getBody());
             throw $exception;
         }
     }
@@ -214,7 +224,7 @@ class BasicHTTPClient implements HTTPClient
      * @param Request $request
      * @return void
      */
-    private function setCurlOptions(mixed $curlHandle, Request $request): void
+    private function setCurlOptions($curlHandle, Request $request): void
     {
         // Url
         curl_setopt($curlHandle, CURLOPT_URL, $request->getUri());
@@ -259,7 +269,7 @@ class BasicHTTPClient implements HTTPClient
     private function log(string $message): void
     {
         $message = '[-- Amadeus PHP SDK log message: ' .date("F j, Y, g:i a"). ' --]'."\n"
-            .$message;
+                   .$message;
         if ($this->configuration->getLogLevel() == "debug") {
             file_put_contents(
                 'php://stdout',
@@ -304,5 +314,19 @@ class BasicHTTPClient implements HTTPClient
     public function setSSLCertificate(string $filePath): void
     {
         $this->sslCertificate = $filePath;
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return string
+     */
+    private function stringifyPath(string $path): string
+    {
+        // Replace directory separators with underscores
+        $safePath = str_replace(['/', '\\'], '_', $path);
+
+        // Remove any other characters that are not safe for file names
+        return preg_replace('/[^A-Za-z0-9_\-]/', '', $safePath);
     }
 }

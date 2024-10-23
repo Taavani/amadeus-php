@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Amadeus\Shopping;
 
 use Amadeus\Amadeus;
-use Amadeus\CertificationHelper;
 use Amadeus\Exceptions\ResponseException;
 use Amadeus\Resources\FlightOffer;
 use Amadeus\Resources\Resource;
@@ -25,9 +24,10 @@ use Amadeus\Shopping\FlightOffers\Upsell;
  */
 class FlightOffers
 {
+    /**
+     * @var Amadeus
+     */
     private Amadeus $amadeus;
-
-    private CertificationHelper $certificationHelper;
 
     /**
      * A namespaced client for the
@@ -49,7 +49,6 @@ class FlightOffers
     public function __construct(Amadeus $amadeus)
     {
         $this->amadeus = $amadeus;
-        $this->certificationHelper = new CertificationHelper($amadeus);
         $this->pricing = new Pricing($amadeus);
         $this->prediction = new Prediction($amadeus);
         $this->upsell = new Upsell($amadeus);
@@ -113,19 +112,12 @@ class FlightOffers
      */
     public function get(array $params): array
     {
-        try {
-            $response = $this->amadeus->getClient()->getWithArrayParams(
-                '/v2/shopping/flight-offers',
-                $params
-            );
+        $response = $this->amadeus->getClient()->getWithArrayParams(
+            '/v2/shopping/flight-offers',
+            $params
+        );
 
-            $this->certificationHelper->saveSuccess($response, 'Flight Offer Search', (object) $params);
-
-            return Resource::fromArray($response, FlightOffer::class);
-        } catch (ResponseException $exception) {
-            $this->certificationHelper->saveError($exception, 'Flight Offer Search Error', $params);
-            throw $exception;
-        }
+        return Resource::fromArray($response, FlightOffer::class);
 
     }
 
@@ -149,19 +141,11 @@ class FlightOffers
      */
     public function post(string $body): array
     {
-        try {
-            $response = $this->amadeus->getClient()->postWithStringBody(
-                '/v2/shopping/flight-offers',
-                $body
-            );
+        $response = $this->amadeus->getClient()->postWithStringBody(
+            '/v2/shopping/flight-offers',
+            $body
+        );
 
-            $this->certificationHelper->saveSuccess($response, 'Flight Offer Search', (object) json_decode($body));
-
-            return Resource::fromArray($response, FlightOffer::class);
-
-        } catch (ResponseException $exception) {
-            $this->certificationHelper->saveError($exception, 'Flight Offer Search Error', (array) json_decode($body));
-            throw $exception;
-        }
+        return Resource::fromArray($response, FlightOffer::class);
     }
 }

@@ -10,6 +10,7 @@ namespace Amadeus;
 
 use Amadeus\Client\Response;
 use Amadeus\Exceptions\ResponseException;
+use stdClass;
 
 /**
  * The class CertificationHelper contains 3 public functions and a single private function.
@@ -24,40 +25,52 @@ use Amadeus\Exceptions\ResponseException;
 class CertificationHelper
 {
     /**
-     * A reference to the main Amadeus client instance.
-     *
-     * @var Amadeus
+     * @var string
      */
-    private Amadeus $amadeus;
+    private string $logLevel;
 
     /**
      * The constructor pulls in the running Amadeus instance.
      *
-     * @param Amadeus $amadeus
+     * @param string $logLevel
      */
-    public function __construct(Amadeus $amadeus)
+    public function __construct(string $logLevel)
     {
-        $this->amadeus = $amadeus;
+        $this->logLevel = $logLevel;
     }
 
-    public function saveSuccess(Response $response, string $title, \stdClass $params): void
+    /**
+     * @param Response $response
+     * @param string $title
+     * @param stdClass $params
+     *
+     * @return void
+     */
+    public function saveSuccess(Response $response, string $title, stdClass $params): void
     {
-        if ($response->getRequest()) {
-            // Save request file for certification purposes
-            $this->saveRequest(
-                $title,
-                $response,
-                json_encode($params, JSON_PRETTY_PRINT)
-            );
-            // Save response file for certification purposes
-            $this->saveResponse(
-                $title,
-                $response,
-                json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT)
-            );
-        }
+
+        // Save request file for certification purposes
+        $this->saveRequest(
+            $title,
+            $response,
+            json_encode($params, JSON_PRETTY_PRINT)
+        );
+        // Save response file for certification purposes
+        $this->saveResponse(
+            $title,
+            $response,
+            json_encode(json_decode($response->getBody()), JSON_PRETTY_PRINT)
+        );
+
     }
 
+    /**
+     * @param ResponseException $responseException
+     * @param string $title
+     * @param array $params
+     *
+     * @return void
+     */
     public function saveError(ResponseException $responseException, string $title, array $params): void
     {
         $this->saveErrorResponse($title, $responseException, json_encode($params, JSON_PRETTY_PRINT));
@@ -69,22 +82,21 @@ class CertificationHelper
      * @param string $fileTitle
      * @param Response $response
      * @param string $content
+     *
      * @return void
      */
     public function saveRequest(string $fileTitle, Response $response, string $content): void
     {
-        if ($response->getRequest()) {
-            $this->saveMessage(
-                $fileTitle . ' RQ.json',
-                $response->getRequest()->getVerb() . ' ' . $response->getRequest()->getUri() .
-                PHP_EOL .
-                PHP_EOL .
-                implode(PHP_EOL, $response->getRequest()->getHeaders()) .
-                PHP_EOL .
-                PHP_EOL .
-                $content
-            );
-        }
+        $this->saveMessage(
+            $fileTitle . ' RQ.json',
+            $response->getRequest()->getVerb() . ' ' . $response->getRequest()->getUri() .
+            PHP_EOL .
+            PHP_EOL .
+            implode(PHP_EOL, $response->getRequest()->getHeaders()) .
+            PHP_EOL .
+            PHP_EOL .
+            $content
+        );
     }
 
     /**
@@ -93,20 +105,20 @@ class CertificationHelper
      * @param string $fileTitle
      * @param Response $response
      * @param string $content
+     *
      * @return void
      */
     public function saveResponse(string $fileTitle, Response $response, string $content): void
     {
-        if ($response->getRequest()) {
-            $this->saveMessage(
-                $fileTitle . ' RS.json',
-                $response->getRequest()->getVerb() . ' ' . $response->getRequest()->getUri() .
-                PHP_EOL .
-                PHP_EOL .
-                $response->getHeaders() .
-                $content
-            );
-        }
+        $this->saveMessage(
+            $fileTitle . ' RS.json',
+            $response->getRequest()->getVerb() . ' ' . $response->getRequest()->getUri() .
+            PHP_EOL .
+            PHP_EOL .
+            $response->getHeaders() .
+            $content
+        );
+
     }
 
     /**
@@ -114,6 +126,7 @@ class CertificationHelper
      *
      * @param string $fileTitle
      * @param string $content
+     *
      * @return void
      */
     public function saveErrorRequest(string $fileTitle, string $content): void
@@ -126,6 +139,8 @@ class CertificationHelper
      *
      * @param string $fileTitle
      * @param ResponseException $content
+     * @param string $body
+     *
      * @return void
      */
     public function saveErrorResponse(string $fileTitle, ResponseException $content, string $body): void
@@ -147,16 +162,17 @@ class CertificationHelper
      *
      * @param string $fileTitle
      * @param $content
+     *
      * @return void
      */
     private function saveMessage(string $fileTitle, $content): void
     {
-        if (strcasecmp('certification', $this->amadeus->getClient()->getConfiguration()->getLogLevel()) === 0) {
+        if (strcasecmp('certification', $this->logLevel) === 0) {
             $counter = 0;
             while ($counter >= 0) {
-                if (!file_exists($counter . ' - ' . $fileTitle)) {
+                if (! file_exists($counter . ' - ' . $fileTitle)) {
                     file_put_contents($counter . ' - ' . $fileTitle, $content);
-                    $counter = -1;
+                    $counter = - 1;
                 } else {
                     $counter++;
                 }

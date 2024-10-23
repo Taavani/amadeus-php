@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Amadeus\Shopping\FlightOffers;
 
 use Amadeus\Amadeus;
-use Amadeus\CertificationHelper;
 use Amadeus\Exceptions\ResponseException;
 use Amadeus\Resources\FlightOfferPricingOutput;
 use Amadeus\Resources\Resource;
@@ -22,9 +21,10 @@ use Amadeus\Resources\Resource;
  */
 class Pricing
 {
+    /**
+     * @var Amadeus
+     */
     private Amadeus $amadeus;
-
-    private CertificationHelper $certificationHelper;
 
     /**
      * Constructor
@@ -33,7 +33,6 @@ class Pricing
     public function __construct(Amadeus $amadeus)
     {
         $this->amadeus = $amadeus;
-        $this->certificationHelper = new CertificationHelper($amadeus);
     }
 
     /**
@@ -57,20 +56,13 @@ class Pricing
     public function post(string $body, ?array $params = null): object
     {
 
-        try {
-            $response = $this->amadeus->getClient()->postWithStringBody(
-                '/v1/shopping/flight-offers/pricing',
-                $body,
-                $params
-            );
-            $this->certificationHelper->saveSuccess($response, 'Flight Offer Price', json_decode($body));
+        $response = $this->amadeus->getClient()->postWithStringBody(
+            '/v1/shopping/flight-offers/pricing',
+            $body,
+            $params
+        );
 
-            return Resource::fromObject($response, FlightOfferPricingOutput::class);
-
-        } catch (ResponseException $exception) {
-            //$this->certificationHelper->saveError($exception, 'Flight Offer Price Error', json_decode($body));
-            throw $exception;
-        }
+        return Resource::fromObject($response, FlightOfferPricingOutput::class);
     }
 
 
