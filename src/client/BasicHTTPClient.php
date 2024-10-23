@@ -212,7 +212,7 @@ class BasicHTTPClient implements HTTPClient
 
         if ($exception != null) {
             $this->log("Exception: "."\n".$exception->__toString());
-            $this->certificationHelper->saveError($exception, $this->stringifyPath($exception->getUrl()), (array) $response->getBody());
+            $this->certificationHelper->saveError($exception, !is_null($exception->getUrl()) ? $this->stringifyPath($exception->getUrl()) : 'NO URL DETECTED', (array) $response->getBody());
             throw $exception;
         }
     }
