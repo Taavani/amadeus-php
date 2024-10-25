@@ -79,6 +79,15 @@ class FlightOffersSearchParams
      */
     private int $adults;
 
+	/**
+	 * the number of senior travelers (age 60 or older on date of departure).
+	 *
+	 * If specified, this number should be greater
+	 *
+	 * This property is only used POST function.
+	 */
+	private int $seniors;
+
     /**
      * the number of child travelers (older than age 2 and younger than age 12 on date of departure) who will each
      * have their own separate seat. If specified, this number should be greater than or equal to 0
@@ -252,6 +261,17 @@ class FlightOffersSearchParams
         $this->adults = $adults;
         return $this;
     }
+
+	/**
+	 * @param int $seniors
+	 *
+	 * @return $this
+	 */
+	public function setSeniors(int $seniors): FlightOffersSearchParams
+	{
+		$this->seniors = $seniors;
+		return $this;
+	}
 
     /**
      * @param int $children
@@ -457,6 +477,16 @@ class FlightOffersSearchParams
 				'travelerType' => 'ADULT'
 			];
 			$index++;
+		}
+
+		if($this->seniors > 0) {
+			for ($i = 0; $i < $this->seniors; $i++) {
+				$travellers[] = [
+					'id' => $index,
+					'travelerType' => 'SENIOR'
+				];
+				$index++;
+			}
 		}
 
 		if ($this->children > 0) {
