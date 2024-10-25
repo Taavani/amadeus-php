@@ -136,7 +136,8 @@ class FlightOffersSearchParams
     private string $includedAirlineCodes;
 
     /**
-     * This option ensures that the system will ignore these airlines. This can not be cumulated with parameter includedAirlineCodes.
+     * This option ensures that the system will ignore these airlines. This can not be cumulated with
+     * parameter includedAirlineCodes.
      *
      * Airlines are specified as IATA airline codes and are comma-separated, e.g. 6X,7X,8X
      *
@@ -147,7 +148,9 @@ class FlightOffersSearchParams
     private string $excludedAirlineCodes;
 
     /**
-     * if set to true, the search will find only flights going from the origin to the destination with no stop in between
+     * if set to true, the GET search will find only flights going from the origin to the destination
+     * with no stop in between. In the POST search this is translated to the
+     * flightFilters.connectionRestriction.nonStopPreferred parameter.
      *
      * This property is used both for the GET and the POST function.
 	 *
@@ -162,7 +165,7 @@ class FlightOffersSearchParams
 	 *
 	 * @var int $stop
 	 */
-	private int $stop;
+	private int $stops;
 
     /**
      * the preferred currency for the flight offers. Currency is specified in the ISO 4217 format, e.g. EUR for Euro
@@ -185,6 +188,34 @@ class FlightOffersSearchParams
      */
     private int $max;
 
+	/**
+	 * If true, returns the flight-offers with included checked bags only
+	 *
+	 * @var bool $includedCheckedBagsOnly
+	 */
+	private bool $includedCheckedBagsOnly;
+
+	/**
+	 * If true, returns the flight-offers with refundable fares only
+	 *
+	 * @var bool $refundableFare
+	 */
+	private bool $refundableFare;
+
+	/**
+	 * If true, returns the flight-offers with no restriction fares only
+	 *
+	 * @var bool $noRestrictionFare
+	 */
+	private bool $noRestrictionFare;
+
+	/**
+	 * If true, returns the flight-offers with no penalty fares only
+	 *
+	 * @var bool $noPenaltyFare
+	 */
+	private bool $noPenaltyFare;
+
     /**
      * This is the constructor of the class FlightOffersSearchParams. All the required properties are set to null or 0.
      */
@@ -201,9 +232,14 @@ class FlightOffersSearchParams
         $this->includedAirlineCodes = '';
         $this->excludedAirlineCodes = '';
         $this->nonStop = false;
+		$this->stops = -1;
         $this->currencyCode = 'EUR';
         $this->maxPrice = 0;
         $this->max = 0;
+		$this->includedCheckedBagsOnly = false;
+		$this->refundableFare = false;
+		$this->noRestrictionFare = false;
+		$this->noPenaltyFare = false;
     }
 
     /**
@@ -372,6 +408,61 @@ class FlightOffersSearchParams
         return $this;
     }
 
+	/**
+	 * @param int $stops
+	 *
+	 * @return $this
+	 */
+	public function setStops(int $stops): FlightOffersSearchParams
+	{
+		$this->stops = $stops;
+		return $this;
+	}
+
+	/**
+	 * @param bool $includedCheckedBagsOnly
+	 *
+	 * @return $this
+	 */
+	public function setIncludedCheckedBagsOnly(bool $includedCheckedBagsOnly): FlightOffersSearchParams
+	{
+		$this->includedCheckedBagsOnly = $includedCheckedBagsOnly;
+		return $this;
+	}
+
+	/**
+	 * @param bool $refundableFare
+	 *
+	 * @return $this
+	 */
+	public function setRefundableFare(bool $refundableFare): FlightOffersSearchParams
+	{
+		$this->refundableFare = $refundableFare;
+		return $this;
+	}
+
+	/**
+	 * @param bool $noRestrictionFare
+	 *
+	 * @return $this
+	 */
+	public function setNoRestrictionFare(bool $noRestrictionFare): FlightOffersSearchParams
+	{
+		$this->noRestrictionFare = $noRestrictionFare;
+		return $this;
+	}
+
+	/**
+	 * @param bool $noPenaltyFare
+	 *
+	 * @return $this
+	 */
+	public function setNoPenaltyFare(bool $noPenaltyFare): FlightOffersSearchParams
+	{
+		$this->noPenaltyFare = $noPenaltyFare;
+		return $this;
+	}
+
     /**
      * This function returns an array that can be used as a parameter for the Flight Offers Search API.
      *
@@ -516,14 +607,34 @@ class FlightOffersSearchParams
 				"brandedFares" => true,
 				"fareRules" => true,
 			],
-			"pricingOptions" => [
-				"fareType" => [
-					"PUBLISHED"
-				]
+		];
+
+		// Build the pricing options
+		$pricingOptions = [
+			"fareType" => [
+				"PUBLISHED"
 			]
 		];
-		$flightFilters = [];
 
+		if ($this->includedCheckedBagsOnly) {
+			$pricingOptions['includedCheckedBagsOnly'] = $this->includedCheckedBagsOnly;
+		}
+
+		if ($this->refundableFare) {
+			$pricingOptions['refundableFare'] = $this->refundableFare;
+		}
+
+		if ($this->noRestrictionFare) {
+			$pricingOptions['noRestrictionFare'] = $this->noRestrictionFare;
+		}
+
+		if ($this->noPenaltyFare) {
+			$pricingOptions['noPenaltyFare'] = $this->noPenaltyFare;
+		}
+		$searchCriteria['pricingOptions'] = $pricingOptions;
+
+		// Build the flight filters
+		$flightFilters = [];
 		if (!is_null($this->travelClass)) {
 			$flightFilters['cabinRestrictions'] = [
 				(object) [
@@ -559,11 +670,31 @@ class FlightOffersSearchParams
 		}
 
 		if ($this->nonStop) {
-			$flightFilters['connectionRestriction'] = [
-				'maxNumberOfConnections' => 0
-			];
+			if (!isset($flightFilters['connectionRestriction'])) {
+				$connectionRestriction = $flightFilters['connectionRestriction'];
+				$connectionRestriction['nonStopPreferred'] = $this->nonStop;
+				$flightFilters['connectionRestriction'] = $connectionRestriction;
+			} else {
+				$flightFilters['connectionRestriction'] = [
+					'nonStopPreferred' => $this->nonStop
+				];
+			}
 		}
+
+		if ($this->stops > 0) {
+			if (!isset($flightFilters['connectionRestriction'])) {
+				$connectionRestriction = $flightFilters['connectionRestriction'];
+				$connectionRestriction['maxNumberOfConnections'] = $this->stops;
+				$flightFilters['connectionRestriction'] = $connectionRestriction;
+			} else {
+				$flightFilters['connectionRestriction'] = [
+					'maxNumberOfConnections' => $this->stops
+				];
+			}
+		}
+
 		$searchCriteria['flightFilters'] = $flightFilters;
+		// End flight filters
 
 		$params->searchCriteria = $searchCriteria;
 
