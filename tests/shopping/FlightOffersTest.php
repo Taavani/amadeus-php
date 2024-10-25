@@ -8,6 +8,7 @@ use Amadeus\Amadeus;
 use Amadeus\Client\HTTPClient;
 use Amadeus\Client\Response;
 use Amadeus\Exceptions\ResponseException;
+use Amadeus\Resources\Client\FlightOffersSearchParams;
 use Amadeus\Resources\FlightBaggageAllowance;
 use Amadeus\Resources\FlightExtendedSegment;
 use Amadeus\Resources\FlightFareDetailsBySegment;
@@ -66,6 +67,7 @@ final class FlightOffersTest extends TestCase
 
     /**
      * @Before
+     * @throws Exception
      */
     #[Before]
     public function setUp(): void
@@ -102,14 +104,16 @@ final class FlightOffersTest extends TestCase
             ->method("getData")
             ->willReturn($data4Post);
 
+        // Prepare FlightOffersSearchParams
+        $searchParams = new FlightOffersSearchParams();
+        $searchParams->setOriginLocationCode("SYD");
+        $searchParams->setDestinationLocationCode("BKK");
+        $searchParams->setDepartureDate("2021-11-01");
+        $searchParams->setAdults(2);
 
         // Given Get
-        $params = array(
-            "originLocationCode" => "SYD",
-            "destinationCode" => "BKK",
-            "departureDate" => "2021-11-01",
-            "max" => 2
-        );
+        $params = $searchParams->toSearchArray();
+
         /* @phpstan-ignore-next-line */
         $this->client->expects($this->any())
             ->method("getWithArrayParams")

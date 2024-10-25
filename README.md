@@ -46,41 +46,28 @@ require __DIR__ . '/vendor/autoload.php'; // include composer autoloader
 try {
     $amadeus = Amadeus::builder("REPLACE_BY_YOUR_API_KEY", "REPLACE_BY_YOUR_API_SECRET")
         ->build();
-
+    
+    // Flight Offers Search GET - Helper Object
+    $searchParams = new FlightOffersSearchParams();
+    $searchParams->setOriginLocationCode("SYD");
+    $searchParams->setDestinationLocationCode("BKK");
+    $searchParams->setDepartureDate("2021-11-01");
+    $searchParams->setAdults(2);
+    
     // Flight Offers Search GET
-    $flightOffers = $amadeus->getShopping()->getFlightOffers()->get(
-                        array(
-                            "originLocationCode" => "PAR",
-                            "destinationLocationCode" => "MAD",
-                            "departureDate" => "2022-12-29",
-                            "adults" => 1
-                        )
-                    );
+    $flightOffers = $amadeus
+        ->getShopping()
+        ->getFlightOffers()
+        ->get(
+            $searchParams->toSearchArray()
+        );
     print $flightOffers[0];
 
     // Flight Offers Search POST
-    $body ='{
-              "originDestinations": [
-                {
-                  "id": "1",
-                  "originLocationCode": "PAR",
-                  "destinationLocationCode": "MAD",
-                  "departureDateTimeRange": {
-                    "date": "2022-12-29"
-                  }
-                }
-              ],
-              "travelers": [
-                {
-                  "id": "1",
-                  "travelerType": "ADULT"
-                }
-              ],
-              "sources": [
-                "GDS"
-              ]
-            }';
-    $flightOffers = $amadeus->getShopping()->getFlightOffers()->post($body);
+    $flightOffers = $amadeus
+        ->getShopping()
+        ->getFlightOffers()
+        ->post($searchParams->toSearchString());
     print $flightOffers[0];
 } catch (ResponseException $e) {
     print $e;
@@ -221,7 +208,18 @@ These files can then be shared with Amadeus.
 ## List of Supported Endpoints
 ```PHP
 /* Flight Offers Search GET */
-// function get(array $params) :
+$searchParams = new FlightOffersSearchParams();
+$searchParams->setOriginLocationCode("PAR");
+$searchParams->setDestinationLocationCode("MAD");
+$searchParams->setDepartureDate("2022-12-29");
+$searchParams->setAdults(1);
+
+// With Helper Object
+$amadeus->getShopping()->getFlightOffers()->get(
+    $searchParams->toSearchArray()
+);
+
+// Without Helper Object
 $amadeus->getShopping()->getFlightOffers()->get(
     array(
         "originLocationCode" => "PAR",
@@ -245,10 +243,36 @@ $amadeus->getShopping()->getSeatMaps()->get(
 $amadeus->getShopping()->getSeatMaps()->post($body)
 
 /* Flight Offers Price */
+// The Pricing API can be accessed in two ways:
+// * By POST
+// * By GET
+    
 // function post(string $body) :
 $amadeus->getShopping()->getFlightOffers()->getPricing()->post($body);
-// function postWithFlightOffers(array $flightOffers, ?array $payments = null, ?array $travelers = null, ?array $params = null) : 
-$flightOffers = $this->getShopping()->getFlightOffers()->get(["originLocationCode"=>"SYD", "destinationLocationCode"=>"BKK", "departureDate"=>"2022-11-01", "adults"=>1, "max"=>6]);
+
+/* By GET */
+$searchParams = new FlightOffersSearchParams();
+$searchParams->setOriginLocationCode("SYD");
+$searchParams->setDestinationLocationCode("BKK");
+$searchParams->setDepartureDate("2022-11-01");
+$searchParams->setAdults(1);
+$searchParams->setMax(6);
+
+// With Helper Object
+$flightOffers = $amadeus->getShopping()->getFlightOffers()->get(
+    $searchParams->toSearchArray()
+);
+
+// function postWithFlightOffers(array $flightOffers, ?array $payments = null, ?array $travelers = null, ?array $params = null) :
+$flightOffers = $this->getShopping()->getFlightOffers()->get([
+    "originLocationCode"=>"SYD", 
+    "destinationLocationCode"=>"BKK", 
+    "departureDate"=>"2022-11-01", 
+    "adults"=>1, 
+    "max"=>6
+]);
+
+// function postWithFlightOffers(array $flightOffers, array $travelers) :
 $amadeus->getShopping()->getFlightOffers()->getPricing()->postWithFlightOffers($flightOffers);
             
 /* Flight Create Orders */
