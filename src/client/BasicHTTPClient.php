@@ -175,7 +175,7 @@ class BasicHTTPClient implements HTTPClient
         $this->log("Response: "."\n". $response->__toString());
         $this->detectError($response);
 
-        $this->certificationHelper->saveSuccess($response, $this->stringifyPath($request->getPath()), (object) $request->getParams());
+        $this->certificationHelper->saveSuccess($response, $this->stringifyPath($request->getPath()), (string) $request->getBody());
 
         return $response;
     }

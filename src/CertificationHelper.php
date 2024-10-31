@@ -42,18 +42,18 @@ class CertificationHelper
     /**
      * @param Response $response
      * @param string $title
-     * @param stdClass $params
+     * @param string $params
      *
      * @return void
      */
-    public function saveSuccess(Response $response, string $title, stdClass $params): void
+    public function saveSuccess(Response $response, string $title, string $params): void
     {
 
         // Save request file for certification purposes
         $this->saveRequest(
             $title,
             $response,
-            json_encode($params, JSON_PRETTY_PRINT)
+	        json_decode($params, false)
         );
         // Save response file for certification purposes
         $this->saveResponse(

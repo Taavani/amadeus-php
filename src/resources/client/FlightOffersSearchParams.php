@@ -594,7 +594,7 @@ class FlightOffersSearchParams
 			for ($i = 0; $i < $this->infants; $i++) {
 				$travellers[] = [
 					'id' => $index,
-					'travelerType' => 'INFANT'
+					'travelerType' => 'HELD_INFANT'
 				];
 				$index++;
 			}
@@ -693,7 +693,9 @@ class FlightOffersSearchParams
 			}
 		}
 
-		$searchCriteria['flightFilters'] = $flightFilters;
+		if (count($flightFilters) > 0) {
+			$searchCriteria['flightFilters'] = $flightFilters;
+		}
 		// End flight filters
 
 		$params->searchCriteria = $searchCriteria;
