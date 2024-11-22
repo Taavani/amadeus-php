@@ -194,7 +194,7 @@ class FlightOffer extends Resource implements ResourceInterface
     public function __set($name, $value): void
     {
 	    // Hack for the missing travelerPricing
-	    if ($name === 'pricingOptions' && empty($value->travelerPricings)) {
+	    if ($name === 'pricingOptions' && empty($value)) {
 		    $this->travelerPricings = null;
 		    return;
 	    }
