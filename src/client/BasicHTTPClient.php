@@ -33,18 +33,12 @@ class BasicHTTPClient implements HTTPClient
     private ?string $sslCertificate = null;
 
     /**
-     * @var CertificationHelper $certificationHelper
-     */
-    private CertificationHelper $certificationHelper;
-
-    /**
      * @param Configuration $configuration
      */
     public function __construct(Configuration $configuration)
     {
         $this->configuration = $configuration;
         $this->accessToken = new AccessToken($this);
-        $this->certificationHelper = new CertificationHelper($configuration->getLogLevel());
     }
 
     /**
@@ -175,8 +169,6 @@ class BasicHTTPClient implements HTTPClient
         $this->log("Response: "."\n". $response->__toString());
         $this->detectError($response);
 
-        $this->certificationHelper->saveSuccess($response, $this->stringifyPath($request->getPath()), (string) $request->getBody());
-
         return $response;
     }
 
@@ -212,7 +204,6 @@ class BasicHTTPClient implements HTTPClient
 
         if ($exception != null) {
             $this->log("Exception: "."\n".$exception->__toString());
-            $this->certificationHelper->saveError($exception, !is_null($exception->getUrl()) ? $this->stringifyPath($exception->getUrl()) : 'NO URL DETECTED', (array) $response->getBody());
             throw $exception;
         }
     }
