@@ -22,7 +22,7 @@ class FlightExtendedSegment implements ResourceInterface
     private ?string $carrierCode = null;
     private ?string $number = null;
     private ?object $aircraft = null;
-    private ?object $operating = null;
+	private object|array|null $operating = null;
     private ?string $duration = null;
     private ?array $stops = null;
 
@@ -134,6 +134,14 @@ class FlightExtendedSegment implements ResourceInterface
      */
     public function getOperating(): ?object
     {
+		if ($this->operating === null) {
+			return null;
+		}
+
+		if (is_array($this->operating)) {
+			$this->operating = (object)$this->operating;
+		}
+
         return Resource::toResourceObject(
             $this->operating,
             OperatingFlight::class
