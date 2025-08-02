@@ -562,11 +562,15 @@ class FlightOffersSearchParams
 		$travellers = [];
 		$index = 0;
 
+		// Track adult IDs for association
+		$adultIds = [];
+
 		for ($i = 0; $i < $this->adults; $i++) {
 			$travellers[] = [
 				'id' => $index,
 				'travelerType' => 'ADULT'
 			];
+			$adultIds[] = $index;
 			$index++;
 		}
 
@@ -594,7 +598,8 @@ class FlightOffersSearchParams
 			for ($i = 0; $i < $this->infants; $i++) {
 				$travellers[] = [
 					'id' => $index,
-					'travelerType' => 'HELD_INFANT'
+					'travelerType' => 'HELD_INFANT',
+					'associatedAdultId' => $adultIds[$i % count($adultIds)]
 				];
 				$index++;
 			}
