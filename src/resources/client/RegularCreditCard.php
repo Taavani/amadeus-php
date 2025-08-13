@@ -17,6 +17,7 @@ const AMERICAN_EXPRESS = 'AMERICAN_EXPRESS';
 const DINERS = 'DINERS';
 const MAESTRO = 'MAESTRO';
 const EASYPAY = 'EASYPAY';
+const CASH = 'CASH';
 
 /**
  * Class RegularCreditCard
@@ -54,7 +55,7 @@ class RegularCreditCard extends FormOfPayment
      */
     public function determineBrand(string $brand): RegularCreditCard
     {
-        if (!in_array($brand, [VISA, VISA_ELECTRON, VISA_DEBIT, MASTERCARD, MASTERCARD_DEBIT, AMERICAN_EXPRESS, DINERS, MAESTRO, EASYPAY])) {
+        if (!in_array($brand, [VISA, VISA_ELECTRON, VISA_DEBIT, MASTERCARD, MASTERCARD_DEBIT, AMERICAN_EXPRESS, DINERS, MAESTRO, EASYPAY, CASH])) {
             throw new \InvalidArgumentException('Invalid credit card brand.');
         }
 
@@ -161,6 +162,17 @@ class RegularCreditCard extends FormOfPayment
         return $this;
     }
 
+	/**
+	 * Set the brand of the credit card to CASH.
+	 *
+	 * @return RegularCreditCard
+	 */
+	public function setAsCash(): RegularCreditCard
+	{
+		$this->brand = CASH;
+		return $this;
+	}
+
     /**
      * Cardholder name as is spelled on the card.
      *
@@ -260,6 +272,15 @@ class RegularCreditCard extends FormOfPayment
      */
     public function __toArray(): array
     {
+	    if ($this->brand === CASH) {
+		    return [
+			    'other' => [
+				    'method' => 'CASH',
+				    'flightOfferIds' => $this->flightOfferIds
+			    ]
+		    ];
+	    }
+
         $data = [];
         $data['brand'] = $this->brand;
 
