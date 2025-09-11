@@ -675,27 +675,11 @@ class FlightOffersSearchParams
 		}
 
 		if ($this->nonStop) {
-			if (!isset($flightFilters['connectionRestriction'])) {
-				$connectionRestriction = $flightFilters['connectionRestriction'];
-				$connectionRestriction['nonStopPreferred'] = $this->nonStop;
-				$flightFilters['connectionRestriction'] = $connectionRestriction;
-			} else {
-				$flightFilters['connectionRestriction'] = [
-					'nonStopPreferred' => $this->nonStop
-				];
-			}
+			$flightFilters['connectionRestriction']['nonStopPreferred'] = $this->nonStop;
 		}
 
-		if ($this->stops > 0) {
-			if (!isset($flightFilters['connectionRestriction'])) {
-				$connectionRestriction = $flightFilters['connectionRestriction'];
-				$connectionRestriction['maxNumberOfConnections'] = $this->stops;
-				$flightFilters['connectionRestriction'] = $connectionRestriction;
-			} else {
-				$flightFilters['connectionRestriction'] = [
-					'maxNumberOfConnections' => $this->stops
-				];
-			}
+		if ($this->stops >= 0) {
+			$flightFilters['connectionRestriction']['maxNumberOfConnections'] = $this->stops;
 		}
 
 		if (count($flightFilters) > 0) {
